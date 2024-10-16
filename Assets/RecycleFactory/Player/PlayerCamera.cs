@@ -24,7 +24,7 @@ public class PlayerCamera : MonoBehaviour
     private float targetDistance;
     private float currentDistance;
 
-    private void Awake()
+    public void Init()
     {
         targetDistance = Mathf.Clamp(Vector3.Distance(transform.position, target.position), minZoom, maxZoom);
         currentDistance = targetDistance;

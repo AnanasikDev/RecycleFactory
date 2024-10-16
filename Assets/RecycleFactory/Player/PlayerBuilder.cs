@@ -8,6 +8,10 @@ public class PlayerBuilder : MonoBehaviour
     [SerializeField] private float gridScale = 1f;
 
     private GameObject currentBuilding;
+    public void Init()
+    {
+        currentBuilding = buildings[0];
+    }
 
     private void Update()
     {

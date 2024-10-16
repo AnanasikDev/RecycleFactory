@@ -7,6 +7,21 @@ using System.Reflection;
 [ExecuteInEditMode]
 public class Scripts : MonoBehaviour
 {
+    [SerializeField] private PlayerCamera _playerCamera;
+    public static PlayerCamera playerCamera;
+
+    [SerializeField] private PlayerBuilder _playerBuilder;
+    public static PlayerBuilder playerBuilder;
+
+    private void Start()
+    {
+        playerCamera = _playerCamera;
+        playerBuilder = _playerBuilder;
+
+        playerCamera.Init();
+        playerBuilder.Init();
+    }
+
     private void OnValidate()
     {
 #if UNITY_EDITOR
