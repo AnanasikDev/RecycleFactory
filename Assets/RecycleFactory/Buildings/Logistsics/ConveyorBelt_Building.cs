@@ -20,7 +20,12 @@ public class ConveyorBelt_Building : Building
             var e = new ConveyorBelt_Element();
             elements.Add(e);
             e.direction = direction;
-            e.transportTimeSeconds = transportTimeSeconds;
+            e.transportTimeSeconds = transportTimeSeconds / capacity;
+        }
+
+        for (int i = 1; i < capacity; i++)
+        {
+            elements[i - 1].SetNextElement(elements[i]);
         }
     }
 

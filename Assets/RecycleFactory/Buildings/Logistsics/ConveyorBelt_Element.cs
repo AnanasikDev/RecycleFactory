@@ -6,12 +6,13 @@ using UnityEngine;
 public class ConveyorBelt_Element
 {
     [ReadOnly] public Vector3 direction;
-    public float transportTimeSeconds = 5;
+    public float transportTimeSeconds;
     [ReadOnly] public float elapsedTime = 0;
 
     private ConveyorBelt_Item currentItem;
     private ConveyorBelt_Element nextElement;
     public bool isEmpty { get; private set; } = true;
+    public bool isWorking { get; private set; }
 
     public void SetItem(ConveyorBelt_Item item)
     {
@@ -19,6 +20,7 @@ public class ConveyorBelt_Element
         {
             currentItem = item;
             isEmpty = false;
+            isWorking = true;
         }
     }
 
@@ -34,9 +36,9 @@ public class ConveyorBelt_Element
 
     public void MoveItem()
     {
-        if (isEmpty) return;
+        if (isEmpty || !isWorking) return;
 
-        currentItem.transform.position += direction * transportTimeSeconds * Time.deltaTime;
+        currentItem.transform.position += direction / transportTimeSeconds * Time.deltaTime;
         elapsedTime += Time.deltaTime;
 
         if (elapsedTime >= transportTimeSeconds)
@@ -45,7 +47,11 @@ public class ConveyorBelt_Element
             {
                 nextElement.SetItem(currentItem);
                 currentItem = null;
-                isEmpty = false;
+                isEmpty = true;
+            }
+            else
+            {
+                isWorking = false;
             }
             elapsedTime = 0;
         }
