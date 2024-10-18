@@ -1,16 +1,19 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Building_ItemsGenerator : Building
+namespace RecycleFactory.Buildings
 {
-    [SerializeField] private List<ConveyorBelt_ItemInfo> itemInfos;
-    [SerializeField] private ConveyorBelt_Building target;
-
-    private void Update()
+    public class Building_ItemsGenerator : Building
     {
-        if (target.first.isEmpty)
+        [SerializeField] private List<ConveyorBelt_ItemInfo> itemInfos;
+        [SerializeField] private ConveyorBelt_Building target;
+
+        private void Update()
         {
-            target.first.SetItem(ConveyorBelt_Item.Create(itemInfos.RandomElement()));
+            if (target.first.isEmpty)
+            {
+                target.first.SetItem(ConveyorBelt_Item.Create(itemInfos.RandomElement()));
+            }
         }
     }
 }

@@ -3,54 +3,59 @@ using UnityEngine;
 using UnityEditor;
 using System.Reflection;
 #endif
+using RecycleFactory.Player;
 
-[ExecuteInEditMode]
-public class Scripts : MonoBehaviour
+namespace RecycleFactory
 {
-    [SerializeField] private PlayerCamera _playerCamera;
-    public static PlayerCamera playerCamera;
 
-    [SerializeField] private PlayerBuilder _playerBuilder;
-    public static PlayerBuilder playerBuilder;
-
-    private void Start()
+    [ExecuteInEditMode]
+    public class Scripts : MonoBehaviour
     {
-        playerCamera = _playerCamera;
-        playerBuilder = _playerBuilder;
+        [SerializeField] private PlayerCamera _playerCamera;
+        public static PlayerCamera playerCamera;
 
-        playerCamera.Init();
-        playerBuilder.Init();
-    }
+        [SerializeField] private PlayerBuilder _playerBuilder;
+        public static PlayerBuilder playerBuilder;
 
-    private void OnValidate()
-    {
-#if UNITY_EDITOR
-        if (EditorApplication.isPlayingOrWillChangePlaymode)
+        private void Start()
         {
-            if (HasNullSerializedFields())
-            {
-                Debug.LogError("Play mode prevented due to null fields in Scripts.");
-                EditorApplication.isPlaying = false;
-            }
-        }
-#endif
-    }
+            playerCamera = _playerCamera;
+            playerBuilder = _playerBuilder;
 
-    private bool HasNullSerializedFields()
-    {
-#if UNITY_EDITOR
-        var fields = GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-        foreach (var field in fields)
-        {
-            // Check only serialized fields (public or with [SerializeField])
-            bool isSerializable = field.IsPublic || field.GetCustomAttribute<SerializeField>() != null;
-            if (isSerializable && field.GetValue(this) == null)
-            {
-                Debug.LogError($"Null field detected: {field.Name}");
-                return true;
-            }
+            playerCamera.Init();
+            playerBuilder.Init();
         }
+
+        private void OnValidate()
+        {
+#if UNITY_EDITOR
+            if (EditorApplication.isPlayingOrWillChangePlaymode)
+            {
+                if (HasNullSerializedFields())
+                {
+                    Debug.LogError("Play mode prevented due to null fields in Scripts.");
+                    EditorApplication.isPlaying = false;
+                }
+            }
 #endif
-        return false;
+        }
+
+        private bool HasNullSerializedFields()
+        {
+#if UNITY_EDITOR
+            var fields = GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            foreach (var field in fields)
+            {
+                // Check only serialized fields (public or with [SerializeField])
+                bool isSerializable = field.IsPublic || field.GetCustomAttribute<SerializeField>() != null;
+                if (isSerializable && field.GetValue(this) == null)
+                {
+                    Debug.LogError($"Null field detected: {field.Name}");
+                    return true;
+                }
+            }
+#endif
+            return false;
+        }
     }
 }

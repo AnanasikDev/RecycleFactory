@@ -1,13 +1,24 @@
+using NaughtyAttributes;
 using UnityEngine;
 
-public class Building : MonoBehaviour
+namespace RecycleFactory.Buildings
 {
-    [HideInInspector] public BuildingExtension_Receiver receiver;
-    [HideInInspector] public BuildingExtension_Releaser releaser;
-
-    private void Awake()
+    public abstract class Building : MonoBehaviour
     {
-        receiver = GetComponent<BuildingExtension_Receiver>();
-        releaser = GetComponent<BuildingExtension_Releaser>();
+        [HideInInspector] public BuildingExtension_Receiver receiver;
+        [HideInInspector] public BuildingExtension_Releaser releaser;
+
+        [ShowNativeProperty] public int rotation { get; private set; }
+
+        public void Init()
+        {
+            receiver = GetComponent<BuildingExtension_Receiver>();
+            releaser = GetComponent<BuildingExtension_Releaser>();
+        }
+
+        public virtual void Rotate(int delta)
+        {
+            rotation = (int)Mathf.Repeat(rotation + delta, 3);
+        }
     }
 }

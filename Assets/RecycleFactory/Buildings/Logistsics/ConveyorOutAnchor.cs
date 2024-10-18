@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 
-public class ConveyorOutAnchor : MonoBehaviour
+namespace RecycleFactory.Buildings
 {
-    [SerializeField] private Vector3 localTilePosition;
-
-    public Vector3 LocalTilePosition
+    public class ConveyorOutAnchor : MonoBehaviour
     {
-        get => localTilePosition;
-        set => localTilePosition = value;
+        [SerializeField] private Vector3 localTilePosition;
+
+        public Vector3 LocalTilePosition
+        {
+            get => localTilePosition;
+            set => localTilePosition = value;
+        }
     }
 }

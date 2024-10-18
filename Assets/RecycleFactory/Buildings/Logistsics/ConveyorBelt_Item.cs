@@ -1,46 +1,49 @@
-﻿using Unity.VisualScripting;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class ConveyorBelt_Item : MonoBehaviour
+namespace RecycleFactory.Buildings
 {
-    private static Pool<ConveyorBelt_Item> itemsPool = new Pool<ConveyorBelt_Item>(item => item.gameObject.activeSelf);
-
-    [HideInInspector] public MeshRenderer meshRenderer;
-    [HideInInspector] public MeshFilter meshFilter;
-    [HideInInspector] public ConveyorBelt_Element currentElement;
-
-    private void Awake()
+    public class ConveyorBelt_Item : MonoBehaviour
     {
-        meshRenderer = GetComponent<MeshRenderer>();
-        meshFilter = GetComponent<MeshFilter>();
-    }
+        private static Pool<ConveyorBelt_Item> itemsPool = new Pool<ConveyorBelt_Item>(item => item.gameObject.activeSelf);
 
-    public void Init(ConveyorBelt_ItemInfo info)
-    {
-        meshFilter.mesh = info.mesh;
-        gameObject.name = "Item " + info.name;
-    }
+        [HideInInspector] public MeshRenderer meshRenderer;
+        [HideInInspector] public MeshFilter meshFilter;
+        [HideInInspector] public ConveyorBelt_Element currentElement;
 
-    public static ConveyorBelt_Item Create(ConveyorBelt_ItemInfo info)
-    {
-        itemsPool.TryTakeInactive(out ConveyorBelt_Item item);
-        if (item == null) {
-            item = new GameObject().AddComponent<ConveyorBelt_Item>();
-            item.meshRenderer = item.AddComponent<MeshRenderer>();
-            item.meshFilter = item.AddComponent<MeshFilter>();
-            itemsPool.RecordNew(item);
+        private void Awake()
+        {
+            meshRenderer = GetComponent<MeshRenderer>();
+            meshFilter = GetComponent<MeshFilter>();
         }
-        item.Init(info);
-        return item;
-    }
 
-    public void Enable()
-    {
-        gameObject.SetActive(true);
-    }
+        public void Init(ConveyorBelt_ItemInfo info)
+        {
+            meshFilter.mesh = info.mesh;
+            gameObject.name = "Item " + info.name;
+        }
 
-    public void Disable()
-    {
-        gameObject.SetActive(false);
+        public static ConveyorBelt_Item Create(ConveyorBelt_ItemInfo info)
+        {
+            itemsPool.TryTakeInactive(out ConveyorBelt_Item item);
+            if (item == null)
+            {
+                item = new GameObject().AddComponent<ConveyorBelt_Item>();
+                item.meshRenderer = item.gameObject.AddComponent<MeshRenderer>();
+                item.meshFilter = item.gameObject.AddComponent<MeshFilter>();
+                itemsPool.RecordNew(item);
+            }
+            item.Init(info);
+            return item;
+        }
+
+        public void Enable()
+        {
+            gameObject.SetActive(true);
+        }
+
+        public void Disable()
+        {
+            gameObject.SetActive(false);
+        }
     }
 }
