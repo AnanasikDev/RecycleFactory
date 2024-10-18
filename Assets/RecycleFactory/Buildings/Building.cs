@@ -18,7 +18,8 @@ namespace RecycleFactory.Buildings
 
         public virtual void Rotate(int delta)
         {
-            rotation = (int)Mathf.Repeat(rotation + delta, 3);
+            rotation = (int)Mathf.Repeat(rotation + delta, 4);  
+            if (receiver != null) receiver.Rotate(delta);
         }
     }
 }

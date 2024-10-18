@@ -5,8 +5,16 @@ namespace RecycleFactory.Buildings
 {
     public class BuildingExtension_Receiver : MonoBehaviour
     {
-        [SerializeField] private List<ConveyorInAnchor> inAnchors;
+        [SerializeField] private List<ConveyorAnchor> inAnchors;
 
-        public List<ConveyorInAnchor> InAnchors => inAnchors;
+        public List<ConveyorAnchor> InAnchors => inAnchors;
+
+        public void Rotate(int delta)
+        {
+            foreach (var inAnchor in inAnchors)
+            {
+                inAnchor.Revolve(delta);
+            }
+        }
     }
 }
