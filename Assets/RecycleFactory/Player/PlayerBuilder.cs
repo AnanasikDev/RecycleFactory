@@ -1,18 +1,19 @@
 using UnityEngine;
 using System.Collections.Generic;
 using NaughtyAttributes;
+using RecycleFactory.Buildings;
 
 namespace RecycleFactory.Player
 {
     public class PlayerBuilder : MonoBehaviour
     {
         [Header("Building Settings")]
-        [SerializeField] private List<GameObject> buildings;
+        [SerializeField] private List<Building> buildings;
         [SerializeField] private float gridScale = 1f;
 
         [ShowNativeProperty] public int selectedRotation { get; private set; }
 
-        private GameObject currentBuilding;
+        private Building currentBuilding;
         public void Init()
         {
             currentBuilding = buildings[0];
@@ -63,7 +64,9 @@ namespace RecycleFactory.Player
                 Vector3 position = GetMouseWorldPosition();
                 if (position != Vector3.zero)
                 {
-                    Instantiate(currentBuilding, position, Quaternion.identity);
+                    Building building = Instantiate(currentBuilding, position, Quaternion.identity);
+                    building.Init();
+                    building.Rotate(selectedRotation);
                 }
             }
         }
