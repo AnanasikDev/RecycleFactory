@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using NaughtyAttributes;
 
 namespace RecycleFactory.Player
 {
@@ -9,6 +10,8 @@ namespace RecycleFactory.Player
         [SerializeField] private List<GameObject> buildings;
         [SerializeField] private float gridScale = 1f;
 
+        [ShowNativeProperty] public int selectedRotation { get; private set; }
+
         private GameObject currentBuilding;
         public void Init()
         {
@@ -17,11 +20,22 @@ namespace RecycleFactory.Player
 
         private void Update()
         {
-            HandleBuildingSelection();
-            HandleBuildingPlacement();
+            HandleRotation();
+            HandleSelection();
+            HandlePlacement();
         }
 
-        private void HandleBuildingSelection()
+        private void HandleRotation()
+        {
+            if (Input.GetKey(KeyCode.R))
+            {
+                int r = Hexath.Ternarsign(Input.mouseScrollDelta.y);
+                if (r != 0)
+                    selectedRotation = (int)Mathf.Repeat(selectedRotation + r, 4);
+            }
+        }
+
+        private void HandleSelection()
         {
             for (int i = 0; i < buildings.Count; i++)
             {
@@ -37,11 +51,12 @@ namespace RecycleFactory.Player
             if (index >= 0 && index < buildings.Count)
             {
                 currentBuilding = buildings[index];
+                selectedRotation = 0;
                 Debug.Log($"Selected building: {currentBuilding.name}");
             }
         }
 
-        private void HandleBuildingPlacement()
+        private void HandlePlacement()
         {
             if (Input.GetMouseButtonDown(0) && currentBuilding != null)
             {

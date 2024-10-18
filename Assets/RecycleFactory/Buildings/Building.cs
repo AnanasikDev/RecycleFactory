@@ -20,6 +20,7 @@ namespace RecycleFactory.Buildings
         {
             rotation = (int)Mathf.Repeat(rotation + delta, 4);  
             if (receiver != null) receiver.Rotate(delta);
+            if (releaser != null) releaser.Rotate(delta);
         }
     }
 }

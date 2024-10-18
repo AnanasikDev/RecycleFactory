@@ -6,19 +6,23 @@ namespace RecycleFactory.Buildings
     /// <summary>
     /// Corresponds to an anchor leading towards a conveyor (conveyor-in-anchor) or towards a machine (conveyor-out-anchor)
     /// </summary>
-    public class ConveyorAnchor : MonoBehaviour
+    public class ConveyorAnchor
     {
         public Vector2 localTilePosition;
         public Vector2Int direction;
 
         /// <summary>
-        /// Rotates the direction and revolves the position around (0, 0)
+        /// Rotates the direction and revolves the position around (0, 0).
+        /// Inputs delta values [-4; 4].
         /// </summary>
         public void Revolve(int delta)
         {
             direction = Utils.Rotate(direction, delta);
+            // TODO: add delta clamping
 
-            for (int i = 0; i < Mathf.Abs(delta); i++)
+            if (delta < 0)
+                delta += 4;
+            for (int i = 0; i < 4 - delta; i++)
             {
                 localTilePosition = new Vector2(
                     -localTilePosition.y,
