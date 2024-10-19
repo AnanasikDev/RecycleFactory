@@ -62,12 +62,12 @@ namespace RecycleFactory.Player
             {
                 Vector3 position = GetMouseWorldPosition();
                 Vector2Int mapPos = new Vector2(position.x, position.z).FloorToInt();
-                if (position != Vector3.zero)
-                {
-                    Building building = Instantiate(currentBuilding, position, Quaternion.identity);
-                    building.Init(mapPos);
-                    building.Rotate(selectedRotation);
-                }
+
+                Debug.Log(mapPos);
+
+                Building building = Instantiate(currentBuilding, position, Quaternion.identity);
+                building.Init(mapPos);
+                building.Rotate(selectedRotation);
             }
         }
 

@@ -10,6 +10,8 @@ namespace RecycleFactory.Buildings
         [HideInInspector] public MeshFilter meshFilter;
         [HideInInspector] public ConveyorBelt_Element currentElement;
 
+        public ConveyorBelt_ItemInfo info;
+
         private void Awake()
         {
             meshRenderer = GetComponent<MeshRenderer>();
@@ -18,6 +20,7 @@ namespace RecycleFactory.Buildings
 
         public void Init(ConveyorBelt_ItemInfo info)
         {
+            this.info = info;
             meshFilter.mesh = info.mesh;
             gameObject.name = "Item " + info.name;
         }

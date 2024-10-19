@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using NaughtyAttributes;
+using UnityEngine;
 
 namespace RecycleFactory.Buildings
 {
@@ -7,6 +8,9 @@ namespace RecycleFactory.Buildings
     {
         public new string name;
         public Mesh mesh;
-        // other properties
+
+        [MinMaxSlider(0, 1)] public float magnetic;
+        [MinMaxSlider(0, 1)] public float transparency;
+        [MinMaxSlider(0, 1)] public float density;
     }
 }

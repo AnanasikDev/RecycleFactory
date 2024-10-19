@@ -16,5 +16,22 @@ namespace RecycleFactory.Buildings
                 outAnchor.Revolve(delta);
             }
         }
+
+        public bool TryReleaseAt(ConveyorBelt_Item item, int outAnchorIndex)
+        {
+            if (OutAnchors[outAnchorIndex].conveyor != null)
+            {
+                if (OutAnchors[outAnchorIndex].conveyor.isEmpty)
+                {
+                    // release
+
+                    OutAnchors[outAnchorIndex].conveyor.SetItem(item);
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
     }
 }

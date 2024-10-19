@@ -8,6 +8,9 @@ namespace RecycleFactory.Buildings
     /// </summary>
     public class ConveyorAnchor
     {
+        public ConveyorBelt_Element conveyor;
+        public Building machine;
+
         public Vector2 localTilePosition;
         public Vector2Int direction;
 
@@ -38,6 +41,16 @@ namespace RecycleFactory.Buildings
             anchor.localTilePosition = localTilePosition;
             anchor.Revolve(delta);
             return anchor;
+        }
+
+        public void ConnectToMachine(Building _machine)
+        {
+            machine = _machine;
+        }
+
+        public void ConnectToConveyor(ConveyorBelt_Element _conveyor)
+        {
+            conveyor = _conveyor;
         }
     }
 }

@@ -12,19 +12,44 @@ namespace RecycleFactory
         public static List<Building> buildingsUnordered = new List<Building>();
         public static Building[,] buildingsAt = new Building[mapSize.y, mapSize.x];
 
+        public static Building getBuildingAt(Vector2Int mapPos)
+        {
+            return buildingsAt[mapPos.y, mapPos.x];
+        }
+
         public static Vector2Int ConvertToMapPosition(Vector3 position)
         {
             return new Vector2(Hexath.SnapNumberToStep(position.x, cellScale), Hexath.SnapNumberToStep(position.z, cellScale)).RoundToInt();
         }
 
+        /// <summary>
+        /// For each cell that the building takes it marks its corresponding position in the map matrix.
+        /// </summary>
         public static void RegisterNewBuilding(Building building)
         {
-            buildingsAt[building.mapPosition.y, building.mapPosition.x] = building;
+            for (int _x = 0; _x < building.size.x; _x++)
+            {
+                for (int _y = 0; _y < building.size.y; _y++)
+                {
+                    Vector2Int pos = Utils.Rotate(new Vector2Int(_x, _y), building.rotation);
+                    buildingsAt[building.mapPosition.y + pos.y, building.mapPosition.x + pos.x] = building;
+                }
+            }
         }
 
+        /// <summary>
+        /// For each cell that the building takes it clears its corresponding position in the map matrix.
+        /// </summary>
         public static void RemoveBuilding(Building building)
         {
-            buildingsAt[building.mapPosition.y, building.mapPosition.x] = null;
+            for (int _x = 0; _x < building.size.x; _x++)
+            {
+                for (int _y = 0; _y < building.size.y; _y++)
+                {
+                    Vector2Int pos = Utils.Rotate(new Vector2Int(_x, _y), building.rotation);
+                    buildingsAt[building.mapPosition.y + pos.y, building.mapPosition.x + pos.x] = null;
+                }
+            }
         }
     }
 }

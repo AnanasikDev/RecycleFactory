@@ -8,6 +8,7 @@ namespace RecycleFactory.Buildings
         public int capacity = 10;
         public Vector2Int moveDirection;
         public float transportTimeSeconds = 5;
+        public float distance = 2;
 
         private List<ConveyorBelt_Element> elements;
 
@@ -21,13 +22,20 @@ namespace RecycleFactory.Buildings
             {
                 var e = new ConveyorBelt_Element();
                 elements.Add(e);
-                e.direction = moveDirection;
-                e.transportTimeSeconds = transportTimeSeconds / capacity;
+                e.Init(this);
             }
 
             for (int i = 1; i < capacity; i++)
             {
                 elements[i - 1].SetNextElement(elements[i]);
+            }
+        }
+
+        private void OnDestroy()
+        {
+            for (int i = 0; i < capacity; i++)
+            {
+                elements[i].OnDestroy();
             }
         }
 
