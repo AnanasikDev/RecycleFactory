@@ -8,10 +8,15 @@ namespace RecycleFactory.Buildings
         [HideInInspector] public BuildingExtension_Receiver receiver;
         [HideInInspector] public BuildingExtension_Releaser releaser;
 
-        [ShowNativeProperty] public int rotation { get; private set; }
+        public Vector2Int size = Vector2Int.one;
 
-        public void Init()
+        [ShowNativeProperty] public int rotation { get; private set; }
+        [ShowNativeProperty] public Vector2Int direction { get { return Utils.directions[rotation]; } }
+        public Vector2Int mapPosition;
+
+        public void Init(Vector2Int mapPos)
         {
+            mapPosition = mapPos;
             receiver = GetComponent<BuildingExtension_Receiver>();
             releaser = GetComponent<BuildingExtension_Releaser>();
         }
@@ -22,6 +27,7 @@ namespace RecycleFactory.Buildings
             if (receiver != null) receiver.Rotate(delta);
             if (releaser != null) releaser.Rotate(delta);
             transform.Rotate(Vector3.up * delta * 90);
+            size = Utils.Rotate(size, rotation).Abs();
         }
     }
 }

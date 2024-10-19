@@ -5,7 +5,7 @@ namespace RecycleFactory
     public static class Utils
     {
         // Map the directions to indices
-        private static readonly Vector2Int[] directions = new Vector2Int[]
+        public static readonly Vector2Int[] directions = new Vector2Int[]
         {
         new Vector2Int(0, 1),  // Up
         new Vector2Int(1, 0),  // Right

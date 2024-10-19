@@ -6,7 +6,7 @@ namespace RecycleFactory.Buildings
     public class ConveyorBelt_Building : Building
     {
         public int capacity = 10;
-        public Vector3 direction;
+        public Vector2Int moveDirection;
         public float transportTimeSeconds = 5;
 
         private List<ConveyorBelt_Element> elements;
@@ -21,7 +21,7 @@ namespace RecycleFactory.Buildings
             {
                 var e = new ConveyorBelt_Element();
                 elements.Add(e);
-                e.direction = direction;
+                e.direction = moveDirection;
                 e.transportTimeSeconds = transportTimeSeconds / capacity;
             }
 

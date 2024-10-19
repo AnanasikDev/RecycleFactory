@@ -7,7 +7,7 @@ namespace RecycleFactory.Buildings
     [Serializable]
     public class ConveyorBelt_Element
     {
-        [ReadOnly] public Vector3 direction;
+        [ReadOnly] public Vector2Int direction;
         public float transportTimeSeconds;
         [ReadOnly] public float elapsedTime = 0;
 
@@ -40,7 +40,7 @@ namespace RecycleFactory.Buildings
         {
             if (isEmpty || !isWorking) return;
 
-            currentItem.transform.position += direction / transportTimeSeconds * Time.deltaTime;
+            currentItem.transform.position += direction.ConvertTo2D().ConvertTo3D() / transportTimeSeconds * Time.deltaTime;
             elapsedTime += Time.deltaTime;
 
             if (elapsedTime >= transportTimeSeconds)

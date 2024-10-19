@@ -8,15 +8,14 @@ namespace RecycleFactory.Player
     public class PlayerBuilder : MonoBehaviour
     {
         [Header("Building Settings")]
-        [SerializeField] private List<Building> buildings;
-        [SerializeField] private float gridScale = 1f;
+        [SerializeField] private List<Building> buildingsPrefabs;
 
         [ShowNativeProperty] public int selectedRotation { get; private set; }
 
         private Building currentBuilding;
         public void Init()
         {
-            currentBuilding = buildings[0];
+            currentBuilding = buildingsPrefabs[0];
         }
 
         private void Update()
@@ -38,7 +37,7 @@ namespace RecycleFactory.Player
 
         private void HandleSelection()
         {
-            for (int i = 0; i < buildings.Count; i++)
+            for (int i = 0; i < buildingsPrefabs.Count; i++)
             {
                 if (Input.GetKeyDown((i + 1).ToString()))
                 {
@@ -49,9 +48,9 @@ namespace RecycleFactory.Player
 
         private void SelectBuilding(int index)
         {
-            if (index >= 0 && index < buildings.Count)
+            if (index >= 0 && index < buildingsPrefabs.Count)
             {
-                currentBuilding = buildings[index];
+                currentBuilding = buildingsPrefabs[index];
                 selectedRotation = 0;
                 Debug.Log($"Selected building: {currentBuilding.name}");
             }
@@ -62,10 +61,11 @@ namespace RecycleFactory.Player
             if (Input.GetMouseButtonDown(0) && currentBuilding != null)
             {
                 Vector3 position = GetMouseWorldPosition();
+                Vector2Int mapPos = new Vector2(position.x, position.z).FloorToInt();
                 if (position != Vector3.zero)
                 {
                     Building building = Instantiate(currentBuilding, position, Quaternion.identity);
-                    building.Init();
+                    building.Init(mapPos);
                     building.Rotate(selectedRotation);
                 }
             }
@@ -79,15 +79,23 @@ namespace RecycleFactory.Player
             if (Physics.Raycast(ray, out hit))
             {
                 Vector3 snappedPosition = new Vector3(
-                    Mathf.Round(hit.point.x / gridScale) * gridScale,
+                    Mathf.Round(hit.point.x / Map.cellScale) * Map.cellScale,
                     0f, // ground
-                    Mathf.Round(hit.point.z / gridScale) * gridScale
+                    Mathf.Round(hit.point.z / Map.cellScale) * Map.cellScale
                 );
 
                 return snappedPosition;
             }
 
             return Vector3.zero;
+        }
+
+        private void OnDrawGizmos()
+        {
+            Vector3 position = GetMouseWorldPosition();
+
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(position, 0.5f);
         }
     }
 }

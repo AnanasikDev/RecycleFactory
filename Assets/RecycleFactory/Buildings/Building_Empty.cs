@@ -1,4 +1,4 @@
-namespace RecycleFactory.Buildings
+    namespace RecycleFactory.Buildings
 {
     public class Building_Empty : Building
     {
