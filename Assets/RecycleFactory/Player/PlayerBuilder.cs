@@ -40,12 +40,13 @@ namespace RecycleFactory.Player
             previews = new BuildingPreview[buildingsPrefabs.Length];
             for (int i = 0; i < previews.Length; i++)
             {
-                Building preview_building = Instantiate(buildingsPrefabs[i], previewsHandler);
+                Building preview_building = Instantiate(buildingsPrefabs[i], Vector3.zero, Quaternion.identity, previewsHandler);
                 previews[i] = preview_building.gameObject.AddComponent<BuildingPreview>();
 
                 previews[i].meshFilter = preview_building.meshFilter;
                 previews[i].meshRenderer = preview_building.meshRenderer;
-                previews[i].gameObject.SetActive(false);
+                previews[i].gameObject.SetActive(true);
+                Destroy(preview_building); // remove Building component from the preview
             }
         }
 
@@ -70,6 +71,7 @@ namespace RecycleFactory.Player
             if (prevCell != selectedCell)
             {
                 isSelectedSpotAvailable = Map.isSpaceFree(mapPos, Utils.Rotate(selectedBuilding.size, selectedRotation));
+                Debug.Log(selectedCell);
                 onCellSelectedEvent?.Invoke();
             }
         }
@@ -119,7 +121,7 @@ namespace RecycleFactory.Player
                 {
                     if (isSelectedSpotAvailable)
                     {
-                        Building building = Instantiate(selectedBuilding, selectedCell.ConvertTo2D().ConvertTo3D().WithY(Map.floorHeight), Quaternion.identity);
+                        Building building = Instantiate(selectedBuilding, selectedCell.ConvertTo2D().ProjectTo3D().WithY(Map.floorHeight), Quaternion.identity);
                         building.Rotate(selectedRotation);
                         building.Init(selectedCell);
                     }
@@ -147,8 +149,6 @@ namespace RecycleFactory.Player
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
-
-            Debug.Log(Physics.Raycast(ray, out hit) );
 
             if (Physics.Raycast(ray, out hit))
             {
@@ -178,7 +178,10 @@ namespace RecycleFactory.Player
                     previews[i].transform.position = selectedCell.ConvertTo2D().ProjectTo3D(Map.floorHeight);
                     previews[i].transform.eulerAngles = Vector3.up * selectedRotation * 90;
                 }
-                previews[i].gameObject.SetActive(false);
+                else
+                {
+                    previews[i].gameObject.SetActive(false);
+                }
             }
         }
 

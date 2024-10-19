@@ -22,16 +22,19 @@ namespace RecycleFactory
 
         private void Start()
         {
-            playerCamera = _playerCamera;
-            playerBuilder = _playerBuilder;
-            map = _map;
+            if (Application.isPlaying)
+            {
+                playerCamera = _playerCamera;
+                playerBuilder = _playerBuilder;
+                map = _map;
 
-            map.Init();
-            playerCamera.Init();
-            playerBuilder.Init();
+                map.Init();
+                playerCamera.Init();
+                playerBuilder.Init();
+            }
         }
 
-        /*private void OnValidate()
+        private void OnValidate()
         {
 #if UNITY_EDITOR
             if (EditorApplication.isPlayingOrWillChangePlaymode)
@@ -61,6 +64,6 @@ namespace RecycleFactory
             }
 #endif
             return false;
-        }*/
+        }
     }
 }
