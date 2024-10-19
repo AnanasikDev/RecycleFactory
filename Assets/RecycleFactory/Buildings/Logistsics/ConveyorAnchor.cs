@@ -11,7 +11,7 @@ namespace RecycleFactory.Buildings
         public ConveyorBelt_Element conveyor;
         public Building machine;
 
-        public Vector2 localTilePosition;
+        public Vector2Int localTilePosition;
         public Vector2Int direction;
 
         /// <summary>
@@ -23,15 +23,7 @@ namespace RecycleFactory.Buildings
             direction = Utils.Rotate(direction, delta);
             // TODO: add delta clamping
 
-            if (delta < 0)
-                delta += 4;
-            for (int i = 0; i < 4 - delta; i++)
-            {
-                localTilePosition = new Vector2(
-                    -localTilePosition.y,
-                    localTilePosition.x
-                );
-            }
+            localTilePosition = Utils.Rotate(localTilePosition, delta);
         }
 
         public ConveyorAnchor GetRevolved(int delta)

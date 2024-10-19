@@ -17,11 +17,16 @@ namespace RecycleFactory
         [SerializeField] private PlayerBuilder _playerBuilder;
         public static PlayerBuilder playerBuilder;
 
+        [SerializeField] private Map _map;
+        public static Map map;
+
         private void Start()
         {
             playerCamera = _playerCamera;
             playerBuilder = _playerBuilder;
+            map = _map;
 
+            map.Init();
             playerCamera.Init();
             playerBuilder.Init();
         }

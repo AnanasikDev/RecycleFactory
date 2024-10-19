@@ -63,8 +63,6 @@ namespace RecycleFactory.Player
                 Vector3 position = GetMouseWorldPosition();
                 Vector2Int mapPos = new Vector2(position.x, position.z).FloorToInt();
 
-                Debug.Log(mapPos);
-
                 Building building = Instantiate(currentBuilding, position, Quaternion.identity);
                 building.Init(mapPos);
                 building.Rotate(selectedRotation);
@@ -76,15 +74,17 @@ namespace RecycleFactory.Player
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
+            Debug.Log(Physics.Raycast(ray, out hit) );
+
             if (Physics.Raycast(ray, out hit))
             {
                 Vector3 snappedPosition = new Vector3(
-                    Mathf.Round(hit.point.x / Map.cellScale) * Map.cellScale,
-                    0f, // ground
-                    Mathf.Round(hit.point.z / Map.cellScale) * Map.cellScale
+                    Hexath.SnapNumberToStep(hit.point.x, Map.cellScale),
+                    Map.floorHeight,
+                    Hexath.SnapNumberToStep(hit.point.z, Map.cellScale)
                 );
 
-                return snappedPosition;
+                return snappedPosition + new Vector3(0.5f, 0, 0.5f);
             }
 
             return Vector3.zero;

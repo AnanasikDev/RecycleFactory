@@ -7,10 +7,10 @@ namespace RecycleFactory
         // Map the directions to indices
         public static readonly Vector2Int[] directions = new Vector2Int[]
         {
-        new Vector2Int(0, 1),  // Up
-        new Vector2Int(1, 0),  // Right
-        new Vector2Int(0, -1), // Down
-        new Vector2Int(-1, 0)  // Left
+            new Vector2Int(0, 1),  // Up
+            new Vector2Int(1, 0),  // Right
+            new Vector2Int(0, -1), // Down
+            new Vector2Int(-1, 0)  // Left
         };
 
         /// <summary>
@@ -40,17 +40,27 @@ namespace RecycleFactory
         /// </summary>
         public static Vector2Int Rotate(Vector2Int currentDirection, int delta)
         {
-            int currentIndex = System.Array.IndexOf(directions, currentDirection);
-
-            if (currentIndex == -1)
+            if (delta < 0)
+                delta += 4;
+            for (int i = 0; i < 4 - delta; i++)
             {
-                Debug.LogError("Invalid direction!");
-                return currentDirection;
+                currentDirection = new Vector2Int(
+                    -currentDirection.y,
+                    currentDirection.x
+                );
             }
 
-            int newIndex = (int)Mathf.Repeat(currentIndex + delta, 4);
+            return currentDirection;
+        }
 
-            return directions[newIndex];
+        public static Vector3 ProjectTo3D(this Vector2 vec2, float height = 0)
+        {
+            return new Vector3(vec2.x, height, vec2.y);
+        }
+
+        public static Vector2 ProjectTo2D(this Vector3 vec3)
+        {
+            return new Vector2(vec3.x, vec3.z);
         }
     }
 }

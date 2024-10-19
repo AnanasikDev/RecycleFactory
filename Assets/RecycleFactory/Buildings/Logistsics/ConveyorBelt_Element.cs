@@ -10,7 +10,7 @@ namespace RecycleFactory.Buildings
         public ConveyorBelt_Building conveyorBuilding;
 
         // values are taken from conveyorBuilding
-        [ReadOnly] public Vector2Int direction;
+        [ReadOnly] public Vector3 direction;
         [ReadOnly] public float distance;
         [ReadOnly] public float transportTimeSeconds;
         [ReadOnly] public float elapsedTime = 0;
@@ -45,7 +45,7 @@ namespace RecycleFactory.Buildings
 
         private void FindNextElement()
         {
-            Building otherBuilding =  Map.getBuildingAt(conveyorBuilding.mapPosition + conveyorBuilding.moveDirection * conveyorBuilding.size);
+            Building otherBuilding =  Map.getBuildingAt(conveyorBuilding.mapPosition + conveyorBuilding.moveDirection.ProjectTo2D().RoundToInt() * conveyorBuilding.size);
             if (otherBuilding == null) return;
             if (otherBuilding.TryGetComponent(out ConveyorBelt_Building otherConveyor))
             {
@@ -69,7 +69,7 @@ namespace RecycleFactory.Buildings
         {
             if (isEmpty || !isWorking) return;
 
-            currentItem.transform.position += direction.ConvertTo2D().ConvertTo3D() * distance / conveyorBuilding.capacity / transportTimeSeconds * Time.deltaTime;
+            currentItem.transform.position += direction.ConvertTo2D().ProjectTo3D() * distance / conveyorBuilding.capacity / transportTimeSeconds * Time.deltaTime;
             elapsedTime += Time.deltaTime;
 
             if (elapsedTime >= transportTimeSeconds)

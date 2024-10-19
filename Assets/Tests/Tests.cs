@@ -27,7 +27,7 @@ namespace Tests
         {
             RecycleFactory.Buildings.ConveyorAnchor anchor = new();
             anchor.direction = Vector2Int.up;
-            anchor.localTilePosition = Vector2.right;
+            anchor.localTilePosition = Vector2Int.right;
 
             Assert.That(anchor.GetRevolved(0).direction == Vector2Int.up);
             Assert.That(anchor.GetRevolved(0).localTilePosition == Vector2.right);

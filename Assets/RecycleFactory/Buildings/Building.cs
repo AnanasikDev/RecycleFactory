@@ -11,7 +11,7 @@ namespace RecycleFactory.Buildings
         public Vector2Int size = Vector2Int.one;
 
         [ShowNativeProperty] public int rotation { get; private set; }
-        [ShowNativeProperty] public Vector2Int direction { get { return Utils.directions[rotation]; } }
+
         public Vector2Int mapPosition;
 
         public static event System.Action onAnyBuiltEvent;

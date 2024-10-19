@@ -6,7 +6,7 @@ namespace RecycleFactory.Buildings
     public class ConveyorBelt_Building : Building
     {
         public int capacity = 10;
-        public Vector2Int moveDirection;
+        public Vector3 moveDirection;
         public float transportTimeSeconds = 5;
         public float distance = 2;
 

@@ -4,13 +4,27 @@ using UnityEngine;
 
 namespace RecycleFactory
 {
-    public static class Map
+    public class Map : MonoBehaviour
     {
         public static readonly Vector2Int mapSize = new Vector2Int(16, 10);
         public static readonly float cellScale = 1f;
         public static readonly float floorHeight = 0f;
         public static List<Building> buildingsUnordered = new List<Building>();
         public static Building[,] buildingsAt = new Building[mapSize.y, mapSize.x];
+
+        public GameObject floor;
+
+        public void Init()
+        {
+            floor.transform.localScale = mapSize.ConvertTo2D().ProjectTo3D() / 10f + Vector3.up;
+            floor.transform.localPosition = (floor.transform.localScale * 10f / 2f).WithY(floorHeight);
+        }
+
+        private void OnDestroy()
+        {
+            floor.transform.position = Vector3.zero;
+            floor.transform.localScale = Vector3.one;
+        }
 
         public static Building getBuildingAt(Vector2Int mapPos)
         {
