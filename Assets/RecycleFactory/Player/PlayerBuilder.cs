@@ -71,7 +71,6 @@ namespace RecycleFactory.Player
             if (prevCell != selectedCell)
             {
                 isSelectedSpotAvailable = Map.isSpaceFree(mapPos, Utils.Rotate(selectedBuilding.size, selectedRotation));
-                Debug.Log(selectedCell);
                 onCellSelectedEvent?.Invoke();
             }
         }

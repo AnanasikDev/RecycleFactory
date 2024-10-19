@@ -27,11 +27,11 @@ namespace RecycleFactory
 
         public static bool isSpaceFree(Vector2Int pos, Vector2Int size)
         {
-            for (int _x = 0; _x < size.x; _x++)
+            for (int _x = 0; _x < Mathf.Abs(size.x); _x++)
             {
-                for (int _y = 0; _y < size.y; _y++)
+                for (int _y = 0; _y < Mathf.Abs(size.y); _y++)
                 {
-                    if (buildingsAt[pos.y, pos.x] != null) return false;
+                    if (buildingsAt[pos.y + _y * (int)Mathf.Sign(size.y), pos.x + _x * (int)Mathf.Sign(size.x)] != null) return false;
                 }
             }
             return true;
@@ -47,12 +47,13 @@ namespace RecycleFactory
         /// </summary>
         public static void RegisterNewBuilding(Building building)
         {
-            for (int _x = 0; _x < building.size.x; _x++)
+            var pos = building.mapPosition;
+            var size = building.size;
+            for (int _x = 0; _x < Mathf.Abs(building.size.x); _x++)
             {
-                for (int _y = 0; _y < building.size.y; _y++)
+                for (int _y = 0; _y < Mathf.Abs(building.size.y); _y++)
                 {
-                    Vector2Int pos = Utils.Rotate(new Vector2Int(_x, _y), building.rotation);
-                    buildingsAt[building.mapPosition.y + pos.y, building.mapPosition.x + pos.x] = building;
+                    buildingsAt[pos.y + _y * (int)Mathf.Sign(size.y), pos.x + _x * (int)Mathf.Sign(size.x)] = building;
                 }
             }
         }
@@ -68,6 +69,19 @@ namespace RecycleFactory
                 {
                     Vector2Int pos = Utils.Rotate(new Vector2Int(_x, _y), building.rotation);
                     buildingsAt[building.mapPosition.y + pos.y, building.mapPosition.x + pos.x] = null;
+                }
+            }
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            for (int y = 0; y < mapSize.y; y++)
+            {
+                for (int x = 0; x < mapSize.x; x++)
+                {
+                    var building = getBuildingAt(new Vector2Int(x, y));
+                    Gizmos.color = building == null ? Color.black : Color.white;
+                    Gizmos.DrawWireCube(new Vector3(x, 1, y), Vector3.one * 0.4f);
                 }
             }
         }
