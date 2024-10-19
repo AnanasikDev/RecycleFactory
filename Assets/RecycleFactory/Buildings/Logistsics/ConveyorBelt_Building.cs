@@ -15,7 +15,7 @@ namespace RecycleFactory.Buildings
         public ConveyorBelt_Element first { get { return elements[0]; } }
         public ConveyorBelt_Element last { get { return elements[capacity - 1]; } }
 
-        private void Start()
+        protected override void PostInit()
         {
             elements = new List<ConveyorBelt_Element>();
             for (int i = 0; i < capacity; i++)
@@ -31,13 +31,13 @@ namespace RecycleFactory.Buildings
             }
         }
 
-        private void OnDestroy()
+        /*private void OnDestroy()
         {
             for (int i = 0; i < capacity; i++)
             {
                 elements[i].OnDestroy();
             }
-        }
+        }*/
 
         private void Update()
         {

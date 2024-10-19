@@ -29,9 +29,7 @@ namespace RecycleFactory.Player
         {
             targetDistance = Mathf.Clamp(Vector3.Distance(transform.position, target.position), minZoom, maxZoom);
             currentDistance = targetDistance;
-            Vector3 relativePosition = transform.position - target.position;
-            targetRotation.y = Mathf.Atan2(relativePosition.x, relativePosition.z) * Mathf.Rad2Deg;
-            targetRotation.x = -Mathf.Asin(relativePosition.y / relativePosition.magnitude) * Mathf.Rad2Deg;
+            targetRotation = new Vector3(30, 0, 0);
         }
 
         private void Update()

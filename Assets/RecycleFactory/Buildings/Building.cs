@@ -14,17 +14,27 @@ namespace RecycleFactory.Buildings
 
         public Vector2Int mapPosition;
 
+        public MeshFilter meshFilter;
+        public MeshRenderer meshRenderer;
+
         public static event System.Action onAnyBuiltEvent;
         public static event System.Action onAnyDemolishedEvent;
 
         public void Init(Vector2Int mapPos)
         {
             mapPosition = mapPos;
+
             receiver = GetComponent<BuildingExtension_Receiver>();
             releaser = GetComponent<BuildingExtension_Releaser>();
 
+            Map.RegisterNewBuilding(this);
+
+            PostInit();
+
             onAnyBuiltEvent?.Invoke();
         }
+
+        protected virtual void PostInit() { }
 
         public virtual void Rotate(int delta)
         {
@@ -38,6 +48,8 @@ namespace RecycleFactory.Buildings
         private void OnDestroy()
         {
             // TODO: move to pool
+            Map.RemoveBuilding(this);
+
             onAnyDemolishedEvent?.Invoke();
         }
     }

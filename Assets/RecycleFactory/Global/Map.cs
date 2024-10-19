@@ -17,18 +17,24 @@ namespace RecycleFactory
         public void Init()
         {
             floor.transform.localScale = mapSize.ConvertTo2D().ProjectTo3D() / 10f + Vector3.up;
-            floor.transform.localPosition = (floor.transform.localScale * 10f / 2f).WithY(floorHeight);
-        }
-
-        private void OnDestroy()
-        {
-            floor.transform.position = Vector3.zero;
-            floor.transform.localScale = Vector3.one;
+            floor.transform.localPosition = (floor.transform.localScale * 10f / 2f).WithY(floorHeight) - new Vector3(0.5f, 0, 0.5f);
         }
 
         public static Building getBuildingAt(Vector2Int mapPos)
         {
             return buildingsAt[mapPos.y, mapPos.x];
+        }
+
+        public static bool isSpaceFree(Vector2Int pos, Vector2Int size)
+        {
+            for (int _x = 0; _x < size.x; _x++)
+            {
+                for (int _y = 0; _y < size.y; _y++)
+                {
+                    if (buildingsAt[pos.y, pos.x] != null) return false;
+                }
+            }
+            return true;
         }
 
         public static Vector2Int ConvertToMapPosition(Vector3 position)

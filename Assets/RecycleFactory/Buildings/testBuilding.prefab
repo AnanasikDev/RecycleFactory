@@ -152,3 +152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   receiver: {fileID: 0}
   releaser: {fileID: 0}
+  size: {x: 1, y: 1}
+  mapPosition: {x: 0, y: 0}
+  meshFilter: {fileID: 8144621005131792172}
+  meshRenderer: {fileID: 2981604296816639029}
