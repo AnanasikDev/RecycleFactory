@@ -6,6 +6,7 @@ namespace RecycleFactory.Buildings
     public class BuildingExtension_Releaser : MonoBehaviour
     {
         private Building building;
+        public float height;
         [Tooltip("Must be set in inspector")] public List<ConveyorAnchor> outAnchors;
 
         public void Init(Building building)
@@ -15,6 +16,7 @@ namespace RecycleFactory.Buildings
             {
                 outAnchor.conveyor = null;
                 outAnchor.machine = building;
+                outAnchor.height = height;
             }
             Building.onAnyBuiltEvent += TryConnect;
         }
@@ -32,21 +34,27 @@ namespace RecycleFactory.Buildings
             }
         }
 
-        public bool IsFreeToRelease(int outAnchorIndex)
+        public bool IsFreeToRelease(int anchorIndex)
         {
-            return outAnchors[outAnchorIndex].conveyor != null && outAnchors[outAnchorIndex].conveyor.isEmpty;
+            return outAnchors[anchorIndex].conveyor != null && outAnchors[anchorIndex].conveyor.isEmpty;
         }
 
-        public void ForceRelease(ConveyorBelt_Item item, int outAnchorIndex)
+        private Vector3 getPosition(int anchorIndex)
         {
-            outAnchors[outAnchorIndex].conveyor.SetItem(item);
+            return (building.mapPosition.ConvertTo2D() + outAnchors[anchorIndex].localTilePosition.ConvertTo2D() + outAnchors[anchorIndex].direction.ConvertTo2D() / 2f).ProjectTo3D().WithY(outAnchors[anchorIndex].height);
         }
 
-        public bool TryReleaseAt(ConveyorBelt_Item item, int outAnchorIndex)
+        public void ForceRelease(ConveyorBelt_Item item, int anchorIndex)
         {
-            if (!IsFreeToRelease(outAnchorIndex)) return false;
+            item.transform.position = getPosition(anchorIndex);
+            outAnchors[anchorIndex].conveyor.SetItem(item);
+        }
 
-            ForceRelease(item, outAnchorIndex);
+        public bool TryReleaseAt(ConveyorBelt_Item item, int anchorIndex)
+        {
+            if (!IsFreeToRelease(anchorIndex)) return false;
+
+            ForceRelease(item, anchorIndex);
 
             return true;
         }

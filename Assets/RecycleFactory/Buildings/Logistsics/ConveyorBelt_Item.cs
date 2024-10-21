@@ -22,6 +22,7 @@ namespace RecycleFactory.Buildings
         {
             this.info = info;
             meshFilter.mesh = info.mesh;
+            meshRenderer.material = info.material;
             gameObject.name = "Item " + info.name;
         }
 

@@ -56,7 +56,6 @@ MonoBehaviour:
   itemInfos:
   - {fileID: 11400000, guid: 1d3db238c5246844b90834383f68abe7, type: 2}
   - {fileID: 11400000, guid: f690105c4f1107344b8ec6fc3e74ec2a, type: 2}
-  direction: {x: 0, y: 1}
 --- !u!114 &4747837920409277860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,8 +68,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d04df24c2211fc2489c6434ac0e6a2a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  height: 0.6
   outAnchors:
   - machine: {fileID: 0}
+    height: 0
     localTilePosition: {x: 0, y: 0}
     direction: {x: 0, y: 1}
 --- !u!33 &1153135289983230133

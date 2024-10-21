@@ -7,7 +7,6 @@ namespace RecycleFactory
     public class Map : MonoBehaviour
     {
         public static readonly Vector2Int mapSize = new Vector2Int(16, 10);
-        public static readonly float cellScale = 1f;
         public static readonly float floorHeight = 0f;
         public static List<Building> buildingsUnordered = new List<Building>();
         public static Building[,] buildingsAt = new Building[mapSize.y, mapSize.x];
@@ -44,7 +43,7 @@ namespace RecycleFactory
 
         public static Vector2Int ConvertToMapPosition(Vector3 position)
         {
-            return new Vector2(Hexath.SnapNumberToStep(position.x, cellScale), Hexath.SnapNumberToStep(position.z, cellScale)).RoundToInt();
+            return new Vector2(Hexath.SnapNumberToStep(position.x, 1), Hexath.SnapNumberToStep(position.z, 1)).RoundToInt();
         }
 
         /// <summary>

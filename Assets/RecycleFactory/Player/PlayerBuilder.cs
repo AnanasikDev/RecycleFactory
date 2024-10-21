@@ -153,9 +153,9 @@ namespace RecycleFactory.Player
             if (Physics.Raycast(ray, out hit))
             {
                 Vector3 snappedPosition = new Vector3(
-                    Hexath.SnapNumberToStep(hit.point.x, Map.cellScale),
+                    Hexath.SnapNumberToStep(hit.point.x, 1),
                     Map.floorHeight,
-                    Hexath.SnapNumberToStep(hit.point.z, Map.cellScale)
+                    Hexath.SnapNumberToStep(hit.point.z, 1)
                 );
 
                 return snappedPosition;

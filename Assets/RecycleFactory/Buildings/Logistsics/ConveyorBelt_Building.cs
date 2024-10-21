@@ -27,6 +27,9 @@ namespace RecycleFactory.Buildings
                 e.Init(this);
             }
 
+            // last element is not static, has to update next element
+            elements[capacity - 1].isStatic = false;
+
             for (int i = 1; i < capacity; i++)
             {
                 elements[i - 1].SetNextElement(elements[i]);

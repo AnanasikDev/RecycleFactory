@@ -51,7 +51,7 @@ MonoBehaviour:
   mapPosition: {x: 0, y: 0}
   meshFilter: {fileID: 7557616198969887028}
   meshRenderer: {fileID: 6469334849658662304}
-  capacity: 10
+  capacity: 4
   moveDirection: {x: 0, y: 1}
   transportTimeSeconds: 5
   distance: 2

@@ -12,6 +12,8 @@ namespace RecycleFactory.Buildings
         [ReadOnly] public ConveyorBelt_Element conveyor;
         [ReadOnly] public Building machine;
 
+        public float height;
+
         /// <summary>
         /// On an instantiated releaser/receiver it is automatically rotated according to the building rotation. Represents the tile at which the anchor is located relatively to the pivot point of the building.
         /// </summary>

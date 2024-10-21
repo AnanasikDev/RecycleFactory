@@ -19,6 +19,11 @@ namespace RecycleFactory.Buildings
         public bool isEmpty { get; private set; } = true;
         public bool isWorking { get; private set; }
 
+        /// <summary>
+        /// Whether the element is inside the stack of elements and has a constant next element (true only for the last ones in a stack)
+        /// </summary>
+        public bool isStatic = true;
+
         public void Init(ConveyorBelt_Building building)
         { 
             this.conveyorBuilding = building;
@@ -26,12 +31,14 @@ namespace RecycleFactory.Buildings
             this.distance = building.distance / building.capacity;
             transportTimeSeconds = building.transportTimeSeconds / building.capacity;
 
-            Building.onAnyBuiltEvent += FindNextElement;
+            if (!isStatic)
+                Building.onAnyBuiltEvent += FindNextElement;
         }
 
         public void OnDestroy()
         { 
-            Building.onAnyBuiltEvent -= FindNextElement;
+            if (!isStatic)
+                Building.onAnyBuiltEvent -= FindNextElement;
         }
 
         public void SetItem(ConveyorBelt_Item item)
