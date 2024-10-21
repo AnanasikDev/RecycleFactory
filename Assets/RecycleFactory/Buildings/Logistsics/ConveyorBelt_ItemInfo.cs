@@ -9,8 +9,8 @@ namespace RecycleFactory.Buildings
         public new string name;
         public Mesh mesh;
 
-        [MinMaxSlider(0, 1)] public float magnetic;
-        [MinMaxSlider(0, 1)] public float transparency;
-        [MinMaxSlider(0, 1)] public float density;
+        [MinValue(0)][MaxValue(1)] public float magnetic;
+        [MinValue(0)][MaxValue(1)] public float transparency;
+        [MinValue(0)][MaxValue(1)] public float density;
     }
 }

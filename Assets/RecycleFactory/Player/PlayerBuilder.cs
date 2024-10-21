@@ -67,10 +67,11 @@ namespace RecycleFactory.Player
             Vector2Int prevCell = selectedCell;
             Vector3 position = GetMouseWorldPosition();
             Vector2Int mapPos = new Vector2(position.x, position.z).FloorToInt();
+            mapPos.Clamp(Vector2Int.zero, Map.mapSize - Vector2Int.one);
             selectedCell = mapPos;
             if (prevCell != selectedCell)
             {
-                isSelectedSpotAvailable = Map.isSpaceFree(mapPos, Utils.Rotate(selectedBuilding.size, selectedRotation));
+                isSelectedSpotAvailable = Map.isSpaceFree(mapPos, Utils.RotateXY(selectedBuilding.size, selectedRotation));
                 onCellSelectedEvent?.Invoke();
             }
         }
@@ -130,7 +131,7 @@ namespace RecycleFactory.Player
                     Vector3 position = GetMouseWorldPosition();
                     Vector2Int mapPos = new Vector2(position.x, position.z).FloorToInt();
 
-                    if (Map.isSpaceFree(mapPos, Utils.Rotate(selectedBuilding.size, selectedRotation)))
+                    if (Map.isSpaceFree(mapPos, Utils.RotateXY(selectedBuilding.size, selectedRotation)))
                     {
                         Building building = Instantiate(selectedBuilding, position, Quaternion.identity);
                         building.Rotate(selectedRotation);

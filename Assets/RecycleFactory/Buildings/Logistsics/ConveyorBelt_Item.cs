@@ -25,6 +25,9 @@ namespace RecycleFactory.Buildings
             gameObject.name = "Item " + info.name;
         }
 
+        /// <summary>
+        /// Takes an unused object from pool (is possible) or instantiates a new one and registers it in the pool.
+        /// </summary>
         public static ConveyorBelt_Item Create(ConveyorBelt_ItemInfo info)
         {
             itemsPool.TryTakeInactive(out ConveyorBelt_Item item);
@@ -33,6 +36,7 @@ namespace RecycleFactory.Buildings
                 item = new GameObject().AddComponent<ConveyorBelt_Item>();
                 item.meshRenderer = item.gameObject.AddComponent<MeshRenderer>();
                 item.meshFilter = item.gameObject.AddComponent<MeshFilter>();
+                item.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
                 itemsPool.RecordNew(item);
             }
             item.Init(info);

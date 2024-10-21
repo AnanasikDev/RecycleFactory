@@ -31,7 +31,12 @@ namespace RecycleFactory
             {
                 for (int _y = 0; _y < Mathf.Abs(size.y); _y++)
                 {
-                    if (buildingsAt[pos.y + _y * (int)Mathf.Sign(size.y), pos.x + _x * (int)Mathf.Sign(size.x)] != null) return false;
+                    int y = pos.y + _y * (int)Mathf.Sign(size.y);
+                    int x = pos.x + _x * (int)Mathf.Sign(size.x);
+                    if (x < 0 || y < 0 || x > mapSize.x - 1 || y > mapSize.y - 1)
+                        return false;
+
+                    if (buildingsAt[y, x] != null) return false;
                 }
             }
             return true;
@@ -67,7 +72,7 @@ namespace RecycleFactory
             {
                 for (int _y = 0; _y < building.size.y; _y++)
                 {
-                    Vector2Int pos = Utils.Rotate(new Vector2Int(_x, _y), building.rotation);
+                    Vector2Int pos = Utils.RotateXY(new Vector2Int(_x, _y), building.rotation);
                     buildingsAt[building.mapPosition.y + pos.y, building.mapPosition.x + pos.x] = null;
                 }
             }

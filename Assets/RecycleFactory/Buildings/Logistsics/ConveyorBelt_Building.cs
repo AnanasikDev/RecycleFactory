@@ -1,12 +1,12 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace RecycleFactory.Buildings
 {
     public class ConveyorBelt_Building : Building
     {
         public int capacity = 10;
-        public Vector3 moveDirection;
+        public Vector2Int moveDirection;
         public float transportTimeSeconds = 5;
         public float distance = 2;
 
@@ -17,6 +17,8 @@ namespace RecycleFactory.Buildings
 
         protected override void PostInit()
         {
+            moveDirection = Utils.RotateXY(moveDirection, rotation);
+
             elements = new List<ConveyorBelt_Element>();
             for (int i = 0; i < capacity; i++)
             {
@@ -45,6 +47,12 @@ namespace RecycleFactory.Buildings
             {
                 element.MoveItem();
             }
+        }
+
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.yellow;
+            DrawArrow.ForGizmo(transform.position, moveDirection.ConvertTo2D().ProjectTo3D());
         }
     }
 }

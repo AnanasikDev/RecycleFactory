@@ -9,6 +9,11 @@ namespace RecycleFactory.Buildings
 
         public List<ConveyorAnchor> InAnchors => inAnchors;
 
+        public void Init()
+        {
+
+        }
+
         public void Rotate(int delta)
         {
             foreach (var inAnchor in inAnchors)

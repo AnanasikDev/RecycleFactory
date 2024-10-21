@@ -6,12 +6,20 @@ namespace RecycleFactory.Buildings
     /// <summary>
     /// Corresponds to an anchor leading towards a conveyor (conveyor-in-anchor) or towards a machine (conveyor-out-anchor)
     /// </summary>
+    [System.Serializable]
     public class ConveyorAnchor
     {
-        public ConveyorBelt_Element conveyor;
-        public Building machine;
+        [ReadOnly] public ConveyorBelt_Element conveyor;
+        [ReadOnly] public Building machine;
 
+        /// <summary>
+        /// On an instantiated releaser/receiver it is automatically rotated according to the building rotation. Represents the tile at which the anchor is located relatively to the pivot point of the building.
+        /// </summary>
         public Vector2Int localTilePosition;
+
+        /// <summary>
+        /// On an instantiated releaser/receiver it is automatically rotated according to the building rotation. Represents the direction of item flow. Must be inward for input and outward for output.
+        /// </summary>
         public Vector2Int direction;
 
         /// <summary>
@@ -20,10 +28,10 @@ namespace RecycleFactory.Buildings
         /// </summary>
         public void Revolve(int delta)
         {
-            direction = Utils.Rotate(direction, delta);
+            direction = Utils.RotateXY(direction, delta);
             // TODO: add delta clamping
 
-            localTilePosition = Utils.Rotate(localTilePosition, delta);
+            localTilePosition = Utils.RotateXY(localTilePosition, delta);
         }
 
         public ConveyorAnchor GetRevolved(int delta)

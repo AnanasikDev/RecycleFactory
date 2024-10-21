@@ -52,7 +52,7 @@ MonoBehaviour:
   meshFilter: {fileID: 7557616198969887028}
   meshRenderer: {fileID: 6469334849658662304}
   capacity: 10
-  moveDirection: {x: 0, y: -1, z: 0}
+  moveDirection: {x: 0, y: 1}
   transportTimeSeconds: 5
   distance: 2
 --- !u!1001 &5751002129833977549
@@ -130,7 +130,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7635826562936255635, guid: be2cfc9448aa7f04da9b5a4c6cffe2c9,
         type: 3}
-      propertyPath: m_Materials.Array.data[2]
+      propertyPath: 'm_Materials.Array.data[2]'
       value: 
       objectReference: {fileID: 2100000, guid: 965e449bfd3815c4b861f9a27bd6c06e, type: 2}
     - target: {fileID: 919132149155446097, guid: be2cfc9448aa7f04da9b5a4c6cffe2c9,

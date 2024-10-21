@@ -4,13 +4,12 @@ using UnityEngine;
 
 namespace RecycleFactory.Buildings
 {
-    [Serializable]
     public class ConveyorBelt_Element
     {
         public ConveyorBelt_Building conveyorBuilding;
 
         // values are taken from conveyorBuilding
-        [ReadOnly] public Vector3 direction;
+        [ReadOnly] public Vector2Int direction;
         [ReadOnly] public float distance;
         [ReadOnly] public float transportTimeSeconds;
         [ReadOnly] public float elapsedTime = 0;
@@ -23,8 +22,10 @@ namespace RecycleFactory.Buildings
         public void Init(ConveyorBelt_Building building)
         { 
             this.conveyorBuilding = building;
-            direction = building.moveDirection;
+            this.direction = building.moveDirection;
+            this.distance = building.distance / building.capacity;
             transportTimeSeconds = building.transportTimeSeconds / building.capacity;
+
             Building.onAnyBuiltEvent += FindNextElement;
         }
 
@@ -45,7 +46,7 @@ namespace RecycleFactory.Buildings
 
         private void FindNextElement()
         {
-            Building otherBuilding =  Map.getBuildingAt(conveyorBuilding.mapPosition + conveyorBuilding.moveDirection.ProjectTo2D().RoundToInt() * conveyorBuilding.size);
+            Building otherBuilding =  Map.getBuildingAt(conveyorBuilding.mapPosition + conveyorBuilding.moveDirection);
             if (otherBuilding == null) return;
             if (otherBuilding.TryGetComponent(out ConveyorBelt_Building otherConveyor))
             {
@@ -69,7 +70,7 @@ namespace RecycleFactory.Buildings
         {
             if (isEmpty || !isWorking) return;
 
-            currentItem.transform.position += direction.ConvertTo2D().ProjectTo3D() * distance / conveyorBuilding.capacity / transportTimeSeconds * Time.deltaTime;
+            currentItem.transform.position += direction.ConvertTo2D().ProjectTo3D() * distance / transportTimeSeconds * Time.deltaTime;
             elapsedTime += Time.deltaTime;
 
             if (elapsedTime >= transportTimeSeconds)

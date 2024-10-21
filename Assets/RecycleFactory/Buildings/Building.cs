@@ -8,7 +8,7 @@ namespace RecycleFactory.Buildings
         [HideInInspector] public BuildingExtension_Receiver receiver;
         [HideInInspector] public BuildingExtension_Releaser releaser;
 
-        public Vector2Int size = Vector2Int.one;
+        [MinMaxSlider(1, 4)] public Vector2Int size = Vector2Int.one;
 
         [ShowNativeProperty] public int rotation { get; private set; }
 
@@ -27,6 +27,9 @@ namespace RecycleFactory.Buildings
             receiver = GetComponent<BuildingExtension_Receiver>();
             releaser = GetComponent<BuildingExtension_Releaser>();
 
+            if (receiver) receiver.Init();
+            if (releaser) releaser.Init(this);
+
             Map.RegisterNewBuilding(this);
 
             PostInit();
@@ -39,7 +42,7 @@ namespace RecycleFactory.Buildings
         public virtual void Rotate(int delta)
         {
             rotation = (int)Mathf.Repeat(rotation + delta, 4);  
-            size = Utils.Rotate(size, delta);
+            size = Utils.RotateXY(size, delta);
 
             transform.Rotate(Vector3.up * delta * 90);
 

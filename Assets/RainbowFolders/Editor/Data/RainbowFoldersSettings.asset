@@ -62,17 +62,9 @@ MonoBehaviour:
     SmallIcon: {fileID: 2800000, guid: 36e0a02c0316e0b40bd7ffc8eb437a7f, type: 3}
     LargeIcon: {fileID: 2800000, guid: ce20e3678b7748244854c06fcd7d7d00, type: 3}
   - Type: 0
-    Key: RainbowFolders
-    SmallIcon: {fileID: 2800000, guid: 8d50cf779e5b4f54a831bdefc32b044c, type: 3}
-    LargeIcon: {fileID: 2800000, guid: 5c32cf9ad519d0c4aacb16805c45eab3, type: 3}
-  - Type: 0
     Key: Resources
     SmallIcon: {fileID: 2800000, guid: 97efd597cd18c564aadb45280476b23a, type: 3}
     LargeIcon: {fileID: 2800000, guid: 650a564eae901434e86dcb456fcc046a, type: 3}
-  - Type: 0
-    Key: Scenes
-    SmallIcon: {fileID: 2800000, guid: 40ff06f7c381dcf4391ca8342d04260c, type: 3}
-    LargeIcon: {fileID: 2800000, guid: f9d86cd8e960f584a9aa5a8ee61c4115, type: 3}
   - Type: 0
     Key: Scripts
     SmallIcon: {fileID: 2800000, guid: ed89c5b2588683046989a2a138f3b343, type: 3}
@@ -109,10 +101,6 @@ MonoBehaviour:
     Key: WebGL
     SmallIcon: {fileID: 2800000, guid: b8e8a328d6527a14783473666c1f8a08, type: 3}
     LargeIcon: {fileID: 2800000, guid: 010e6d817952d434197d318f48b2f16a, type: 3}
-  - Type: 1
-    Key: Assets/Hexagon
-    SmallIcon: {fileID: 2800000, guid: 6ecc649ba46fa2c448d60a663be30ffd, type: 3}
-    LargeIcon: {fileID: 2800000, guid: 7ce51c638aeaa3840ab61c4a4af3885b, type: 3}
   - Type: 1
     Key: Assets/RecycleFactory
     SmallIcon: {fileID: 2800000, guid: 996ce5f7498be3b47ad13c2557bef293, type: 3}
