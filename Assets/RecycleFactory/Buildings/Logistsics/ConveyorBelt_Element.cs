@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace RecycleFactory.Buildings
 {
+    [Serializable]
     public class ConveyorBelt_Element
     {
         public ConveyorBelt_Building conveyorBuilding;
@@ -16,8 +17,8 @@ namespace RecycleFactory.Buildings
 
         private ConveyorBelt_Item currentItem;
         private ConveyorBelt_Element nextElement;
-        public bool isEmpty { get; private set; } = true;
-        public bool isWorking { get; private set; }
+        [ShowNativeProperty] public bool isEmpty { get; private set; } = true;
+        [ShowNativeProperty] public bool isWorking { get; private set; }
 
         /// <summary>
         /// Whether the element is inside the stack of elements and has a constant next element (true only for the last ones in a stack)
@@ -28,7 +29,7 @@ namespace RecycleFactory.Buildings
         { 
             this.conveyorBuilding = building;
             this.direction = building.moveDirection;
-            this.distance = building.distance / building.capacity;
+            this.distance = (float)building.distanceTiles / building.capacity;
             transportTimeSeconds = building.transportTimeSeconds / building.capacity;
 
             if (!isStatic)
@@ -53,13 +54,13 @@ namespace RecycleFactory.Buildings
 
         private void FindNextElement()
         {
-            Building otherBuilding =  Map.getBuildingAt(conveyorBuilding.mapPosition + conveyorBuilding.moveDirection);
+            Building otherBuilding = Map.getBuildingAt(conveyorBuilding.mapPosition + conveyorBuilding.moveDirection * conveyorBuilding.distanceTiles);
             if (otherBuilding == null) return;
             if (otherBuilding.TryGetComponent(out ConveyorBelt_Building otherConveyor))
             {
+                Debug.Log("found " + otherBuilding.name);
                 // TODO: calculate the closest element of otherConveyor (when merging it is not first)
                 SetNextElement(otherConveyor.first);
-                otherConveyor.first.SetNextElement(this);
             }
         }
 

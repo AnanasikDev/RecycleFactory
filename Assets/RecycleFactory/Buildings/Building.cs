@@ -5,6 +5,8 @@ namespace RecycleFactory.Buildings
 {
     public abstract class Building : MonoBehaviour
     {
+        private static int _id = -1;
+        protected int id;
         [HideInInspector] public BuildingExtension_Receiver receiver;
         [HideInInspector] public BuildingExtension_Releaser releaser;
 
@@ -22,6 +24,8 @@ namespace RecycleFactory.Buildings
 
         public void Init(Vector2Int mapPos)
         {
+            id = ++_id;
+            gameObject.name += " " + id;
             mapPosition = mapPos;
 
             receiver = GetComponent<BuildingExtension_Receiver>();
