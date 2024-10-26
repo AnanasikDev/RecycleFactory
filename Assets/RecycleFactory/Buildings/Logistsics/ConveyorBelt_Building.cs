@@ -5,10 +5,10 @@ namespace RecycleFactory.Buildings
 {
     public class ConveyorBelt_Building : Building
     {
-        public int capacity = 4;
-        public Vector2Int moveDirection;
+        [Tooltip("Total number of elements, including the last one")] public int capacity = 4;
+        public Vector2Int moveDirectionClamped;
         public float transportTimeSeconds = 5;
-        public int distanceTiles = 2;
+        public int lengthTiles = 2;
 
         [SerializeField] private List<ConveyorBelt_Element> elements;
 
@@ -17,7 +17,7 @@ namespace RecycleFactory.Buildings
 
         protected override void PostInit()
         {
-            moveDirection = Utils.RotateXY(moveDirection, rotation);
+            moveDirectionClamped = Utils.RotateXY(moveDirectionClamped, rotation);
 
             elements = new List<ConveyorBelt_Element>();
             for (int i = 0; i < capacity; i++)
@@ -25,7 +25,7 @@ namespace RecycleFactory.Buildings
                 var e = new ConveyorBelt_Element();
                 elements.Add(e);
                 // last element is not static, has to update next element
-                e.isStatic = i < capacity - 1;
+                e.isLast = i >= capacity - 1;
                 e.Init(this);
             }
 
@@ -54,7 +54,7 @@ namespace RecycleFactory.Buildings
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.yellow;
-            DrawArrow.ForGizmo(transform.position, moveDirection.ConvertTo2D().ProjectTo3D());
+            DrawArrow.ForGizmo(transform.position, moveDirectionClamped.ConvertTo2D().ProjectTo3D());
         }
     }
 }
