@@ -21,7 +21,9 @@ namespace RecycleFactory
 
         public static Building getBuildingAt(Vector2Int mapPos)
         {
-            return buildingsAt[mapPos.y, mapPos.x];
+            if (mapPos.x > 0 && mapPos.x < mapSize.x && mapPos.y > 0 && mapPos.y < mapSize.y)
+                return buildingsAt[mapPos.y, mapPos.x];
+            return null;
         }
 
         public static bool isSpaceFree(Vector2Int pos, Vector2Int size)

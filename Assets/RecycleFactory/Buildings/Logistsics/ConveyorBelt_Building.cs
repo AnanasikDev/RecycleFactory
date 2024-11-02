@@ -25,7 +25,7 @@ namespace RecycleFactory.Buildings
                 var e = new ConveyorBelt_Element();
                 elements.Add(e);
                 // last element is not static, has to update next element
-                e.isLast = i >= capacity - 1;
+                e.isLast = i == capacity - 1;
                 e.Init(this);
             }
 

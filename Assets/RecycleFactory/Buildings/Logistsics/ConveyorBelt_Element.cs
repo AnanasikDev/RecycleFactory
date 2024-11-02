@@ -11,14 +11,17 @@ namespace RecycleFactory.Buildings
 
         // values are taken from conveyorBuilding
         [ReadOnly] public Vector2Int direction;
-        [ReadOnly] public float distance;
         [ReadOnly] public float transportTimeSeconds;
-        [ReadOnly] public float elapsedTime = 0;
+        [ReadOnly] public float elapsedTimeSeconds = 0;
+        [ReadOnly] public Vector2 position;
 
         private ConveyorBelt_Item currentItem;
         private ConveyorBelt_Element nextElement;
-        [ShowNativeProperty] public bool isEmpty { get; private set; } = true;
-        [ShowNativeProperty] public bool isWorking { get; private set; }
+
+        public bool isEmpty = true;
+        public bool isWorking;
+        //[ShowNativeProperty] public bool isEmpty { get; private set; } = true;
+        //[ShowNativeProperty] public bool isWorking { get; private set; }
 
         public bool isLast = false;
 
@@ -28,20 +31,24 @@ namespace RecycleFactory.Buildings
 
         public void Init(ConveyorBelt_Building building)
         { 
-            this.conveyorBuilding = building;
-            this.direction = building.moveDirectionClamped;
-            this.distance = (float)building.lengthTiles/ building.capacity;
-            transportTimeSeconds = building.transportTimeSeconds / building.capacity;
+            conveyorBuilding = building;
+            CalculateParams();
 
             if (isLast)
                 Building.onAnyBuiltEvent += FindNextElement;
         }
-
+        private void CalculateParams()
+        {
+            this.direction = conveyorBuilding.moveDirectionClamped;
+            this.distance = (float)conveyorBuilding.lengthTiles / conveyorBuilding.capacity;
+            transportTimeSeconds = conveyorBuilding.transportTimeSeconds / conveyorBuilding.capacity;
+        }
         public void OnDestroy()
         { 
             if (isLast)
                 Building.onAnyBuiltEvent -= FindNextElement;
         }
+
 
         public void SetItem(ConveyorBelt_Item item)
         {
@@ -80,6 +87,7 @@ namespace RecycleFactory.Buildings
             }
         }
 
+
         private void Break()
         {
             isWorking = false;
@@ -103,24 +111,29 @@ namespace RecycleFactory.Buildings
         public void MoveItem()
         {
             if (isEmpty || !isWorking) return;
-            if (isLast && nextElement == null || !nextElement.isEmpty) return;
+            if (isLast && (nextElement == null || !nextElement.isEmpty))
+            {
+                Break();
+                return;
+            }
 
             currentItem.transform.position += direction.ConvertTo2D().ProjectTo3D() * distance / transportTimeSeconds * Time.deltaTime;
-            elapsedTime += Time.deltaTime;
+            elapsedTimeSeconds += Time.deltaTime;
 
-            if (elapsedTime >= transportTimeSeconds)
+            if (elapsedTimeSeconds >= transportTimeSeconds)
             {
+                // seamlessly pass the item to the next element
                 if (nextElement != null && nextElement.isEmpty)
                 {
                     nextElement.SetItem(currentItem);
                     currentItem = null;
                     isEmpty = true;
                 }
-                else
+                else // nowhere to move the item, break
                 {
                     Break();
                 }
-                elapsedTime = 0;
+                elapsedTimeSeconds = 0;
             }
         }
     }

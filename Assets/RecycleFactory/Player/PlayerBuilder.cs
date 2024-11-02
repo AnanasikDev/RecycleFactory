@@ -1,9 +1,8 @@
-using UnityEngine;
-using System.Collections.Generic;
 using NaughtyAttributes;
 using RecycleFactory.Buildings;
-using System.Linq;
 using System;
+using System.Linq;
+using UnityEngine;
 
 namespace RecycleFactory.Player
 {
@@ -112,6 +111,13 @@ namespace RecycleFactory.Player
             }
         }
 
+        private void ForceBuild(Building selectedBuilding, Vector3 position, int selectedRotation, Vector2Int mapPos)
+        {
+            Building building = Instantiate(selectedBuilding, position, Quaternion.identity);
+            building.Rotate(selectedRotation);
+            building.Init(mapPos);
+        }
+
         private void HandlePlacement()
         {
             if (Input.GetMouseButtonDown(0) && selectedBuilding != null)
@@ -121,9 +127,7 @@ namespace RecycleFactory.Player
                 {
                     if (isSelectedSpotAvailable)
                     {
-                        Building building = Instantiate(selectedBuilding, selectedCell.ConvertTo2D().ProjectTo3D().WithY(Map.floorHeight), Quaternion.identity);
-                        building.Rotate(selectedRotation);
-                        building.Init(selectedCell);
+                        ForceBuild(selectedBuilding, selectedCell.ConvertTo2D().ProjectTo3D().WithY(Map.floorHeight), selectedRotation, selectedCell);
                     }
                 }
                 else
@@ -133,9 +137,7 @@ namespace RecycleFactory.Player
 
                     if (Map.isSpaceFree(mapPos, Utils.RotateXY(selectedBuilding.size, selectedRotation)))
                     {
-                        Building building = Instantiate(selectedBuilding, position, Quaternion.identity);
-                        building.Rotate(selectedRotation);
-                        building.Init(mapPos);
+                        ForceBuild(selectedBuilding, position, selectedRotation, mapPos);
                     }
                     else
                     {
