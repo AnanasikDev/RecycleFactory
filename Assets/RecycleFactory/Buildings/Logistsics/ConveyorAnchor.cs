@@ -9,7 +9,7 @@ namespace RecycleFactory.Buildings
     [System.Serializable]
     public class ConveyorAnchor
     {
-        [ReadOnly] public ConveyorBelt_Element conveyor;
+        [ReadOnly] public ConveyorBelt_Driver conveyor;
         [ReadOnly] public Building machine;
 
         public float height;
@@ -50,7 +50,7 @@ namespace RecycleFactory.Buildings
             machine = _machine;
         }
 
-        public void ConnectToConveyor(ConveyorBelt_Element _conveyor)
+        public void ConnectToConveyor(ConveyorBelt_Driver _conveyor)
         {
             conveyor = _conveyor;
         }

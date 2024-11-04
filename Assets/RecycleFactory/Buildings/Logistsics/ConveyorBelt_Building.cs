@@ -10,19 +10,19 @@ namespace RecycleFactory.Buildings
         public float transportTimeSeconds = 5;
         public int lengthTiles = 2;
 
-        [SerializeField] private List<ConveyorBelt_Element> elements;
+        [SerializeField] private List<ConveyorBelt_Driver> elements;
 
-        public ConveyorBelt_Element first { get { return elements[0]; } }
-        public ConveyorBelt_Element last { get { return elements[capacity - 1]; } }
+        public ConveyorBelt_Driver first { get { return elements[0]; } }
+        public ConveyorBelt_Driver last { get { return elements[capacity - 1]; } }
 
         protected override void PostInit()
         {
             moveDirectionClamped = Utils.RotateXY(moveDirectionClamped, rotation);
 
-            elements = new List<ConveyorBelt_Element>();
+            elements = new List<ConveyorBelt_Driver>();
             for (int i = 0; i < capacity; i++)
             {
-                var e = new ConveyorBelt_Element();
+                var e = new ConveyorBelt_Driver();
                 elements.Add(e);
                 // last element is not static, has to update next element
                 e.isLast = i == capacity - 1;

@@ -8,7 +8,7 @@ namespace RecycleFactory.Buildings
 
         [HideInInspector] public MeshRenderer meshRenderer;
         [HideInInspector] public MeshFilter meshFilter;
-        [HideInInspector] public ConveyorBelt_Element currentElement;
+        [HideInInspector] public ConveyorBelt_Driver currentElement;
 
         public ConveyorBelt_ItemInfo info;
 
