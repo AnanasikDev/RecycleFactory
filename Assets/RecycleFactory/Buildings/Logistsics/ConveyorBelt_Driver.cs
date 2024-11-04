@@ -10,7 +10,7 @@ namespace RecycleFactory.Buildings
     [Serializable]
     public class ConveyorBelt_Driver
     {
-        public static readonly int lanesNumber = 1;
+        public static readonly int lanesNumber = 3;
         public readonly Lane[] lanes = new Lane[lanesNumber];
 
         private ConveyorBelt_Building conveyorBuilding;
