@@ -9,46 +9,18 @@ namespace RecycleFactory.Buildings
         public Vector2Int moveDirectionClamped;
         public float transportTimeSeconds = 5;
         public int lengthTiles = 2;
+        public float speed { get { return lengthTiles / transportTimeSeconds; } }
 
-        [SerializeField] private List<ConveyorBelt_Driver> elements;
-
-        public ConveyorBelt_Driver first { get { return elements[0]; } }
-        public ConveyorBelt_Driver last { get { return elements[capacity - 1]; } }
+        public ConveyorBelt_Driver driver;
 
         protected override void PostInit()
         {
             moveDirectionClamped = Utils.RotateXY(moveDirectionClamped, rotation);
-
-            elements = new List<ConveyorBelt_Driver>();
-            for (int i = 0; i < capacity; i++)
-            {
-                var e = new ConveyorBelt_Driver();
-                elements.Add(e);
-                // last element is not static, has to update next element
-                e.isLast = i == capacity - 1;
-                e.Init(this);
-            }
-
-            for (int i = 1; i < capacity; i++)
-            {
-                elements[i - 1].SetNextElement(elements[i]);
-            }
         }
-
-        /*private void OnDestroy()
-        {
-            for (int i = 0; i < capacity; i++)
-            {
-                elements[i].OnDestroy();
-            }
-        }*/
 
         private void Update()
         {
-            foreach (var element in elements)
-            {
-                element.MoveItem();
-            }
+            driver.Update();
         }
 
         private void OnDrawGizmos()
