@@ -15,12 +15,12 @@ namespace RecycleFactory.Buildings
 
         private void Update()
         {
-            if (releaser.IsFreeToRelease(0))
-            {
-                var item = ConveyorBelt_Item.Create(itemInfos.RandomElement());
-                item.transform.position = transform.position;
-                releaser.ForceRelease(item, 0);
-            }
+            // do not create item if no lane is free
+            if (!releaser.CanRelease(0)) return;
+
+            var item = ConveyorBelt_Item.Create(itemInfos.RandomElement());
+            item.transform.position = transform.position;
+            releaser.Release(item, 0);
         }
 
         private void OnDrawGizmos()

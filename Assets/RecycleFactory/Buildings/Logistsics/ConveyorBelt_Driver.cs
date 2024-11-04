@@ -3,7 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static UnityEditor.Progress;
+
+using Lane = System.Collections.Generic.LinkedList<RecycleFactory.Buildings.ConveyorBelt_Item>;
 
 namespace RecycleFactory.Buildings
 {
@@ -11,7 +12,7 @@ namespace RecycleFactory.Buildings
     public class ConveyorBelt_Driver
     {
         public static readonly int lanesNumber = 3;
-        public readonly LinkedList<ConveyorBelt_Item>[] lanes = new LinkedList<ConveyorBelt_Item>[lanesNumber];
+        public readonly Lane[] lanes = new Lane[lanesNumber];
 
         private ConveyorBelt_Building conveyorBuilding;
         public ConveyorBelt_Driver next;
@@ -63,6 +64,16 @@ namespace RecycleFactory.Buildings
             return ((item1.transform.position - item2.transform.position) * next.direction).magnitude;
         }
 
+        private float GetDistanceFromStart(ConveyorBelt_Item item)
+        {
+            return ((item.transform.position - conveyorBuilding.localStartPivot.transform.position) * next.direction).magnitude;
+        }
+
+        private float GetDistanceToEnd(ConveyorBelt_Item item)
+        {
+            return ((item.transform.position - conveyorBuilding.localEndPivot.transform.position) * next.direction).magnitude;
+        }
+
         private int ChooseLane(ConveyorBelt_Item targetItem)
         {
             for (int l = 0; l < lanesNumber; l++)
@@ -99,6 +110,60 @@ namespace RecycleFactory.Buildings
             {
                 next = null;
             }
+        }
+
+        /// <summary>
+        /// Returns true if item can be added to the start of the driver as the first item
+        /// </summary>
+        /// <returns></returns>
+        public bool CanEnqueueItem()
+        {
+            foreach (var lane in lanes)
+                if (GetDistanceFromStart(lane.First.Value) > minItemDistance) return true;
+            return false;
+        }
+
+        /// <summary>
+        /// Returns true if item can be added to the start of the driver as the first item
+        /// </summary>
+        /// <returns></returns>
+        public bool CanEnqueueItem(Lane lane)
+        {
+            return GetDistanceFromStart(lane.First.Value) > minItemDistance;
+        }
+
+
+        /// <summary>
+        /// As from a releaser, this function adds an item to an arbitrary lane
+        /// </summary>
+        public bool AddItem(ConveyorBelt_ItemInfo itemInfo)
+        {
+            var item = ConveyorBelt_Item.Create(itemInfo);
+            foreach (var lane in lanes)
+            {
+                if (CanEnqueueItem(lane))
+                {
+                    lane.AddFirst(item);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// As from a releaser, this function adds an item to an arbitrary lane
+        /// </summary>
+        public bool AddItem(ConveyorBelt_Item item)
+        {
+            foreach (var lane in lanes)
+            {
+                if (CanEnqueueItem(lane))
+                {
+                    lane.AddFirst(item);
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

@@ -9,12 +9,17 @@ namespace RecycleFactory.Buildings
         public Vector2Int moveDirectionClamped;
         public float transportTimeSeconds = 5;
         public int lengthTiles = 2;
+        
+        public Transform localStartPivot;
+        public Transform localEndPivot;
+
         public float speed { get { return lengthTiles / transportTimeSeconds; } }
 
         public ConveyorBelt_Driver driver;
 
         protected override void PostInit()
         {
+            driver.Init(this);
             moveDirectionClamped = Utils.RotateXY(moveDirectionClamped, rotation);
         }
 

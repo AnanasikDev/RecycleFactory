@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 namespace RecycleFactory.Buildings
 {
@@ -34,29 +35,23 @@ namespace RecycleFactory.Buildings
             }
         }
 
-        public bool IsFreeToRelease(int anchorIndex)
-        {
-            return outAnchors[anchorIndex].conveyor != null && outAnchors[anchorIndex].conveyor.isEmpty;
-        }
-
         private Vector3 getPosition(int anchorIndex)
         {
             return (building.mapPosition.ConvertTo2D() + outAnchors[anchorIndex].localTilePosition.ConvertTo2D() + outAnchors[anchorIndex].direction.ConvertTo2D() / 2f).ProjectTo3D().WithY(outAnchors[anchorIndex].height);
         }
 
-        public void ForceRelease(ConveyorBelt_Item item, int anchorIndex)
+        public bool CanRelease(int anchorIndex)
         {
-            item.transform.position = getPosition(anchorIndex);
-            outAnchors[anchorIndex].conveyor.SetItem(item);
+            return !outAnchors[anchorIndex].conveyor.CanEnqueueItem();
         }
 
-        public bool TryReleaseAt(ConveyorBelt_Item item, int anchorIndex)
+        public void Release(ConveyorBelt_Item item, int anchorIndex)
         {
-            if (!IsFreeToRelease(anchorIndex)) return false;
-
-            ForceRelease(item, anchorIndex);
-
-            return true;
+            item.transform.position = getPosition(anchorIndex);
+            if (!outAnchors[anchorIndex].conveyor.AddItem(item))
+            {
+                Debug.Log("Releaser halted due to fail to release an item");
+            }
         }
 
         /// <summary>
@@ -71,7 +66,7 @@ namespace RecycleFactory.Buildings
                 if (otherBuilding.TryGetComponent(out ConveyorBelt_Building otherConveyor))
                 {
                     // TODO: calculate the closest element of otherConveyor (when merging it is not first)
-                    outAnchors[i].conveyor = otherConveyor.first;
+                    outAnchors[i].conveyor = otherConveyor.driver;
                 }
                 else
                 {
