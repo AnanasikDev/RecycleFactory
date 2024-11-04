@@ -119,8 +119,8 @@ MonoBehaviour:
   moveDirectionClamped: {x: 0, y: 1}
   transportTimeSeconds: 5
   lengthTiles: 2
-  localStartPivot: {fileID: 6513633595170917019}
-  localEndPivot: {fileID: 5142366143730420957}
+  startPivot: {fileID: 6513633595170917019}
+  endPivot: {fileID: 5142366143730420957}
   driver:
     minItemDistance: 0.6
 --- !u!1001 &5751002129833977549

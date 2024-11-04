@@ -10,8 +10,8 @@ namespace RecycleFactory.Buildings
         public float transportTimeSeconds = 5;
         public int lengthTiles = 2;
         
-        public Transform localStartPivot;
-        public Transform localEndPivot;
+        public Transform startPivot;
+        public Transform endPivot;
 
         public float speed { get { return lengthTiles / transportTimeSeconds; } }
 
@@ -32,6 +32,11 @@ namespace RecycleFactory.Buildings
         {
             Gizmos.color = Color.yellow;
             DrawArrow.ForGizmo(transform.position, moveDirectionClamped.ConvertTo2D().ProjectTo3D());
+
+            Gizmos.color = Color.white;
+            Gizmos.DrawWireSphere(startPivot.transform.position, 0.4f);
+            Gizmos.color = Color.black;
+            Gizmos.DrawWireSphere(endPivot.transform.position, 0.4f);
         }
     }
 }

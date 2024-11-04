@@ -10,13 +10,14 @@ namespace RecycleFactory.Buildings
     [Serializable]
     public class ConveyorBelt_Driver
     {
+        internal static readonly int INF = 100000;
         public static readonly int lanesNumber = 3;
         public readonly Lane[] lanes = new Lane[lanesNumber];
 
         private ConveyorBelt_Building conveyorBuilding;
         public ConveyorBelt_Driver next;
         public float minItemDistance = 0.6f;
-        [ShowNativeProperty] public Vector3 direction { get; private set; }
+        public Vector3 direction { get; private set; }
 
         public void Init(ConveyorBelt_Building building)
         {
@@ -48,7 +49,7 @@ namespace RecycleFactory.Buildings
 
                     currentNode = currentNode.Next;
 
-                    if (currentNode == null || GetStraightDistance(item, currentNode.Value) > minItemDistance)
+                    if (GetDistanceToEnd(item) > 0.3f && (currentNode == null || GetStraightDistance(item, currentNode.Value) > minItemDistance))
                     {
                         item.transform.Translate(direction * conveyorBuilding.speed * Time.deltaTime);
                     }
@@ -61,22 +62,40 @@ namespace RecycleFactory.Buildings
 
         private float GetStraightDistance(ConveyorBelt_Item item1, ConveyorBelt_Item item2)
         {
-            return item1 == null || item2 == null ? 100000 : (item1.transform.position - item2.transform.position).Multiply(this.direction).magnitude;
+            return item1 == null || item2 == null ? INF : (item1.transform.position - item2.transform.position).Multiply(this.direction).magnitude;
         }
 
         private float GetOrthogonalDistance(ConveyorBelt_Item item1, ConveyorBelt_Item item2)
         {
-            return item1 == null || item2 == null ? 100000 : (item1.transform.position - item2.transform.position).Multiply(next.direction).magnitude;
+            return item1 == null || item2 == null ? INF : (item1.transform.position - item2.transform.position).Multiply(next.direction).magnitude;
         }
 
         private float GetDistanceFromStart(ConveyorBelt_Item item)
         {
-            return item == null ? 100000 : (item.transform.position - conveyorBuilding.localStartPivot.transform.position).Multiply(direction).magnitude;
+            if (item == null) return INF;
+            if (direction.x < 0)
+                return conveyorBuilding.startPivot.transform.position.x - item.transform.position.x;
+            if (direction.x > 0)
+                return item.transform.position.x - conveyorBuilding.startPivot.transform.position.x;
+            if (direction.z < 0)
+                return conveyorBuilding.startPivot.transform.position.z - item.transform.position.z;
+            if (direction.z > 0)
+                return item.transform.position.z - conveyorBuilding.startPivot.transform.position.z;
+            return INF;
         }
 
         private float GetDistanceToEnd(ConveyorBelt_Item item)
         {
-            return item == null ? 100000 : (item.transform.position - conveyorBuilding.localEndPivot.transform.position).Multiply(direction).magnitude;
+            if (item == null) return INF;
+            if (direction.x > 0)
+                return conveyorBuilding.endPivot.transform.position.x - item.transform.position.x;
+            if (direction.x < 0)
+                return item.transform.position.x - conveyorBuilding.endPivot.transform.position.x;
+            if (direction.z > 0)
+                return conveyorBuilding.endPivot.transform.position.z - item.transform.position.z;
+            if (direction.z < 0)
+                return item.transform.position.z - conveyorBuilding.endPivot.transform.position.z;
+            return INF;
         }
 
         private int ChooseLane(ConveyorBelt_Item targetItem)
