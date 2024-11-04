@@ -42,7 +42,7 @@ namespace RecycleFactory.Buildings
 
         public bool CanRelease(int anchorIndex)
         {
-            return !outAnchors[anchorIndex].conveyor.CanEnqueueItem();
+            return outAnchors[anchorIndex].conveyor != null && outAnchors[anchorIndex].conveyor.CanEnqueueItem();
         }
 
         public void Release(ConveyorBelt_Item item, int anchorIndex)

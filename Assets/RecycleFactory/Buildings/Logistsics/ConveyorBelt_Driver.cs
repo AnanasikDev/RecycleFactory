@@ -1,7 +1,6 @@
 ﻿using NaughtyAttributes;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 using Lane = System.Collections.Generic.LinkedList<RecycleFactory.Buildings.ConveyorBelt_Item>;
@@ -11,19 +10,24 @@ namespace RecycleFactory.Buildings
     [Serializable]
     public class ConveyorBelt_Driver
     {
-        public static readonly int lanesNumber = 3;
+        public static readonly int lanesNumber = 1;
         public readonly Lane[] lanes = new Lane[lanesNumber];
 
         private ConveyorBelt_Building conveyorBuilding;
         public ConveyorBelt_Driver next;
-        public float minItemDistance = 0.3f;
-        [ShowNativeProperty] public Vector2 direction { get ; private set; }
+        public float minItemDistance = 0.6f;
+        [ShowNativeProperty] public Vector3 direction { get; private set; }
 
         public void Init(ConveyorBelt_Building building)
         {
             this.conveyorBuilding = building;
-            direction = building.moveDirectionClamped.ConvertTo2D();
+            direction = building.moveDirectionClamped.ConvertTo2D().ProjectTo3D();
+
             // init empty lanes
+            for (int l = 0; l < lanesNumber; l++)
+            {
+                lanes[l] = new Lane();
+            }
         }
 
         public void Update()
@@ -36,16 +40,17 @@ namespace RecycleFactory.Buildings
             // for each item check distance to the next one, translate if possible, halt movement if not
             for (int l = 0; l < lanesNumber; l++)
             {
-                LinkedListNode<ConveyorBelt_Item> currentNode = lanes.ElementAt(l).First;
+                if (lanes[l].Count == 0) continue;
+                LinkedListNode<ConveyorBelt_Item> currentNode = lanes[l].First;
                 while (currentNode != null)
                 {
                     ConveyorBelt_Item item = currentNode.Value;
 
                     currentNode = currentNode.Next;
 
-                    if (GetStraightDistance(item, currentNode.Value) > minItemDistance)
+                    if (currentNode == null || GetStraightDistance(item, currentNode.Value) > minItemDistance)
                     {
-                        item.transform.Translate(direction * conveyorBuilding.speed);
+                        item.transform.Translate(direction * conveyorBuilding.speed * Time.deltaTime);
                     }
                 }
             }
@@ -56,22 +61,22 @@ namespace RecycleFactory.Buildings
 
         private float GetStraightDistance(ConveyorBelt_Item item1, ConveyorBelt_Item item2)
         {
-            return ((item1.transform.position - item2.transform.position) * this.direction).magnitude;
+            return item1 == null || item2 == null ? 100000 : (item1.transform.position - item2.transform.position).Multiply(this.direction).magnitude;
         }
 
         private float GetOrthogonalDistance(ConveyorBelt_Item item1, ConveyorBelt_Item item2)
         {
-            return ((item1.transform.position - item2.transform.position) * next.direction).magnitude;
+            return item1 == null || item2 == null ? 100000 : (item1.transform.position - item2.transform.position).Multiply(next.direction).magnitude;
         }
 
         private float GetDistanceFromStart(ConveyorBelt_Item item)
         {
-            return ((item.transform.position - conveyorBuilding.localStartPivot.transform.position) * next.direction).magnitude;
+            return item == null ? 100000 : (item.transform.position - conveyorBuilding.localStartPivot.transform.position).Multiply(direction).magnitude;
         }
 
         private float GetDistanceToEnd(ConveyorBelt_Item item)
         {
-            return ((item.transform.position - conveyorBuilding.localEndPivot.transform.position) * next.direction).magnitude;
+            return item == null ? 100000 : (item.transform.position - conveyorBuilding.localEndPivot.transform.position).Multiply(direction).magnitude;
         }
 
         private int ChooseLane(ConveyorBelt_Item targetItem)
@@ -119,7 +124,7 @@ namespace RecycleFactory.Buildings
         public bool CanEnqueueItem()
         {
             foreach (var lane in lanes)
-                if (GetDistanceFromStart(lane.First.Value) > minItemDistance) return true;
+                if (lane.Count == 0 || GetDistanceFromStart(lane.First.Value) > minItemDistance) return true;
             return false;
         }
 
@@ -129,7 +134,7 @@ namespace RecycleFactory.Buildings
         /// <returns></returns>
         public bool CanEnqueueItem(Lane lane)
         {
-            return GetDistanceFromStart(lane.First.Value) > minItemDistance;
+            return lane.Count == 0 || GetDistanceFromStart(lane.First.Value) > minItemDistance;
         }
 
 
