@@ -77,7 +77,8 @@ namespace RecycleFactory.Buildings.Logistics
                             GetStraightDistance(item, nextItemNode.Value) > minEndDistance)
                         {
                             // reassign item to be controled by next driver
-                            nextDriver.TakeOwnership(item);
+                            lanes[item.currentLaneIndex].Remove(item);
+                            nextDriver.AddToStart(item);
                             continue;
                         }
                         // no next conveyor or it's full - stop here
@@ -170,10 +171,10 @@ namespace RecycleFactory.Buildings.Logistics
         public void TryFindNext()
         {
             Building otherBuilding = Map.getBuildingAt(conveyorBuilding.mapPosition + conveyorBuilding.moveDirectionClamped * conveyorBuilding.lengthTiles);
-            if (otherBuilding == null) return;
+            if (otherBuilding == null || otherBuilding == conveyorBuilding) return;
             if (otherBuilding.TryGetComponent(out ConveyorBelt_Building otherConveyor))
             {
-                nextDriver = conveyorBuilding.driver;
+                nextDriver = otherConveyor.driver;
             }
             else
             {
@@ -205,23 +206,25 @@ namespace RecycleFactory.Buildings.Logistics
         /// <summary>
         /// As from a releaser, this function adds an item to an arbitrary lane
         /// </summary>
-        public bool AddItem(ConveyorBelt_ItemInfo itemInfo)
+        public bool AddToStart(ConveyorBelt_ItemInfo itemInfo)
         {
             var item = ConveyorBelt_Item.Create(itemInfo);
-            return AddItem(item);
+            return AddToStart(item);
         }
 
         /// <summary>
         /// As from a releaser, this function adds an item to an arbitrary lane
         /// </summary>
-        public bool AddItem(ConveyorBelt_Item item)
+        public bool AddToStart(ConveyorBelt_Item item)
         {
             for (int i = 0; i < LANES_NUMBER; i++)
             {
                 if (CanEnqueueItem(lanes[i]))
                 {
                     lanes[i].AddFirst(item);
+                    item.transform.SetParent(conveyorBuilding.transform);
                     item.currentLaneIndex = i;
+                    item.currentDriver = this;
                     AlignToLane(item, i);
                     return true;
                 }
@@ -236,13 +239,6 @@ namespace RecycleFactory.Buildings.Logistics
                 item.transform.position = item.transform.position.WithZ(conveyorBuilding.startPivot.position.z - delta);
             if (direction.z != 0)
                 item.transform.position = item.transform.position.WithX(conveyorBuilding.startPivot.position.x - delta);
-        }
-
-        public void TakeOwnership(ConveyorBelt_Item item)
-        {
-            item.transform.SetParent(conveyorBuilding.transform);
-            lanes[item.currentLaneIndex].Remove(item);
-            nextDriver.lanes[item.currentLaneIndex].AddFirst(item);
         }
     }
 }

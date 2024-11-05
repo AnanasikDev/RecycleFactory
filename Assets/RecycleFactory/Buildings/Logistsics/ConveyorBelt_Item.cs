@@ -9,7 +9,7 @@ namespace RecycleFactory.Buildings.Logistics
 
         [HideInInspector] public MeshRenderer meshRenderer;
         [HideInInspector] public MeshFilter meshFilter;
-        [HideInInspector] public ConveyorBelt_Driver currentElement;
+        [HideInInspector] public ConveyorBelt_Driver currentDriver;
 
         public ConveyorBelt_ItemInfo info;
         [Tooltip("Index of lane of the conveyor at which it is at now")] public int currentLaneIndex;
