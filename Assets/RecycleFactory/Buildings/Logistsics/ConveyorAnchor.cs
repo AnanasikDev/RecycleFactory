@@ -1,7 +1,7 @@
 ﻿using NaughtyAttributes;
 using UnityEngine;
 
-namespace RecycleFactory.Buildings
+namespace RecycleFactory.Buildings.Logistics
 {
     /// <summary>
     /// Corresponds to an anchor leading towards a conveyor (conveyor-in-anchor) or towards a machine (conveyor-out-anchor)

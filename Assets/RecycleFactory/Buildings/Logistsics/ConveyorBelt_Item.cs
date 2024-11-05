@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 
-namespace RecycleFactory.Buildings
+namespace RecycleFactory.Buildings.Logistics
 {
     public class ConveyorBelt_Item : MonoBehaviour
     {
+        public static readonly float SCALE = 0.2f;
         private static Pool<ConveyorBelt_Item> itemsPool = new Pool<ConveyorBelt_Item>(item => item.gameObject.activeSelf);
 
         [HideInInspector] public MeshRenderer meshRenderer;
@@ -11,6 +12,7 @@ namespace RecycleFactory.Buildings
         [HideInInspector] public ConveyorBelt_Driver currentElement;
 
         public ConveyorBelt_ItemInfo info;
+        [Tooltip("Index of lane of the conveyor at which it is at now")] public int currentLaneIndex;
 
         private void Awake()
         {
@@ -37,7 +39,7 @@ namespace RecycleFactory.Buildings
                 item = new GameObject().AddComponent<ConveyorBelt_Item>();
                 item.meshRenderer = item.gameObject.AddComponent<MeshRenderer>();
                 item.meshFilter = item.gameObject.AddComponent<MeshFilter>();
-                item.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                item.transform.localScale = Vector3.one * SCALE;
                 itemsPool.RecordNew(item);
             }
             item.Init(info);

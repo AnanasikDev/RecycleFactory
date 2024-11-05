@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace RecycleFactory
 {
@@ -83,4 +84,10 @@ namespace RecycleFactory
             return new Vector2(vec3.x, vec3.z);
         }
     }
+}
+
+// used for init-only setters
+namespace System.Runtime.CompilerServices
+{
+    internal static class IsExternalInit { }
 }

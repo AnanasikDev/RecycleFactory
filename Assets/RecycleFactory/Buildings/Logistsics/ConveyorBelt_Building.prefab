@@ -116,13 +116,14 @@ MonoBehaviour:
   meshFilter: {fileID: 7557616198969887028}
   meshRenderer: {fileID: 6469334849658662304}
   capacity: 4
+  beltWidth: 0.5
   moveDirectionClamped: {x: 0, y: 1}
   transportTimeSeconds: 5
   lengthTiles: 2
   startPivot: {fileID: 6513633595170917019}
   endPivot: {fileID: 5142366143730420957}
   driver:
-    minItemDistance: 0.6
+    minItemDistance: 0.35
 --- !u!1001 &5751002129833977549
 PrefabInstance:
   m_ObjectHideFlags: 0

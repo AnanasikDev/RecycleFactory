@@ -1,7 +1,7 @@
 ﻿using NaughtyAttributes;
 using UnityEngine;
 
-namespace RecycleFactory.Buildings
+namespace RecycleFactory.Buildings.Logistics
 {
     [CreateAssetMenu(menuName = "ItemInfo", fileName = "itemInfo_")]
     public class ConveyorBelt_ItemInfo : ScriptableObject

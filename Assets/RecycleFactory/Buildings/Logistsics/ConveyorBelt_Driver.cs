@@ -1,33 +1,47 @@
-﻿using NaughtyAttributes;
-using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Lane = System.Collections.Generic.LinkedList<RecycleFactory.Buildings.Logistics.ConveyorBelt_Item>;
+using ItemNode = System.Collections.Generic.LinkedListNode<RecycleFactory.Buildings.Logistics.ConveyorBelt_Item>;
 
-using Lane = System.Collections.Generic.LinkedList<RecycleFactory.Buildings.ConveyorBelt_Item>;
-
-namespace RecycleFactory.Buildings
+namespace RecycleFactory.Buildings.Logistics
 {
-    [Serializable]
     public class ConveyorBelt_Driver
     {
         internal static readonly int INF = 100000;
-        public static readonly int lanesNumber = 3;
-        public readonly Lane[] lanes = new Lane[lanesNumber];
+        public static readonly int LANES_NUMBER = 3;
+        internal readonly Lane[] lanes = new Lane[LANES_NUMBER];
 
-        private ConveyorBelt_Building conveyorBuilding;
-        public ConveyorBelt_Driver next;
-        public float minItemDistance = 0.6f;
-        public Vector3 direction { get; private set; }
+        internal ConveyorBelt_Building conveyorBuilding { get; init; }
+        internal ConveyorBelt_Driver nextDriver;
+        public readonly float minItemDistance = 0.6f;
+        public readonly float minEndDistance = 0.3f;
 
-        public void Init(ConveyorBelt_Building building)
+        public Vector3 direction { get; init; }
+        public Vector3 velocity { get { return direction * conveyorBuilding.lengthTiles / conveyorBuilding.transportTimeSeconds * Time.deltaTime; } }
+
+        public ConveyorBelt_Driver(ConveyorBelt_Building conveyorBuilding)
         {
-            this.conveyorBuilding = building;
-            direction = building.moveDirectionClamped.ConvertTo2D().ProjectTo3D();
+            this.conveyorBuilding = conveyorBuilding;
+            direction = conveyorBuilding.moveDirectionClamped.ConvertTo2D().ProjectTo3D();
 
             // init empty lanes
-            for (int l = 0; l < lanesNumber; l++)
+            for (int l = 0; l < LANES_NUMBER; l++)
             {
                 lanes[l] = new Lane();
+            }
+        }
+
+        public void Destroy()
+        {
+            if (lanes == null) return;
+            for (int l = 0; l < LANES_NUMBER; l++)
+            {
+                if (lanes[l] == null || lanes[l].Count == 0) continue;
+                for (ItemNode itemNode = lanes[l].First; itemNode != null; itemNode = itemNode.Next)
+                {
+                    // disable item in pool for later use
+                    itemNode.Value.gameObject.SetActive(false);
+                }
+                lanes[l].Clear();
             }
         }
 
@@ -39,17 +53,35 @@ namespace RecycleFactory.Buildings
         private void MoveAllItems()
         {
             // for each item check distance to the next one, translate if possible, halt movement if not
-            for (int l = 0; l < lanesNumber; l++)
+            for (int l = 0; l < LANES_NUMBER; l++)
             {
+                Lane lane = lanes[l];
                 if (lanes[l].Count == 0) continue;
-                LinkedListNode<ConveyorBelt_Item> currentNode = lanes[l].First;
-                while (currentNode != null)
+                for (ItemNode itemNode = lane.First; itemNode != null; itemNode = itemNode.Next)
                 {
-                    ConveyorBelt_Item item = currentNode.Value;
+                    ConveyorBelt_Item item = itemNode.Value;
 
-                    currentNode = currentNode.Next;
+                    // close to the end of the current conveyor
+                    if (GetSignedDistanceToEnd(item) < minEndDistance)
+                    {
+                        // no way to go, halt movement
+                        if (nextDriver == null) continue;
 
-                    if (GetDistanceToEnd(item) > 0.3f && (currentNode == null || GetStraightDistance(item, currentNode.Value) > minItemDistance))
+                        // first item of the next conveyor
+                        var nextItemNode = nextDriver.lanes[item.currentLaneIndex].First;
+
+                        // there is next conveyor and there is space in it
+                        if (nextItemNode == null || 
+                            GetStraightDistance(item, nextItemNode.Value) > minEndDistance)
+                        {
+
+                            nextDriver.TakeOwnership(item);
+                            continue;
+                        }
+                        // no next conveyor or it's full - stop here
+                        continue;
+                    }
+                    if (lane == null || GetStraightDistance(item, lane.Value) > minItemDistance)
                     {
                         item.transform.Translate(direction * conveyorBuilding.speed * Time.deltaTime);
                     }
@@ -65,12 +97,12 @@ namespace RecycleFactory.Buildings
             return item1 == null || item2 == null ? INF : (item1.transform.position - item2.transform.position).Multiply(this.direction).magnitude;
         }
 
-        private float GetOrthogonalDistance(ConveyorBelt_Item item1, ConveyorBelt_Item item2)
+        private float GetOrthogonalDistance(ConveyorBelt_Item thisItem, ConveyorBelt_Item nextItem)
         {
-            return item1 == null || item2 == null ? INF : (item1.transform.position - item2.transform.position).Multiply(next.direction).magnitude;
+            return thisItem == null || nextItem == null ? INF : (thisItem.transform.position - nextItem.transform.position).Multiply(nextDriver.direction).magnitude;
         }
 
-        private float GetDistanceFromStart(ConveyorBelt_Item item)
+        private float GetSignedDistanceFromStart(ConveyorBelt_Item item)
         {
             if (item == null) return INF;
             if (direction.x < 0)
@@ -84,7 +116,7 @@ namespace RecycleFactory.Buildings
             return INF;
         }
 
-        private float GetDistanceToEnd(ConveyorBelt_Item item)
+        private float GetSignedDistanceToEnd(ConveyorBelt_Item item)
         {
             if (item == null) return INF;
             if (direction.x > 0)
@@ -98,9 +130,20 @@ namespace RecycleFactory.Buildings
             return INF;
         }
 
+        /// <summary>
+        /// Knowing info about the curretn and next drivers, this function returns index of a lane where the item is to go at the moment, or -1 if no lane is available.
+        /// </summary>
+        /// <param name="targetItem"></param>
+        /// <returns></returns>
         private int ChooseLane(ConveyorBelt_Item targetItem)
         {
-            for (int l = 0; l < lanesNumber; l++)
+            // if straight merge, do not change lange
+            if (this.direction == nextDriver.direction) return targetItem.currentLaneIndex;
+            
+            // if conveyors converge, no cross movement is allowed, halt
+            if (this.direction == -nextDriver.direction) return -1;
+
+            for (int l = 0; l < LANES_NUMBER; l++)
             {
                 bool isLaneObscured = false;
                 foreach (var item in lanes[l])
@@ -128,11 +171,11 @@ namespace RecycleFactory.Buildings
             if (otherBuilding == null) return;
             if (otherBuilding.TryGetComponent(out ConveyorBelt_Building otherConveyor))
             {
-                next = conveyorBuilding.driver;
+                nextDriver = conveyorBuilding.driver;
             }
             else
             {
-                next = null;
+                nextDriver = null;
             }
         }
 
@@ -143,7 +186,7 @@ namespace RecycleFactory.Buildings
         public bool CanEnqueueItem()
         {
             foreach (var lane in lanes)
-                if (lane.Count == 0 || GetDistanceFromStart(lane.First.Value) > minItemDistance) return true;
+                if (lane.Count == 0 || GetSignedDistanceFromStart(lane.First.Value) > minItemDistance) return true;
             return false;
         }
 
@@ -153,7 +196,7 @@ namespace RecycleFactory.Buildings
         /// <returns></returns>
         public bool CanEnqueueItem(Lane lane)
         {
-            return lane.Count == 0 || GetDistanceFromStart(lane.First.Value) > minItemDistance;
+            return lane.Count == 0 || GetSignedDistanceFromStart(lane.First.Value) > minItemDistance;
         }
 
 
@@ -163,15 +206,7 @@ namespace RecycleFactory.Buildings
         public bool AddItem(ConveyorBelt_ItemInfo itemInfo)
         {
             var item = ConveyorBelt_Item.Create(itemInfo);
-            foreach (var lane in lanes)
-            {
-                if (CanEnqueueItem(lane))
-                {
-                    lane.AddFirst(item);
-                    return true;
-                }
-            }
-            return false;
+            return AddItem(item);
         }
 
         /// <summary>
@@ -179,15 +214,33 @@ namespace RecycleFactory.Buildings
         /// </summary>
         public bool AddItem(ConveyorBelt_Item item)
         {
-            foreach (var lane in lanes)
+            for (int i = 0; i < LANES_NUMBER; i++)
             {
-                if (CanEnqueueItem(lane))
+                if (CanEnqueueItem(lanes[i]))
                 {
-                    lane.AddFirst(item);
+                    lanes[i].AddFirst(item);
+                    item.currentLaneIndex = i;
+                    AlignToLane(item, i);
                     return true;
                 }
             }
             return false;
+        }
+
+        private void AlignToLane(ConveyorBelt_Item item, int laneIndex)
+        {
+            float delta = conveyorBuilding.beltWidth / 2f - conveyorBuilding.beltWidth / (LANES_NUMBER-1) * laneIndex;
+            if (direction.x != 0)
+                item.transform.position = item.transform.position.WithZ(conveyorBuilding.startPivot.position.z - delta);
+            if (direction.z != 0)
+                item.transform.position = item.transform.position.WithX(conveyorBuilding.startPivot.position.x - delta);
+        }
+
+        public void TakeOwnership(ConveyorBelt_Item item)
+        {
+            item.transform.SetParent(conveyorBuilding.transform);
+            lanes[item.currentLaneIndex].Remove(item);
+            nextDriver.lanes[item.currentLaneIndex].AddFirst(item);
         }
     }
 }
