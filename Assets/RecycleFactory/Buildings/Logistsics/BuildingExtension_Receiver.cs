@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using RecycleFactory.Buildings.Logistics;
 
 namespace RecycleFactory.Buildings
 {
     public class BuildingExtension_Receiver : MonoBehaviour
     {
-        [SerializeField] private List<ConveyorAnchor> inAnchors;
+        [SerializeField] private List<ConveyorBelt_Anchor> inAnchors;
 
-        public List<ConveyorAnchor> InAnchors => inAnchors;
+        public List<ConveyorBelt_Anchor> InAnchors => inAnchors;
 
         public void Init()
         {

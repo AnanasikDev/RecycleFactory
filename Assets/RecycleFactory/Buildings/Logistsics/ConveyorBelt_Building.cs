@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using RecycleFactory.Buildings.Logistics;
 
 namespace RecycleFactory.Buildings
@@ -19,15 +18,18 @@ namespace RecycleFactory.Buildings
 
         protected override void PostInit()
         {
-            driver.Init(this);
+            driver = new ConveyorBelt_Driver(this);
             moveDirectionClamped = Utils.RotateXY(moveDirectionClamped, rotation);
             Building.onAnyBuiltEvent += driver.TryFindNext;
         }
 
         private void OnDestroy()
         {
-            Building.onAnyBuiltEvent -= driver.TryFindNext;
-            driver.Destroy();
+            if (driver != null)
+            {
+                Building.onAnyBuiltEvent -= driver.TryFindNext;
+                driver.Destroy();
+            }
         }
 
         private void Update()

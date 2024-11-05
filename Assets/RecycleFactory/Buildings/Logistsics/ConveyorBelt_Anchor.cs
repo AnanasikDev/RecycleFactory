@@ -7,7 +7,7 @@ namespace RecycleFactory.Buildings.Logistics
     /// Corresponds to an anchor leading towards a conveyor (conveyor-in-anchor) or towards a machine (conveyor-out-anchor)
     /// </summary>
     [System.Serializable]
-    public class ConveyorAnchor
+    public class ConveyorBelt_Anchor
     {
         [ReadOnly] public ConveyorBelt_Driver conveyor;
         [ReadOnly] public Building machine;
@@ -36,9 +36,9 @@ namespace RecycleFactory.Buildings.Logistics
             localTilePosition = Utils.RotateXY(localTilePosition, delta);
         }
 
-        public ConveyorAnchor GetRevolved(int delta)
+        public ConveyorBelt_Anchor GetRevolved(int delta)
         {
-            ConveyorAnchor anchor = new ConveyorAnchor();
+            ConveyorBelt_Anchor anchor = new ConveyorBelt_Anchor();
             anchor.direction = direction;
             anchor.localTilePosition = localTilePosition;
             anchor.Revolve(delta);

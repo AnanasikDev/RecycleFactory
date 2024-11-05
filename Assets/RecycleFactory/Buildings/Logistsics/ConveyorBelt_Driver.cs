@@ -16,7 +16,7 @@ namespace RecycleFactory.Buildings.Logistics
         public readonly float minEndDistance = 0.3f;
 
         public Vector3 direction { get; init; }
-        public Vector3 velocity { get { return direction * conveyorBuilding.lengthTiles / conveyorBuilding.transportTimeSeconds * Time.deltaTime; } }
+        public Vector3 frameVelocity { get { return direction * conveyorBuilding.lengthTiles / conveyorBuilding.transportTimeSeconds * Time.deltaTime; } }
 
         public ConveyorBelt_Driver(ConveyorBelt_Building conveyorBuilding)
         {
@@ -38,8 +38,10 @@ namespace RecycleFactory.Buildings.Logistics
                 if (lanes[l] == null || lanes[l].Count == 0) continue;
                 for (ItemNode itemNode = lanes[l].First; itemNode != null; itemNode = itemNode.Next)
                 {
-                    // disable item in pool for later use
-                    itemNode.Value.gameObject.SetActive(false);
+                    // if item hasn't been destroyed
+                    if (itemNode.Value != null)
+                        // disable item in pool for later use
+                        itemNode.Value.gameObject.SetActive(false);
                 }
                 lanes[l].Clear();
             }
@@ -70,20 +72,22 @@ namespace RecycleFactory.Buildings.Logistics
                         // first item of the next conveyor
                         var nextItemNode = nextDriver.lanes[item.currentLaneIndex].First;
 
-                        // there is next conveyor and there is space in it
+                        // check if there is next conveyor and there is space in it
                         if (nextItemNode == null || 
                             GetStraightDistance(item, nextItemNode.Value) > minEndDistance)
                         {
-
+                            // reassign item to be controled by next driver
                             nextDriver.TakeOwnership(item);
                             continue;
                         }
                         // no next conveyor or it's full - stop here
                         continue;
                     }
-                    if (lane == null || GetStraightDistance(item, lane.Value) > minItemDistance)
+
+                    // check if there is enough distance to next item
+                    if (itemNode.Next == null || GetStraightDistance(item, itemNode.Next.Value) > minItemDistance)
                     {
-                        item.transform.Translate(direction * conveyorBuilding.speed * Time.deltaTime);
+                        item.transform.Translate(frameVelocity);
                     }
                 }
             }
@@ -133,8 +137,6 @@ namespace RecycleFactory.Buildings.Logistics
         /// <summary>
         /// Knowing info about the curretn and next drivers, this function returns index of a lane where the item is to go at the moment, or -1 if no lane is available.
         /// </summary>
-        /// <param name="targetItem"></param>
-        /// <returns></returns>
         private int ChooseLane(ConveyorBelt_Item targetItem)
         {
             // if straight merge, do not change lange

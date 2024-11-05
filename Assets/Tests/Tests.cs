@@ -25,7 +25,7 @@ namespace Tests
         [Test]
         public void ConveyorInAnchorTest()
         {
-            RecycleFactory.Buildings.ConveyorAnchor anchor = new();
+            RecycleFactory.Buildings.Logistics.ConveyorBelt_Anchor anchor = new();
             anchor.direction = Vector2Int.up;
             anchor.localTilePosition = Vector2Int.right;
 

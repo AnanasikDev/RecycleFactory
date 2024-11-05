@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using RecycleFactory.Buildings.Logistics;
 
 namespace RecycleFactory.Buildings
 {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
+using RecycleFactory.Buildings.Logistics;
 
 namespace RecycleFactory.Buildings
 {
@@ -8,7 +8,7 @@ namespace RecycleFactory.Buildings
     {
         private Building building;
         public float height;
-        [Tooltip("Must be set in inspector")] public List<ConveyorAnchor> outAnchors;
+        [Tooltip("Must be set in inspector")] public List<ConveyorBelt_Anchor> outAnchors;
 
         public void Init(Building building)
         {
