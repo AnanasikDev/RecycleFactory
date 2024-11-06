@@ -2,7 +2,6 @@ using NaughtyAttributes;
 using RecycleFactory.Buildings;
 using System;
 using System.Linq;
-using System.Reflection;
 using UnityEngine;
 
 namespace RecycleFactory.Player
@@ -43,8 +42,22 @@ namespace RecycleFactory.Player
             for (int i = 0; i < previews.Length; i++)
             {
                 BuildingPreview preview = new GameObject("Building Preview " + i).AddComponent<BuildingPreview>();
-                preview.meshFilter = buildingsPrefabs[i].buildingRenderer.meshFilter;
-                preview.meshRenderer = buildingsPrefabs[i].buildingRenderer.meshRenderer;
+
+                // mesh filter & renderer
+                var renderer = new GameObject("mesh");
+                renderer.transform.SetParent(preview.transform);
+                renderer.transform.localPosition = buildingsPrefabs[i].buildingRenderer.meshFilter.transform.localPosition;
+                renderer.transform.localScale = buildingsPrefabs[i].buildingRenderer.meshFilter.transform.localScale;
+                var meshFilter = renderer.gameObject.AddComponent<MeshFilter>();
+                var meshRenderer = renderer.gameObject.AddComponent<MeshRenderer>();
+
+                // mesh copy
+                Mesh newMesh = UnityEngine.Object.Instantiate(buildingsPrefabs[i].buildingRenderer.meshFilter.sharedMesh);
+                meshFilter.mesh = newMesh;
+                meshRenderer.materials = buildingsPrefabs[i].buildingRenderer.meshRenderer.sharedMaterials;
+                preview.meshFilter = meshFilter;
+                preview.meshRenderer = meshRenderer;
+
                 preview.gameObject.SetActive(true);
                 previews[i] = preview;
             }

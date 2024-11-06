@@ -1,4 +1,5 @@
 using NaughtyAttributes;
+using NUnit.Framework;
 using UnityEngine;
 
 namespace RecycleFactory.Buildings
@@ -30,6 +31,8 @@ namespace RecycleFactory.Buildings
             gameObject.name += " " + id;
             mapPosition = mapPos;
 
+            Assert.That(buildingRenderer != null);
+            buildingRenderer.Init();
             receiver = GetComponent<BuildingExtension_Receiver>();
             releaser = GetComponent<BuildingExtension_Releaser>();
 

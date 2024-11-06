@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using NaughtyAttributes;
+using UnityEngine;
 
 namespace RecycleFactory.Buildings
 {
@@ -6,5 +7,12 @@ namespace RecycleFactory.Buildings
     {
         public MeshFilter meshFilter;
         public MeshRenderer meshRenderer;
+        
+        [ShowNativeProperty] public Vector3 scale { get; private set; } = Vector3.one;
+
+        public void Init()
+        {
+            scale = meshFilter.transform.localScale;
+        }
     }
 }
