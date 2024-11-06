@@ -2,6 +2,7 @@ using NaughtyAttributes;
 using RecycleFactory.Buildings;
 using System;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 namespace RecycleFactory.Player
@@ -24,6 +25,8 @@ namespace RecycleFactory.Player
         [SerializeField][ReadOnly] private bool isSelectedSpotAvailable = false;
         [SerializeField][ReadOnly] private Vector2Int selectedCell;
 
+        [ShowNativeProperty] public PlayerBuilderMode mode { get; private set; }
+
         private event Action onCellSelectedEvent;
 
         public void Init()
@@ -39,13 +42,11 @@ namespace RecycleFactory.Player
             previews = new BuildingPreview[buildingsPrefabs.Length];
             for (int i = 0; i < previews.Length; i++)
             {
-                Building preview_building = Instantiate(buildingsPrefabs[i], Vector3.zero, Quaternion.identity, previewsHandler);
-                previews[i] = preview_building.gameObject.AddComponent<BuildingPreview>();
-
-                previews[i].meshFilter = preview_building.meshFilter;
-                previews[i].meshRenderer = preview_building.meshRenderer;
-                previews[i].gameObject.SetActive(true);
-                Destroy(preview_building); // remove Building component from the preview
+                BuildingPreview preview = new GameObject("Building Preview " + i).AddComponent<BuildingPreview>();
+                preview.meshFilter = buildingsPrefabs[i].buildingRenderer.meshFilter;
+                preview.meshRenderer = buildingsPrefabs[i].buildingRenderer.meshRenderer;
+                preview.gameObject.SetActive(true);
+                previews[i] = preview;
             }
         }
 
@@ -100,14 +101,24 @@ namespace RecycleFactory.Player
             }
         }
 
+        public void ForceSelectBuilding(Building buildingPrefab)
+        {
+            selectedBuilding = buildingPrefab;
+            selectedRotation = 0;
+            Debug.Log($"Selected building: {selectedBuilding.name}");
+            if (showPreview) UpdatePreview();
+        }
+
+        public void ForceSelectBuilding(int index)
+        {
+            ForceSelectBuilding(buildingsPrefabs[index]);
+        }
+
         private void SelectBuilding(int index)
         {
             if (index >= 0 && index < buildingsPrefabs.Length)
             {
-                selectedBuilding = buildingsPrefabs[index];
-                selectedRotation = 0;
-                Debug.Log($"Selected building: {selectedBuilding.name}");
-                if (showPreview) UpdatePreview();
+                ForceSelectBuilding(index);
             }
         }
 
@@ -187,6 +198,11 @@ namespace RecycleFactory.Player
             }
         }
 
+        public void SetBuildingMode(PlayerBuilderMode mode)
+        {
+
+        }
+
         private void OnDrawGizmos()
         {
             Vector3 position = GetMouseWorldPosition();
@@ -194,5 +210,11 @@ namespace RecycleFactory.Player
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(position, 0.5f);
         }
+    }
+
+    public enum PlayerBuilderMode
+    {
+        Build,
+        Destroy
     }
 }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4747837920409277860}
   - component: {fileID: 1153135289983230133}
   - component: {fileID: 1548803086716969421}
+  - component: {fileID: 1495444695210006738}
   m_Layer: 0
   m_Name: Buildling_ItemsGenerator
   m_TagString: Untagged
@@ -47,12 +48,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9364a1a6de9c6e54284c78c82ba08388, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  description: 
   receiver: {fileID: 0}
   releaser: {fileID: 0}
+  buildingRenderer: {fileID: 1495444695210006738}
   size: {x: 1, y: 1}
   mapPosition: {x: 0, y: 0}
-  meshFilter: {fileID: 1153135289983230133}
-  meshRenderer: {fileID: 1548803086716969421}
   itemInfos:
   - {fileID: 11400000, guid: 1d3db238c5246844b90834383f68abe7, type: 2}
   - {fileID: 11400000, guid: f690105c4f1107344b8ec6fc3e74ec2a, type: 2}
@@ -127,3 +128,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1495444695210006738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2958636184047926658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c947a94aa59b54383a89ec4697694a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshFilter: {fileID: 1153135289983230133}
+  meshRenderer: {fileID: 1548803086716969421}

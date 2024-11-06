@@ -1,4 +1,5 @@
 using UnityEngine;
+using RecycleFactory.UI;
 #if UNITY_EDITOR
 using UnityEditor;
 using System.Reflection;
@@ -17,6 +18,9 @@ namespace RecycleFactory
         [SerializeField] private PlayerBuilder _playerBuilder;
         public static PlayerBuilder playerBuilder;
 
+        [SerializeField] private UIController _UIController;
+        public static UIController UIController;
+
         [SerializeField] private Map _map;
         public static Map map;
 
@@ -27,7 +31,9 @@ namespace RecycleFactory
                 playerCamera = _playerCamera;
                 playerBuilder = _playerBuilder;
                 map = _map;
+                UIController = _UIController;
 
+                UIController.Init();
                 map.Init();
                 playerCamera.Init();
                 playerBuilder.Init();

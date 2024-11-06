@@ -72,6 +72,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8496665032343241452}
   - component: {fileID: 8783704837012868790}
+  - component: {fileID: 8408169214403507598}
   m_Layer: 0
   m_Name: ConveyorBelt_Building
   m_TagString: Untagged
@@ -109,12 +110,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99fcaf4466eafc34c9c404ab2691a3b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  description: 
   receiver: {fileID: 0}
   releaser: {fileID: 0}
+  buildingRenderer: {fileID: 8408169214403507598}
   size: {x: 1, y: 2}
   mapPosition: {x: 0, y: 0}
-  meshFilter: {fileID: 7557616198969887028}
-  meshRenderer: {fileID: 6469334849658662304}
   capacity: 4
   beltWidth: 0.5
   moveDirectionClamped: {x: 0, y: 1}
@@ -122,8 +123,20 @@ MonoBehaviour:
   lengthTiles: 2
   startPivot: {fileID: 6513633595170917019}
   endPivot: {fileID: 5142366143730420957}
-  driver:
-    minItemDistance: 0.35
+--- !u!114 &8408169214403507598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4158737587147176694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09c947a94aa59b54383a89ec4697694a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshFilter: {fileID: 7557616198969887028}
+  meshRenderer: {fileID: 6469334849658662304}
 --- !u!1001 &5751002129833977549
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,0 +1,68 @@
+using NaughtyAttributes;
+using RecycleFactory.UI;
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
+namespace RecycleFactory.UI
+{
+    public class UIBuildingCategory : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    {
+        public GameObject expandPanel;
+        public float categoryHeight = 70;
+        public Image categoryImageHolder;
+
+        public List<UIBuildingOption> optionObjects = new List<UIBuildingOption>();
+        [ReadOnly] public UIBuildingCategory_Info info;
+
+        public event Action onOpened;
+        public event Action onClosed;
+
+        private void ToggleOption(UIBuildingOption option, bool state) => option.gameObject.SetActive(state);
+        public void UpdateOptions()
+        {
+            int vindex = 0;
+            foreach (UIBuildingOption option in optionObjects)
+            {
+                option.vindex = vindex;
+                vindex++;
+            }
+        }
+
+        public void Init()
+        {
+            categoryImageHolder.sprite = info.sprite;
+            for (int i = 0; i < info.options.Length; i++)
+            {
+                var categoryObject = UIBuildingOption.Create(info.options[i], new Vector2(0, i * UIBuildingOption.optionHeight + categoryHeight), this);
+                optionObjects.Add(categoryObject);
+            }
+            UpdateOptions();
+        }
+
+        public void Expand()
+        {
+            expandPanel.SetActive(true);
+            onOpened?.Invoke();
+        }
+
+        public void Shrink()
+        {
+            expandPanel.SetActive(false);
+            onClosed?.Invoke();
+        }
+
+        public void OnPointerEnter(PointerEventData eventData) => Expand();
+        public void OnPointerExit(PointerEventData eventData) => Shrink();
+    }
+
+    [System.Serializable]
+    public class UIBuildingCategory_Info
+    {
+        public string name;
+        public UIBuildingOption_Info[] options;
+        public Sprite sprite;
+    }
+}

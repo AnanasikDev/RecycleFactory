@@ -3,21 +3,23 @@ using UnityEngine;
 
 namespace RecycleFactory.Buildings
 {
+    [RequireComponent(typeof(BuildingRenderer))]
     public abstract class Building : MonoBehaviour
     {
         private static int _id = -1;
         protected int id;
+
+        public string description;
+
         [HideInInspector] public BuildingExtension_Receiver receiver;
         [HideInInspector] public BuildingExtension_Releaser releaser;
+        public BuildingRenderer buildingRenderer;
 
         [MinMaxSlider(1, 4)] public Vector2Int size = Vector2Int.one;
 
         [ShowNativeProperty] public int rotation { get; private set; }
 
         public Vector2Int mapPosition;
-
-        public MeshFilter meshFilter;
-        public MeshRenderer meshRenderer;
 
         public static event System.Action onAnyBuiltEvent;
         public static event System.Action onAnyDemolishedEvent;
