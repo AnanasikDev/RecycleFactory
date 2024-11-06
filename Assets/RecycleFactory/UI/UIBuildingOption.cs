@@ -16,11 +16,11 @@ namespace RecycleFactory.UI
         private UIBuildingCategory category;
 
         public int vindex = 0;
+        public static float optionHeight = 70;
 
         public Color defaultBackgroundColor;
         public Color hoverBackgroundColor;
 
-        [ReadOnly] public static float optionHeight = 70;
 
         public static UIBuildingOption Create(UIBuildingOption_Info info, Vector2 position, UIBuildingCategory category)
         {

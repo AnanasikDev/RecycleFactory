@@ -57,7 +57,7 @@ MonoBehaviour:
   background: {fileID: 2783979376498903370}
   vindex: 0
   defaultBackgroundColor: {r: 0.9960785, g: 0.9960785, b: 0.9960785, a: 1}
-  hoverBackgroundColor: {r: 0.35220122, g: 0.35220122, b: 0.35220122, a: 1}
+  hoverBackgroundColor: {r: 0.8553459, g: 0.8553459, b: 0.8553459, a: 1}
 --- !u!1 &1696393493206913397
 GameObject:
   m_ObjectHideFlags: 0
