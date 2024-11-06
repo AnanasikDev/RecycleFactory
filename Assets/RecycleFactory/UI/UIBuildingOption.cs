@@ -52,8 +52,8 @@ namespace RecycleFactory.UI
 
         public void Click()
         {
-            Scripts.playerBuilder.SetBuildingMode(PlayerBuilderMode.Build);
-            Scripts.playerBuilder.ForceSelectBuilding(info.building);
+            Scripts.PlayerBuilder.SetBuildingMode(PlayerBuilderMode.Build);
+            Scripts.PlayerBuilder.ForceSelectBuilding(info.building);
         }
 
         void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) => Expand();
