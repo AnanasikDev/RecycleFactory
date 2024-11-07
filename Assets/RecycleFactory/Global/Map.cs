@@ -54,12 +54,11 @@ namespace RecycleFactory
         public static void RegisterNewBuilding(Building building)
         {
             var pos = building.mapPosition;
-            var size = building.size;
             for (int _x = 0; _x < Mathf.Abs(building.size.x); _x++)
             {
                 for (int _y = 0; _y < Mathf.Abs(building.size.y); _y++)
                 {
-                    buildingsAt[pos.y + _y * (int)Mathf.Sign(size.y), pos.x + _x * (int)Mathf.Sign(size.x)] = building;
+                    buildingsAt[pos.y + _y * (int)Mathf.Sign(building.size.y), pos.x + _x * (int)Mathf.Sign(building.size.x)] = building;
                 }
             }
         }

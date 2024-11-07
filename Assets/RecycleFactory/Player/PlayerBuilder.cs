@@ -117,6 +117,7 @@ namespace RecycleFactory.Player
         public void ForceSelectBuilding(Building buildingPrefab)
         {
             selectedBuilding = buildingPrefab;
+            selectedBuildingIndex = buildingsPrefabs.ToList().IndexOf(buildingPrefab);
             selectedRotation = 0;
             Debug.Log($"Selected building: {selectedBuilding.name}");
             if (showPreview) UpdatePreview();
@@ -213,7 +214,7 @@ namespace RecycleFactory.Player
 
         public void SetBuildingMode(PlayerBuilderMode mode)
         {
-
+            this.mode = mode;
         }
 
         private void OnDrawGizmos()

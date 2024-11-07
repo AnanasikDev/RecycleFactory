@@ -180,5 +180,5 @@ MonoBehaviour:
   receiver: {fileID: 0}
   releaser: {fileID: 0}
   buildingRenderer: {fileID: 1657585181456539367}
-  size: {x: 1, y: 1}
+  size: {x: 3, y: 3}
   mapPosition: {x: 0, y: 0}

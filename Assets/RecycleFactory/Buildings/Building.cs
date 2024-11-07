@@ -16,7 +16,7 @@ namespace RecycleFactory.Buildings
         [HideInInspector] public BuildingExtension_Releaser releaser;
         public BuildingRenderer buildingRenderer;
 
-        [MinMaxSlider(1, 4)] public Vector2Int size = Vector2Int.one;
+        public Vector2Int size = Vector2Int.one;
 
         [ShowNativeProperty] public int rotation { get; private set; }
 
