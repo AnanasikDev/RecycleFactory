@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using RecycleFactory.Buildings.Logistics;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 namespace RecycleFactory.Buildings
 {
@@ -10,7 +11,7 @@ namespace RecycleFactory.Buildings
         public float height;
         [Tooltip("Must be set in inspector")] public List<ConveyorBelt_Anchor> outAnchors;
 
-        public void Init(Building building)
+        public void Init(Building building, int rotation)
         {
             this.building = building;
             foreach (var outAnchor in outAnchors)
@@ -18,6 +19,7 @@ namespace RecycleFactory.Buildings
                 outAnchor.conveyor = null;
                 outAnchor.machine = building;
                 outAnchor.height = height;
+                outAnchor.Revolve(rotation);
             }
             Building.onAnyBuiltEvent += TryConnect;
         }
@@ -27,15 +29,10 @@ namespace RecycleFactory.Buildings
             Building.onAnyBuiltEvent -= TryConnect;
         }
 
-        public void Rotate(int delta)
-        {
-            foreach (var outAnchor in outAnchors)
-            {
-                outAnchor.Revolve(delta);
-            }
-        }
-
-        private Vector3 getPosition(int anchorIndex)
+        /// <summary>
+        /// Returns position where the specified anchor would release its items
+        /// </summary>
+        private Vector3 GetReleasePosition(int anchorIndex)
         {
             return (building.mapPosition.ConvertTo2D() + outAnchors[anchorIndex].localTilePosition.ConvertTo2D() + outAnchors[anchorIndex].direction.ConvertTo2D() / 2f).ProjectTo3D().WithY(outAnchors[anchorIndex].height);
         }
@@ -47,7 +44,7 @@ namespace RecycleFactory.Buildings
 
         public void Release(ConveyorBelt_Item item, int anchorIndex)
         {
-            item.transform.position = getPosition(anchorIndex);
+            item.transform.position = GetReleasePosition(anchorIndex);
             if (!outAnchors[anchorIndex].conveyor.AddToStart(item))
             {
                 Debug.Log("Releaser halted due to fail to release an item");

@@ -6,13 +6,20 @@ namespace RecycleFactory.Buildings
 {
     public class BuildingExtension_Receiver : MonoBehaviour
     {
-        [SerializeField] private List<ConveyorBelt_Anchor> inAnchors;
+        private Building building;
+        public float height;
+        [Tooltip("Must be set in inspector")] public List<ConveyorBelt_Anchor> inAnchors;
 
-        public List<ConveyorBelt_Anchor> InAnchors => inAnchors;
-
-        public void Init()
+        public void Init(Building building, int rotation)
         {
-
+            this.building = building;
+            foreach (var inAnchor in inAnchors)
+            {
+                inAnchor.conveyor = null;
+                inAnchor.machine = building;
+                inAnchor.height = height;
+                inAnchor.Revolve(rotation);
+            }
         }
 
         public void Rotate(int delta)

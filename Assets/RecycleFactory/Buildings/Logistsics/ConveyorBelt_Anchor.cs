@@ -30,9 +30,9 @@ namespace RecycleFactory.Buildings.Logistics
         /// </summary>
         public void Revolve(int delta)
         {
-            direction = Utils.RotateXY(direction, delta);
             // TODO: add delta clamping
 
+            direction = Utils.RotateXY(direction, delta);
             localTilePosition = Utils.RotateXY(localTilePosition, delta);
         }
 

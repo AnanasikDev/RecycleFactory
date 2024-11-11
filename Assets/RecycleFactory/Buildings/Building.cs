@@ -26,19 +26,23 @@ namespace RecycleFactory.Buildings
         public static event System.Action onAnyBuiltEvent;
         public static event System.Action onAnyDemolishedEvent;
 
-        public void Init(Vector2Int mapPos)
+        public void Init(Vector2Int mapPos, int selectedRotation)
         {
+            // rotation has been done beforehand in PlayerBuilder
+
             id = ++_id;
             gameObject.name += " " + id;
             mapPosition = mapPos;
 
             Assert.That(buildingRenderer != null);
-            buildingRenderer.Init();
             receiver = GetComponent<BuildingExtension_Receiver>();
             releaser = GetComponent<BuildingExtension_Releaser>();
+            buildingRenderer.Init();
 
-            if (receiver) receiver.Init();
-            if (releaser) releaser.Init(this);
+            Rotate(selectedRotation);
+
+            if (receiver) receiver.Init(this, selectedRotation);
+            if (releaser) releaser.Init(this, selectedRotation);
 
             Map.RegisterNewBuilding(this);
 
@@ -55,9 +59,6 @@ namespace RecycleFactory.Buildings
             size = Utils.RotateXY(size, delta);
 
             transform.Rotate(Vector3.up * delta * 90);
-
-            if (receiver != null) receiver.Rotate(delta);
-            if (releaser != null) releaser.Rotate(delta);
         }
 
         private void OnDestroy()

@@ -1,10 +1,6 @@
 ﻿using UnityEngine;
 using Lane = System.Collections.Generic.LinkedList<RecycleFactory.Buildings.Logistics.ConveyorBelt_Item>;
 using ItemNode = System.Collections.Generic.LinkedListNode<RecycleFactory.Buildings.Logistics.ConveyorBelt_Item>;
-using System.Collections.Generic;
-using static UnityEditor.Progress;
-using System.Data;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 
 namespace RecycleFactory.Buildings.Logistics
 {
@@ -26,11 +22,12 @@ namespace RecycleFactory.Buildings.Logistics
         {
             this.conveyorBuilding = conveyorBuilding;
             direction = conveyorBuilding.moveDirectionClamped.ConvertTo2D().ProjectTo3D();
+            Debug.Log("New Driver created with direction = " + direction);
 
             // init empty lanes
-            for (int l = 0; l < LANES_NUMBER; l++)
+            for (int laneIndex = 0; laneIndex < LANES_NUMBER; laneIndex++)
             {
-                lanes[l] = new Lane();
+                lanes[laneIndex] = new Lane();
             }
         }
 
@@ -54,63 +51,6 @@ namespace RecycleFactory.Buildings.Logistics
         public void Update()
         {
             MoveAllItems();
-        }
-
-        private void TryMoveItem(ItemNode itemNode, ConveyorBelt_Item item)
-        {
-            // check if there is enough distance to next item
-            if (
-            // next item on this conveyor is far enough
-                (itemNode.Next == null || GetStraightDistance(item, itemNode.Next.Value) > minItemDistance)
-                )
-            {
-                if (nextDriver == null)
-                {
-                    item.transform.Translate(frameVelocity);
-                }
-
-                else if (this.IsOrthogonalTo(nextDriver))
-                {
-
-                }
-                else
-                {
-                    // first item on next conveyor is also far enough
-                    if (nextDriver.lanes[item.currentLaneIndex].First == null || GetStraightDistance(item, nextDriver.lanes[item.currentLaneIndex].First.Value) > minItemDistance)
-                    {
-                        item.transform.Translate(frameVelocity);
-                    }
-                }
-            }
-        }
-
-        private bool TryTransferItem(ItemNode itemNode, ConveyorBelt_Item item, int laneIndex)
-        {
-            // close to the end of the current conveyor
-            if (GetSignedDistanceToEnd(item) < minEndDistance)
-            {
-                // no way to go, halt movement
-                if (nextDriver == null) return false;
-
-                // first item of the next conveyor
-                var nextItemNode = nextDriver.lanes[item.currentLaneIndex].First;
-
-                // check if there is next conveyor and there is space in it
-                if (nextItemNode == null ||
-                    (GetStraightDistance(item, nextItemNode.Value) > minItemDistance))
-                {
-                    // reassign item to be controled by next driver
-                    lanes[item.currentLaneIndex].Remove(item);
-                    nextDriver.AddToLaneStart(laneIndex, item);
-
-                    // last item in the lane processed, exit the loop
-                    return true;
-                }
-                // no next conveyor or it's full - stop here
-                return false;
-            }
-
-            return false;
         }
 
         private void MoveAllItems()
@@ -138,6 +78,7 @@ namespace RecycleFactory.Buildings.Logistics
                         else if (IsOrthogonalTo(nextDriver))
                         {
                             int targetLaneIndex = ChooseOrthogonalLane(item); // find a lane where the item can go right now
+                            Debug.Log("Is orthogonal, new targetLaneIndex = " + targetLaneIndex);
                             if (targetLaneIndex == -1)
                             {
                                 // halt
@@ -170,9 +111,6 @@ namespace RecycleFactory.Buildings.Logistics
                     }
                 }
             }
-
-            // if merging to another conveyor straightly reparent
-            // if merging to another conveyor at 90 degrees choose a random lane, calculate if there is space in according to travel time, translate or halt
         }
 
         /// <summary>
@@ -188,6 +126,7 @@ namespace RecycleFactory.Buildings.Logistics
         public void TakeOwnershipWithTransition(ConveyorBelt_Driver oldOwner, ConveyorBelt_Item item, int targetLaneIndex, float transitionSpeedFactor = 1.0f)
         {
             TakeOwnership(oldOwner, item);
+            
             // TODO: visualize transition without affecting ownership logic. Calculate travel distance according to targetLaneIndex. Use Tween methods
         }
 
@@ -198,7 +137,8 @@ namespace RecycleFactory.Buildings.Logistics
 
         private float GetOrthogonalDistance(ConveyorBelt_Item thisItem, ConveyorBelt_Item nextItem)
         {
-            return thisItem == null || nextItem == null ? INF : (thisItem.transform.position - nextItem.transform.position).Multiply(nextDriver.direction).magnitude;
+            return thisItem == null || nextItem == null ? INF : 
+                (thisItem.transform.position - nextItem.transform.position).Multiply(nextDriver.direction).magnitude;
         }
 
         private float GetSignedDistanceFromStart(ConveyorBelt_Item item)
@@ -242,6 +182,9 @@ namespace RecycleFactory.Buildings.Logistics
         /// </summary>
         private int ChooseOrthogonalLane(ConveyorBelt_Item targetItem)
         {
+
+            return targetItem.currentLaneIndex;
+
             for (int laneIndex = 0; laneIndex < LANES_NUMBER; laneIndex++)
             {
                 bool isLaneObscured = false;
@@ -320,7 +263,7 @@ namespace RecycleFactory.Buildings.Logistics
         }
 
         /// <summary>
-        /// As from a releaser, this function adds an item to an arbitrary lane
+        /// Try add the item to a specific lane
         /// </summary>
         public bool AddToLaneStart(int laneIndex, ConveyorBelt_Item item)
         {

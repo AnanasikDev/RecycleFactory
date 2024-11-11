@@ -18,8 +18,10 @@ namespace RecycleFactory.Buildings
 
         protected override void PostInit()
         {
-            driver = new ConveyorBelt_Driver(this);
+            // calculate new direction with regards to rotation
             moveDirectionClamped = Utils.RotateXY(moveDirectionClamped, rotation);
+
+            driver = new ConveyorBelt_Driver(this);
             Building.onAnyBuiltEvent += driver.TryFindNext;
         }
 

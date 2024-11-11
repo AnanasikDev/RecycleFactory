@@ -139,8 +139,7 @@ namespace RecycleFactory.Player
         private void ForceBuild(Building selectedBuilding, Vector3 position, int selectedRotation, Vector2Int mapPos)
         {
             Building building = Instantiate(selectedBuilding, position, Quaternion.identity);
-            building.Rotate(selectedRotation);
-            building.Init(mapPos);
+            building.Init(mapPos, selectedRotation);
         }
 
         private void HandlePlacement()

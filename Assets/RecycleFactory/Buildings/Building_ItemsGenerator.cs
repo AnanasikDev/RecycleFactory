@@ -11,7 +11,7 @@ namespace RecycleFactory.Buildings
 
         protected override void PostInit()
         {
-            
+
         }       
 
         private void Update()
