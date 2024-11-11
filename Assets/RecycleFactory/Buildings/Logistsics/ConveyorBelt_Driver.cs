@@ -89,7 +89,8 @@ namespace RecycleFactory.Buildings.Logistics
                     }
 
                     // check if there is enough distance to next item
-                    if (itemNode.Next == null || GetStraightDistance(item, itemNode.Next.Value) > minItemDistance)
+                    if ((itemNode.Next == null || GetStraightDistance(item, itemNode.Next.Value) > minItemDistance) &&
+                        (nextDriver == null || (nextDriver.lanes[item.currentLaneIndex].First == null || GetStraightDistance(item, nextDriver.lanes[item.currentLaneIndex].First.Value) > minItemDistance)))
                     {
                         item.transform.Translate(frameVelocity);
                     }
