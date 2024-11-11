@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using NaughtyAttributes;
+using UnityEngine;
 
 namespace RecycleFactory.Buildings.Logistics
 {
@@ -11,6 +12,9 @@ namespace RecycleFactory.Buildings.Logistics
         [HideInInspector] public MeshFilter meshFilter;
         [HideInInspector] public ConveyorBelt_Driver currentDriver;
 
+        [ShowNativeProperty] public ConveyorBelt_Item localNext { get; private set; }
+
+        [ReadOnly] public ConveyorBelt_Building holder;
         public ConveyorBelt_ItemInfo info;
         [Tooltip("Index of lane of the conveyor at which it is at now")] public int currentLaneIndex;
 
@@ -24,8 +28,16 @@ namespace RecycleFactory.Buildings.Logistics
         {
             this.info = info;
             meshFilter.mesh = info.mesh;
-            meshRenderer.material = info.material;
+            meshRenderer.material = info.material;  
             gameObject.name = "Item " + info.name;
+        }
+
+        /// <summary>
+        /// Sets reference to the next item on the same conveyor driver
+        /// </summary>
+        public void SetLocalNext(ConveyorBelt_Item item)
+        {
+            this.localNext = item;
         }
 
         /// <summary>

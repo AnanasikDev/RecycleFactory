@@ -17,6 +17,7 @@ namespace RecycleFactory.Buildings
         public BuildingRenderer buildingRenderer;
 
         public Vector2Int size = Vector2Int.one;
+        public Vector2Int shift = Vector2Int.zero;
 
         [ShowNativeProperty] public int rotation { get; private set; }
 
@@ -65,6 +66,24 @@ namespace RecycleFactory.Buildings
             Map.RemoveBuilding(this);
 
             onAnyDemolishedEvent?.Invoke();
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            var pos = mapPosition + shift;
+            for (int _x = 0; _x < Mathf.Abs(size.x); _x++)
+            {
+                for (int _y = 0; _y < Mathf.Abs(size.y); _y++)
+                {
+                    int ypos = pos.y + _y * (int)Mathf.Sign(size.y);
+                    int xpos = pos.x + _x * (int)Mathf.Sign(size.x);
+
+                    bool isFree = Map.buildingsAt[pos.y + _y * (int)Mathf.Sign(size.y), pos.x + _x * (int)Mathf.Sign(size.x)] == null;
+                    Gizmos.color = isFree ? Color.white : Color.black;
+
+                    Gizmos.DrawCube(new Vector3(xpos, 0, ypos), Vector3.one / 2f);
+                }
+            }
         }
     }
 }

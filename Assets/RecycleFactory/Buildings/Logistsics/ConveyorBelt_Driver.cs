@@ -58,7 +58,8 @@ namespace RecycleFactory.Buildings.Logistics
             for (int l = 0; l < LANES_NUMBER; l++)
             {
                 Lane lane = lanes[l];
-                if (lanes[l].Count == 0) continue;
+                if (lane.Count == 0) continue;
+
                 for (ItemNode itemNode = lane.First; itemNode != null; itemNode = itemNode.Next)
                 {
                     ConveyorBelt_Item item = itemNode.Value;
@@ -74,12 +75,14 @@ namespace RecycleFactory.Buildings.Logistics
 
                         // check if there is next conveyor and there is space in it
                         if (nextItemNode == null || 
-                            GetStraightDistance(item, nextItemNode.Value) > minEndDistance)
+                            (GetStraightDistance(item, nextItemNode.Value) > minItemDistance))
                         {
                             // reassign item to be controled by next driver
                             lanes[item.currentLaneIndex].Remove(item);
-                            nextDriver.AddToStart(item);
-                            continue;
+                            Debug.Log(nextDriver.AddToLaneStart(l, item));
+                            
+                            // last item in the lane processed, exit the loop
+                            break;
                         }
                         // no next conveyor or it's full - stop here
                         continue;
@@ -183,10 +186,10 @@ namespace RecycleFactory.Buildings.Logistics
         }
 
         /// <summary>
-        /// Returns true if item can be added to the start of the driver as the first item
+        /// Returns true if item can be added to the start of the driver as the first item. Assumes that item is to be added at the start anchor (without offset)
         /// </summary>
         /// <returns></returns>
-        public bool CanEnqueueItem()
+        public bool CanEnqueueAnyItem()
         {
             foreach (var lane in lanes)
                 if (lane.Count == 0 || GetSignedDistanceFromStart(lane.First.Value) > minItemDistance) return true;
@@ -197,19 +200,9 @@ namespace RecycleFactory.Buildings.Logistics
         /// Returns true if item can be added to the start of the driver as the first item
         /// </summary>
         /// <returns></returns>
-        public bool CanEnqueueItem(Lane lane)
+        public bool CanEnqueueItem(Lane lane, ConveyorBelt_Item item)
         {
-            return lane.Count == 0 || GetSignedDistanceFromStart(lane.First.Value) > minItemDistance;
-        }
-
-
-        /// <summary>
-        /// As from a releaser, this function adds an item to an arbitrary lane
-        /// </summary>
-        public bool AddToStart(ConveyorBelt_ItemInfo itemInfo)
-        {
-            var item = ConveyorBelt_Item.Create(itemInfo);
-            return AddToStart(item);
+            return lane.Count == 0 || GetStraightDistance(lane.First.Value, item) > minItemDistance;
         }
 
         /// <summary>
@@ -219,15 +212,37 @@ namespace RecycleFactory.Buildings.Logistics
         {
             for (int i = 0; i < LANES_NUMBER; i++)
             {
-                if (CanEnqueueItem(lanes[i]))
+                if (CanEnqueueItem(lanes[i], item))
                 {
                     lanes[i].AddFirst(item);
                     item.transform.SetParent(conveyorBuilding.transform);
                     item.currentLaneIndex = i;
                     item.currentDriver = this;
+                    item.holder = conveyorBuilding;
                     AlignToLane(item, i);
                     return true;
                 }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// As from a releaser, this function adds an item to an arbitrary lane
+        /// </summary>
+        public bool AddToLaneStart(int laneIndex, ConveyorBelt_Item item)
+        {
+            if (CanEnqueueItem(lanes[laneIndex], item))
+            {
+                lanes[laneIndex].AddFirst(item);
+                item.transform.SetParent(conveyorBuilding.transform);
+                item.currentDriver = this;
+                item.holder = conveyorBuilding;
+                if (laneIndex != item.currentLaneIndex)
+                {
+                    item.currentLaneIndex = laneIndex;
+                    AlignToLane(item, laneIndex);
+                }
+                return true;
             }
             return false;
         }

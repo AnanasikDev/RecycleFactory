@@ -84,7 +84,7 @@ namespace RecycleFactory.Player
             selectedCell = mapPos;
             if (prevCell != selectedCell)
             {
-                isSelectedSpotAvailable = Map.isSpaceFree(mapPos, Utils.RotateXY(selectedBuilding.size, selectedRotation));
+                isSelectedSpotAvailable = Map.isSpaceFree(mapPos, selectedBuilding.shift, Utils.RotateXY(selectedBuilding.size, selectedRotation));
                 onCellSelectedEvent?.Invoke();
             }
         }
@@ -160,7 +160,7 @@ namespace RecycleFactory.Player
                     Vector3 position = GetMouseWorldPosition();
                     Vector2Int mapPos = new Vector2(position.x, position.z).FloorToInt();
 
-                    if (Map.isSpaceFree(mapPos, Utils.RotateXY(selectedBuilding.size, selectedRotation)))
+                    if (Map.isSpaceFree(mapPos, selectedBuilding.shift, Utils.RotateXY(selectedBuilding.size, selectedRotation)))
                     {
                         ForceBuild(selectedBuilding, position, selectedRotation, mapPos);
                     }

@@ -26,14 +26,14 @@ namespace RecycleFactory
             return null;
         }
 
-        public static bool isSpaceFree(Vector2Int pos, Vector2Int size)
+        public static bool isSpaceFree(Vector2Int pos, Vector2Int shift, Vector2Int size)
         {
             for (int _x = 0; _x < Mathf.Abs(size.x); _x++)
             {
                 for (int _y = 0; _y < Mathf.Abs(size.y); _y++)
                 {
-                    int y = pos.y + _y * (int)Mathf.Sign(size.y);
-                    int x = pos.x + _x * (int)Mathf.Sign(size.x);
+                    int y = pos.y + _y * (int)Mathf.Sign(size.y) + shift.y;
+                    int x = pos.x + _x * (int)Mathf.Sign(size.x) + shift.x;
                     if (x < 0 || y < 0 || x > mapSize.x - 1 || y > mapSize.y - 1)
                         return false;
 
@@ -53,7 +53,7 @@ namespace RecycleFactory
         /// </summary>
         public static void RegisterNewBuilding(Building building)
         {
-            var pos = building.mapPosition;
+            var pos = building.mapPosition + building.shift;
             for (int _x = 0; _x < Mathf.Abs(building.size.x); _x++)
             {
                 for (int _y = 0; _y < Mathf.Abs(building.size.y); _y++)
