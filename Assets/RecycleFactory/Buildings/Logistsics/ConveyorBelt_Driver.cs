@@ -12,7 +12,7 @@ namespace RecycleFactory.Buildings.Logistics
 
         internal ConveyorBelt_Building conveyorBuilding { get; init; }
         internal ConveyorBelt_Driver nextDriver;
-        public readonly float minItemDistance = 0.6f;
+        public readonly float minItemDistance = 0.4f;
         public readonly float minEndDistance = 0.3f;
 
         public Vector3 direction { get; init; }
@@ -119,7 +119,7 @@ namespace RecycleFactory.Buildings.Logistics
         public void TakeOwnership(ConveyorBelt_Driver oldOwner, ConveyorBelt_Item item)
         {
             oldOwner.lanes[item.currentLaneIndex].Remove(item);
-            this.AddToLaneStart(item.currentLaneIndex, item);
+            Debug.Log(this.AddToLaneStart(item.currentLaneIndex, item) ? "Added" : "Failed to add");
             Debug.Log("Ownership of " + item.name + " has been taken!");
         }
 
@@ -182,20 +182,31 @@ namespace RecycleFactory.Buildings.Logistics
         /// </summary>
         private int ChooseOrthogonalLane(ConveyorBelt_Item targetItem)
         {
-
-            return targetItem.currentLaneIndex;
-
             for (int laneIndex = 0; laneIndex < LANES_NUMBER; laneIndex++)
             {
                 bool isLaneObscured = false;
-                foreach (var item in lanes[laneIndex])
+                foreach (var item in nextDriver.lanes[laneIndex])
                 {
-                    // possible to move to that lane only if there is enough space between
-                    if (GetOrthogonalDistance(item, targetItem) < GetStraightDistance(item, targetItem) + minItemDistance)
+                    // if vectors are same, then item is moving awat from targetItem and should not be processed
+                    if ((targetItem.transform.position - item.transform.position).WithY(0).SignedMask() != nextDriver.direction)
                     {
-                        // at least one item is too close, choose next lane (MIGHT BE AN ITEM IN FRONT THOUGH)
-                        isLaneObscured = true;
-                        break;
+                        // item is in front of where targetItem is going to go
+                        if (GetOrthogonalDistance(item, targetItem) < minItemDistance) // check if there is space for the new item
+                        {
+                            isLaneObscured = true;
+                            break;
+                        }
+                        continue;
+                    }
+                    else
+                    {
+                        // possible to move to that lane only if there is enough space between
+                        if (GetOrthogonalDistance(item, targetItem) < GetStraightDistance(item, targetItem) + minItemDistance)
+                        {
+                            // at least one item is too close, choose next lane (MIGHT BE AN ITEM IN FRONT THOUGH)
+                            isLaneObscured = true;
+                            break;
+                        }
                     }
                 }
                 if (!isLaneObscured)
@@ -236,7 +247,7 @@ namespace RecycleFactory.Buildings.Logistics
         /// Returns true if item can be added to the start of the driver as the first item
         /// </summary>
         /// <returns></returns>
-        public bool CanEnqueueItem(Lane lane, ConveyorBelt_Item item)
+        public bool CanAddItemStraight(Lane lane, ConveyorBelt_Item item)
         {
             return lane.Count == 0 || GetStraightDistance(lane.First.Value, item) > minItemDistance;
         }
@@ -248,7 +259,7 @@ namespace RecycleFactory.Buildings.Logistics
         {
             for (int i = 0; i < LANES_NUMBER; i++)
             {
-                if (CanEnqueueItem(lanes[i], item))
+                if (CanAddItemStraight(lanes[i], item))
                 {
                     lanes[i].AddFirst(item);
                     item.transform.SetParent(conveyorBuilding.transform);
@@ -267,17 +278,14 @@ namespace RecycleFactory.Buildings.Logistics
         /// </summary>
         public bool AddToLaneStart(int laneIndex, ConveyorBelt_Item item)
         {
-            if (CanEnqueueItem(lanes[laneIndex], item))
+            if (true) // CanAddItemStraight(lanes[laneIndex], item)
             {
                 lanes[laneIndex].AddFirst(item);
                 item.transform.SetParent(conveyorBuilding.transform);
                 item.currentDriver = this;
                 item.holder = conveyorBuilding;
-                if (laneIndex != item.currentLaneIndex)
-                {
-                    item.currentLaneIndex = laneIndex;
-                    AlignToLane(item, laneIndex);
-                }
+                item.currentLaneIndex = laneIndex;
+                AlignToLane(item, laneIndex); // align with regard to index and conveyor driver positioning
                 return true;
             }
             return false;

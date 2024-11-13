@@ -83,6 +83,38 @@ namespace RecycleFactory
         {
             return new Vector2(vec3.x, vec3.z);
         }
+
+        /// <summary>
+        /// Replaces each member of vector with 0 if it is 0 and 1 otherwise
+        /// </summary>
+        public static Vector2 UnsignedMask(this Vector2 vec)
+        {
+            return new Vector2(vec.x == 0 ? 0 : 1, vec.y == 0 ? 0 : 1);
+        }
+
+        /// <summary>
+        /// Replaces each member of vector with 0 if it is 0, with 1 if it is positive and with -1 if it is negative
+        /// </summary>
+        public static Vector2 SignedMask(this Vector2 vec)
+        {
+            return new Vector2(Hexath.Ternarsign(vec.x), Hexath.Ternarsign(vec.y));
+        }
+
+        /// <summary>
+        /// Replaces each member of vector with 0 if it is 0 and 1 otherwise
+        /// </summary>
+        public static Vector3 UnsignedMask(this Vector3 vec)
+        {
+            return new Vector3(vec.x == 0 ? 0 : 1, vec.y == 0 ? 0 : 1, vec.z == 0 ? 0 : 1);
+        }
+
+        /// <summary>
+        /// Replaces each member of vector with 0 if it is 0, with 1 if it is positive and with -1 if it is negative
+        /// </summary>
+        public static Vector3 SignedMask(this Vector3 vec)
+        {
+            return new Vector3(Hexath.Ternarsign(vec.x), Hexath.Ternarsign(vec.y), Hexath.Ternarsign(vec.z));
+        }
     }
 }
 
