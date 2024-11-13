@@ -146,6 +146,13 @@ namespace RecycleFactory.Player
         {
             if (Input.GetMouseButtonDown(0) && selectedBuilding != null)
             {
+                if (Scripts.Budget.amount < selectedBuilding.cost)
+                {
+                    Debug.LogWarning($"Cannot afford building {selectedBuilding.name} as it costs {selectedBuilding.cost} while there is only {Scripts.Budget.amount} left on account.");
+                    return;
+                }
+                Scripts.Budget.Add(-selectedBuilding.cost);
+
                 // if preview is rendered then take the calculated values (used for the preview)
                 if (showPreview)
                 {

@@ -27,6 +27,9 @@ namespace RecycleFactory
         [SerializeField] private Map _Map;
         public static Map Map;
 
+        [SerializeField] private Budget _Budget;
+        public static Budget Budget;
+
         private void Start()
         {
             if (Application.isPlaying)
@@ -36,7 +39,9 @@ namespace RecycleFactory
                 Map = _Map;
                 UIController = _UIController;
                 BalanceManager = _BalanceManager;
+                Budget = _Budget;
 
+                Budget.Init();
                 UIController.Init();
                 BalanceManager.Init();
                 Map.Init();

@@ -111,10 +111,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   description: Conveyor belt
+  cost: 3000
   receiver: {fileID: 0}
   releaser: {fileID: 0}
   buildingRenderer: {fileID: 8408169214403507598}
   size: {x: 1, y: 2}
+  shift: {x: 0, y: 0}
   mapPosition: {x: 0, y: 0}
   capacity: 4
   beltWidth: 0.5

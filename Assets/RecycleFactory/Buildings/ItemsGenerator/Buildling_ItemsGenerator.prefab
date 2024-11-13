@@ -48,14 +48,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   description: 
+  cost: 0
   receiver: {fileID: 0}
   releaser: {fileID: 0}
   buildingRenderer: {fileID: 1495444695210006738}
   size: {x: 1, y: 1}
+  shift: {x: 0, y: 0}
   mapPosition: {x: 0, y: 0}
   itemInfos:
   - {fileID: 11400000, guid: 1d3db238c5246844b90834383f68abe7, type: 2}
   - {fileID: 11400000, guid: f690105c4f1107344b8ec6fc3e74ec2a, type: 2}
+  intervalSeconds: 1.5
 --- !u!114 &4747837920409277860
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -149,6 +149,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cb1643c5e8110b4286ffed2c9098de1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  height: 0
   inAnchors: []
 --- !u!114 &5530704293997343001
 MonoBehaviour:
@@ -177,6 +178,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   description: 
+  cost: 1250
   receiver: {fileID: 0}
   releaser: {fileID: 0}
   buildingRenderer: {fileID: 1657585181456539367}

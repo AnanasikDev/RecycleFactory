@@ -187,6 +187,7 @@ namespace RecycleFactory.Buildings.Logistics
                 bool isLaneObscured = false;
                 foreach (var item in nextDriver.lanes[laneIndex])
                 {
+                    // check if the item is already in front and will not obscure targetItem's movement
                     // if vectors are same, then item is moving awat from targetItem and should not be processed
                     if ((targetItem.transform.position - item.transform.position).WithY(0).SignedMask() != nextDriver.direction)
                     {
@@ -203,7 +204,7 @@ namespace RecycleFactory.Buildings.Logistics
                         // possible to move to that lane only if there is enough space between
                         if (GetOrthogonalDistance(item, targetItem) < GetStraightDistance(item, targetItem) + minItemDistance)
                         {
-                            // at least one item is too close, choose next lane (MIGHT BE AN ITEM IN FRONT THOUGH)
+                            // at least one item is too close, choose next lane
                             isLaneObscured = true;
                             break;
                         }

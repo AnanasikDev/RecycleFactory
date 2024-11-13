@@ -11,6 +11,7 @@ namespace RecycleFactory.Buildings
         protected int id;
 
         public string description;
+        public int cost;
 
         [HideInInspector] public BuildingExtension_Receiver receiver;
         [HideInInspector] public BuildingExtension_Releaser releaser;

@@ -928,7 +928,7 @@ Transform:
   m_GameObject: {fileID: 957211822}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.4736342, y: 5.450976, z: -6.1894007}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1249,6 +1249,7 @@ GameObject:
   - component: {fileID: 1718196791}
   - component: {fileID: 1718196793}
   - component: {fileID: 1718196794}
+  - component: {fileID: 1718196795}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -1273,6 +1274,7 @@ MonoBehaviour:
   _UIController: {fileID: 1536466227}
   _BalanceManager: {fileID: 1718196794}
   _Map: {fileID: 1718196793}
+  _Budget: {fileID: 1718196795}
 --- !u!4 &1718196792
 Transform:
   m_ObjectHideFlags: 0
@@ -1316,6 +1318,21 @@ MonoBehaviour:
   textMeshPro: {fileID: 882205680}
   balanceFormat: ${0}
   defaultBalance: 24000
+--- !u!114 &1718196795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718196790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44736ef7b531a5348bd45cd041a316b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultAmount: 24000
+  textMeshProFormat: ${0}
+  textMeshPro: {fileID: 882205680}
 --- !u!1 &1989074596
 GameObject:
   m_ObjectHideFlags: 0
