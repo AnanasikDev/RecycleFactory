@@ -52,7 +52,7 @@ namespace RecycleFactory.UI
 
         public void Click()
         {
-            Scripts.PlayerBuilder.SetBuildingMode(PlayerBuilderMode.Build);
+            Scripts.PlayerController.SetMode(Mode.Build);
             Scripts.PlayerBuilder.ForceSelectBuilding(info.building);
         }
 

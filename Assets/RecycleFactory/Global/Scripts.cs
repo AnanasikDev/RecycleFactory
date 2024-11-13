@@ -12,11 +12,17 @@ namespace RecycleFactory
     [ExecuteInEditMode]
     public class Scripts : MonoBehaviour
     {
+        [SerializeField] private PlayerController _PlayerController;
+        public static PlayerController PlayerController;
+
         [SerializeField] private PlayerCamera _PlayerCamera;
         public static PlayerCamera PlayerCamera;
 
         [SerializeField] private PlayerBuilder _PlayerBuilder;
         public static PlayerBuilder PlayerBuilder;
+
+        [SerializeField] private PlayerDemolisher _PlayerDemolisher;
+        public static PlayerDemolisher PlayerDemolisher;
 
         [SerializeField] private UIController _UIController;
         public static UIController UIController;
@@ -34,8 +40,10 @@ namespace RecycleFactory
         {
             if (Application.isPlaying)
             {
+                PlayerController = _PlayerController;
                 PlayerCamera = _PlayerCamera;
                 PlayerBuilder = _PlayerBuilder;
+                PlayerDemolisher = _PlayerDemolisher;
                 Map = _Map;
                 UIController = _UIController;
                 BalanceManager = _BalanceManager;
@@ -45,8 +53,7 @@ namespace RecycleFactory
                 UIController.Init();
                 BalanceManager.Init();
                 Map.Init();
-                PlayerCamera.Init();
-                PlayerBuilder.Init();
+                PlayerController.Init();
             }
         }
 

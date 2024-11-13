@@ -62,12 +62,12 @@ namespace RecycleFactory.Buildings
             transform.Rotate(Vector3.up * delta * 90);
         }
 
-        private void OnDestroy()
+        public void Demolish()
         {
-            // TODO: move to pool
             Map.RemoveBuilding(this);
 
             onAnyDemolishedEvent?.Invoke();
+            Destroy(gameObject);
         }
 
         private void OnDrawGizmosSelected()

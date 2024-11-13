@@ -16,15 +16,12 @@ namespace RecycleFactory.Player
         [SerializeField][ShowIf("showPreview")] private Transform previewsHandler;
         [SerializeField][ShowIf("showPreview")] private Color preview_freeColor;
         [SerializeField][ShowIf("showPreview")] private Color preview_takenColor;
-
         [ShowNativeProperty] public int selectedRotation { get; private set; }
 
         [SerializeField][ReadOnly] private Building selectedBuilding;
         [SerializeField][ReadOnly] private int selectedBuildingIndex;
         [SerializeField][ReadOnly] private bool isSelectedSpotAvailable = false;
         [SerializeField][ReadOnly] private Vector2Int selectedCell;
-
-        [ShowNativeProperty] public PlayerBuilderMode mode { get; private set; }
 
         private event Action onCellSelectedEvent;
 
@@ -63,7 +60,7 @@ namespace RecycleFactory.Player
             }
         }
 
-        private void Update()
+        internal void _Update()
         {
             if (showPreview)
             {
@@ -78,9 +75,9 @@ namespace RecycleFactory.Player
         private void HandleCellSelection()
         {
             Vector2Int prevCell = selectedCell;
-            Vector3 position = GetMouseWorldPosition();
-            Vector2Int mapPos = new Vector2(position.x, position.z).FloorToInt();
-            mapPos.Clamp(Vector2Int.zero, Map.mapSize - Vector2Int.one);
+            
+            Vector2Int mapPos = Scripts.PlayerController.GetSelectedCell();
+
             selectedCell = mapPos;
             if (prevCell != selectedCell)
             {
@@ -163,7 +160,7 @@ namespace RecycleFactory.Player
                 }
                 else
                 {
-                    Vector3 position = GetMouseWorldPosition();
+                    Vector3 position = Scripts.PlayerController.GetMouseWorldPosition();
                     Vector2Int mapPos = new Vector2(position.x, position.z).FloorToInt();
 
                     if (Map.isSpaceFree(mapPos, selectedBuilding.shift, Utils.RotateXY(selectedBuilding.size, selectedRotation)))
@@ -176,25 +173,6 @@ namespace RecycleFactory.Player
                     }
                 }
             }
-        }
-
-        private Vector3 GetMouseWorldPosition()
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-
-            if (Physics.Raycast(ray, out hit))
-            {
-                Vector3 snappedPosition = new Vector3(
-                    Hexath.SnapNumberToStep(hit.point.x, 1),
-                    Map.floorHeight,
-                    Hexath.SnapNumberToStep(hit.point.z, 1)
-                );
-
-                return snappedPosition;
-            }
-
-            return Vector3.zero;
         }
 
         private void UpdatePreview()
@@ -218,23 +196,12 @@ namespace RecycleFactory.Player
             }
         }
 
-        public void SetBuildingMode(PlayerBuilderMode mode)
+        private void OnDrawGizmosSelected()
         {
-            this.mode = mode;
-        }
-
-        private void OnDrawGizmos()
-        {
-            Vector3 position = GetMouseWorldPosition();
+            Vector3 position = Scripts.PlayerController.GetMouseWorldPosition();
 
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(position, 0.5f);
         }
-    }
-
-    public enum PlayerBuilderMode
-    {
-        Build,
-        Destroy
     }
 }
