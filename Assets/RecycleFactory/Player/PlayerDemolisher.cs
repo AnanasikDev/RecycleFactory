@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System;
+using RecycleFactory.UI;
 
 namespace RecycleFactory.Player
 {
@@ -7,7 +8,7 @@ namespace RecycleFactory.Player
     {
         internal Vector2Int selectedCell { get; private set; }
 
-        private Func<bool> demolishTrigger = () => Input.GetMouseButtonDown(0);
+        private Func<bool> demolishTrigger = () => Input.GetMouseButtonDown(0) && !UIInputMask.isPointerOverUI;
 
         public void Init()
         {

@@ -447,6 +447,7 @@ GameObject:
   - component: {fileID: 388235195}
   - component: {fileID: 388235194}
   - component: {fileID: 388235193}
+  - component: {fileID: 388235196}
   m_Layer: 5
   m_Name: ModeSwitch
   m_TagString: Untagged
@@ -517,7 +518,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 388235194}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 388235196}
+        m_TargetAssemblyTypeName: RecycleFactory.UI.PlayerModeSwitch, RecycleFactory
+        m_MethodName: Increment
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &388235194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -556,6 +569,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 388235191}
   m_CullTransparentMesh: 1
+--- !u!114 &388235196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 388235191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5169945730ff8e74ebd62a5c6109b37e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  switchIconImage: {fileID: 1327794465}
+  icon_defaultMode: {fileID: -1591695279, guid: 2292cc73f02c6a24182e0d19f08c0f9c,
+    type: 3}
+  icon_buildingMode: {fileID: -1570005843, guid: 2292cc73f02c6a24182e0d19f08c0f9c,
+    type: 3}
+  icon_demolishingMode: {fileID: -1183105937, guid: 2292cc73f02c6a24182e0d19f08c0f9c,
+    type: 3}
 --- !u!1 &410087039
 GameObject:
   m_ObjectHideFlags: 0
@@ -688,6 +720,7 @@ GameObject:
   - component: {fileID: 702827846}
   - component: {fileID: 702827848}
   - component: {fileID: 702827847}
+  - component: {fileID: 702827849}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -752,6 +785,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 702827845}
   m_CullTransparentMesh: 1
+--- !u!114 &702827849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 702827845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c491e3270c025d41b66c8e405286887, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0

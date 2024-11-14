@@ -67,6 +67,14 @@ namespace RecycleFactory.Player
             return mapPos;
         }
 
+        /// <summary>
+        /// Used to loop through modes using GUI button
+        /// </summary>
+        public void IncrementMode()
+        {
+            SetMode((Mode)Mathf.Repeat((int)this.mode + 1, Enum.GetValues(typeof(Mode)).Length));
+        }
+
         internal void SetMode(Mode mode)
         {
             this.mode = mode;
