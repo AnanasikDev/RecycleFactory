@@ -6,13 +6,12 @@ using System.Linq;
 
 namespace RecycleFactory.UI
 {
-    public class UIInputMask : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
+    public class UIInputMask : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
         public bool isPointerInside { get; private set; }
-        public bool isPointerDown { get; private set; }
+        public bool isPointerClick { get; private set; }
 
-        public event Action onPointerDownEvent;
-        public event Action onPointerUpEvent;
+        public event Action onPointerClickedEvent;
         public event Action onPointerEnterEvent;
         public event Action onPointerExitEvent;
 
@@ -24,28 +23,24 @@ namespace RecycleFactory.UI
             masks.Add(this);
         }
 
-        public void OnPointerEnter(PointerEventData eventData)
+        void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
         {
             isPointerInside = true;
             onPointerEnterEvent?.Invoke();
+            Debug.Log("Entered " + gameObject.name);
         }
 
-        public void OnPointerExit(PointerEventData eventData)
+        void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
         {
             isPointerInside = false;
             onPointerExitEvent?.Invoke();
+            Debug.Log("Exited " + gameObject.name);
         }
 
-        public void OnPointerDown(PointerEventData eventData)
+        void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
         {
-            isPointerDown = true;
-            onPointerDownEvent?.Invoke();
-        }
-
-        public void OnPointerUp(PointerEventData eventData)
-        {
-            isPointerDown = false;
-            onPointerUpEvent?.Invoke();
+            isPointerClick = true;
+            onPointerClickedEvent?.Invoke();
         }
     }
 }

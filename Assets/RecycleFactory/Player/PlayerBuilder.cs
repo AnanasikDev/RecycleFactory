@@ -1,5 +1,6 @@
 using NaughtyAttributes;
 using RecycleFactory.Buildings;
+using RecycleFactory.UI;
 using System;
 using System.Linq;
 using UnityEngine;
@@ -22,6 +23,8 @@ namespace RecycleFactory.Player
         [SerializeField][ReadOnly] private int selectedBuildingIndex;
         [SerializeField][ReadOnly] private bool isSelectedSpotAvailable = false;
         [SerializeField][ReadOnly] private Vector2Int selectedCell;
+
+        private Func<bool> inputPlacement = () => Input.GetMouseButtonDown(0) && !UIInputMask.isPointerOverUI;
 
         private event Action onCellSelectedEvent;
 
@@ -133,22 +136,25 @@ namespace RecycleFactory.Player
             }
         }
 
+        /// <summary>
+        /// Places building at position with rotation; Building cost is subtracted from budget. No checks on budget sufficiency or placement eligibility is done
+        /// </summary>
         private void ForceBuild(Building selectedBuilding, Vector3 position, int selectedRotation, Vector2Int mapPos)
         {
             Building building = Instantiate(selectedBuilding, position, Quaternion.identity);
             building.Init(mapPos, selectedRotation);
+            Scripts.Budget.Add(-selectedBuilding.cost);
         }
 
         private void HandlePlacement()
         {
-            if (Input.GetMouseButtonDown(0) && selectedBuilding != null)
+            if (inputPlacement() && selectedBuilding != null)
             {
                 if (Scripts.Budget.amount < selectedBuilding.cost)
                 {
                     Debug.LogWarning($"Cannot afford building {selectedBuilding.name} as it costs {selectedBuilding.cost} while there is only {Scripts.Budget.amount} left on account.");
                     return;
                 }
-                Scripts.Budget.Add(-selectedBuilding.cost);
 
                 // if preview is rendered then take the calculated values (used for the preview)
                 if (showPreview)
