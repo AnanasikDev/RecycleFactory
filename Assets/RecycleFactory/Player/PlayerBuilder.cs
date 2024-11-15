@@ -19,7 +19,7 @@ namespace RecycleFactory.Player
         [SerializeField][ShowIf("showPreview")] private Color preview_takenColor;
         [ShowNativeProperty] public int selectedRotation { get; private set; }
 
-        [SerializeField][ReadOnly] private Building selectedBuilding;
+        [SerializeField][ReadOnly] private Building selectedBuildingPrefab;
         [SerializeField][ReadOnly] private int selectedBuildingIndex;
         [SerializeField][ReadOnly] private bool isSelectedSpotAvailable = false;
         [SerializeField][ReadOnly] private Vector2Int selectedCell;
@@ -30,7 +30,7 @@ namespace RecycleFactory.Player
 
         public void Init()
         {
-            selectedBuilding = buildingsPrefabs[0];
+            selectedBuildingPrefab = buildingsPrefabs[0];
             InitPreview();
 
             onCellSelectedEvent += UpdatePreview;
@@ -84,7 +84,7 @@ namespace RecycleFactory.Player
             selectedCell = mapPos;
             if (prevCell != selectedCell)
             {
-                isSelectedSpotAvailable = Map.isSpaceFree(mapPos, selectedBuilding.shift, Utils.RotateXY(selectedBuilding.size, selectedRotation));
+                isSelectedSpotAvailable = Map.isSpaceFree(mapPos, Utils.RotateXY(selectedBuildingPrefab.shift, selectedRotation), Utils.RotateXY(selectedBuildingPrefab.size, selectedRotation));
                 onCellSelectedEvent?.Invoke();
             }
         }
@@ -116,10 +116,10 @@ namespace RecycleFactory.Player
 
         public void ForceSelectBuilding(Building buildingPrefab)
         {
-            selectedBuilding = buildingPrefab;
+            selectedBuildingPrefab = buildingPrefab;
             selectedBuildingIndex = buildingsPrefabs.ToList().IndexOf(buildingPrefab);
             selectedRotation = 0;
-            Debug.Log($"Selected building: {selectedBuilding.name}");
+            Debug.Log($"Selected building: {selectedBuildingPrefab.name}");
             if (showPreview) UpdatePreview();
         }
 
@@ -148,11 +148,11 @@ namespace RecycleFactory.Player
 
         private void HandlePlacement()
         {
-            if (inputPlacement() && selectedBuilding != null)
+            if (inputPlacement() && selectedBuildingPrefab != null)
             {
-                if (Scripts.Budget.amount < selectedBuilding.cost)
+                if (Scripts.Budget.amount < selectedBuildingPrefab.cost)
                 {
-                    Debug.LogWarning($"Cannot afford building {selectedBuilding.name} as it costs {selectedBuilding.cost} while there is only {Scripts.Budget.amount} left on account.");
+                    Debug.LogWarning($"Cannot afford building {selectedBuildingPrefab.name} as it costs {selectedBuildingPrefab.cost} while there is only {Scripts.Budget.amount} left on account.");
                     return;
                 }
 
@@ -161,7 +161,7 @@ namespace RecycleFactory.Player
                 {
                     if (isSelectedSpotAvailable)
                     {
-                        ForceBuild(selectedBuilding, selectedCell.ConvertTo2D().ProjectTo3D().WithY(Map.floorHeight), selectedRotation, selectedCell);
+                        ForceBuild(selectedBuildingPrefab, selectedCell.ConvertTo2D().ProjectTo3D().WithY(Map.floorHeight), selectedRotation, selectedCell);
                     }
                 }
                 else
@@ -169,9 +169,9 @@ namespace RecycleFactory.Player
                     Vector3 position = Scripts.PlayerController.GetMouseWorldPosition();
                     Vector2Int mapPos = new Vector2(position.x, position.z).FloorToInt();
 
-                    if (Map.isSpaceFree(mapPos, selectedBuilding.shift, Utils.RotateXY(selectedBuilding.size, selectedRotation)))
+                    if (Map.isSpaceFree(mapPos, Utils.RotateXY(selectedBuildingPrefab.shift, selectedRotation), Utils.RotateXY(selectedBuildingPrefab.size, selectedRotation)))
                     {
-                        ForceBuild(selectedBuilding, position, selectedRotation, mapPos);
+                        ForceBuild(selectedBuildingPrefab, position, selectedRotation, mapPos);
                     }
                     else
                     {

@@ -58,6 +58,7 @@ namespace RecycleFactory.Buildings
         {
             rotation = (int)Mathf.Repeat(rotation + delta, 4);  
             size = Utils.RotateXY(size, delta);
+            shift = Utils.RotateXY(shift, delta);
 
             transform.Rotate(Vector3.up * delta * 90);
         }
