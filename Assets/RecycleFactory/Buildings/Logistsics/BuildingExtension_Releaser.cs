@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using RecycleFactory.Buildings.Logistics;
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 namespace RecycleFactory.Buildings
 {
@@ -22,11 +21,13 @@ namespace RecycleFactory.Buildings
                 outAnchor.Revolve(rotation);
             }
             Building.onAnyBuiltEvent += TryConnect;
+            Building.onAnyDemolishedEvent += TryConnect;
         }
 
         private void OnDestroy()
         {
             Building.onAnyBuiltEvent -= TryConnect;
+            Building.onAnyDemolishedEvent -= TryConnect;
         }
 
         /// <summary>
@@ -59,15 +60,14 @@ namespace RecycleFactory.Buildings
             for (int i = 0; i < outAnchors.Count; i++)
             {
                 Building otherBuilding = Map.getBuildingAt(building.mapPosition + outAnchors[i].localTilePosition + outAnchors[i].direction);
-                if (otherBuilding == null) return;
-                if (otherBuilding.TryGetComponent(out ConveyorBelt_Building otherConveyor))
+
+                if (otherBuilding == null || !otherBuilding.TryGetComponent(out ConveyorBelt_Building otherConveyor))
                 {
-                    // TODO: calculate the closest element of otherConveyor (when merging it is not first)
-                    outAnchors[i].conveyor = otherConveyor.driver;
+                    outAnchors[i].conveyor = null;
                 }
                 else
                 {
-                    outAnchors[i].conveyor = null;
+                    outAnchors[i].conveyor = otherConveyor.driver;
                 }
             }
         }

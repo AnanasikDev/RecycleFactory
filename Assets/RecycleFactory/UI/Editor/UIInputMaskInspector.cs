@@ -17,6 +17,7 @@ namespace RecycleFactory
         {
             base.OnInspectorGUI ();
             GUILayout.Space(15);
+            if (UIInputMask.masks.Count > 0)
             for (int i = 0; i < UIInputMask.masks.Count; i++)
             {
                 GUILayout.Space(3);

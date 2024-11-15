@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 using Lane = System.Collections.Generic.LinkedList<RecycleFactory.Buildings.Logistics.ConveyorBelt_Item>;
 using ItemNode = System.Collections.Generic.LinkedListNode<RecycleFactory.Buildings.Logistics.ConveyorBelt_Item>;
+using System.Linq;
 
 namespace RecycleFactory.Buildings.Logistics
 {
@@ -9,6 +11,7 @@ namespace RecycleFactory.Buildings.Logistics
         internal static readonly int INF = 100000;
         public static readonly int LANES_NUMBER = 3;
         internal readonly Lane[] lanes = new Lane[LANES_NUMBER];
+        internal List<ConveyorBelt_Item> allItemsReadonly { get { return lanes.SelectMany(lane => lane).ToList(); } }
 
         internal ConveyorBelt_Building conveyorBuilding { get; init; }
         internal ConveyorBelt_Driver nextDriver;
@@ -290,6 +293,11 @@ namespace RecycleFactory.Buildings.Logistics
                 return true;
             }
             return false;
+        }
+
+        public void RemoveItem(ConveyorBelt_Item item)
+        {
+            lanes[item.currentLaneIndex].Remove(item);
         }
 
         private void AlignToLane(ConveyorBelt_Item item, int laneIndex)
