@@ -72,6 +72,8 @@ namespace RecycleFactory.Buildings
 
         private void OnDrawGizmosSelected()
         {
+            if (Application.isPlaying == false) return;
+
             var pos = mapPosition + shift;
             for (int _x = 0; _x < Mathf.Abs(size.x); _x++)
             {

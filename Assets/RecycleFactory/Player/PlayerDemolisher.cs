@@ -20,7 +20,7 @@ namespace RecycleFactory.Player
             selectedCell = Scripts.PlayerController.GetSelectedCell();
             if (demolishTrigger())
             {
-                Map.getBuildingAt(selectedCell).Demolish();
+                Map.getBuildingAt(selectedCell)?.Demolish();
                 // shake camera
                 // play demolish SFX & VFX
             }

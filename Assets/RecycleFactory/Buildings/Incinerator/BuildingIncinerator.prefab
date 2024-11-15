@@ -98,8 +98,7 @@ GameObject:
   - component: {fileID: 3804529654810627371}
   - component: {fileID: 1657585181456539367}
   - component: {fileID: 7101084957786112586}
-  - component: {fileID: 5530704293997343001}
-  - component: {fileID: 2524029157362353501}
+  - component: {fileID: 6974351339611237043}
   m_Layer: 0
   m_Name: BuildingIncinerator
   m_TagString: Untagged
@@ -150,8 +149,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   height: 0
-  inAnchors: []
---- !u!114 &5530704293997343001
+  inAnchors:
+  - machine: {fileID: 0}
+    height: 0
+    localTilePosition: {x: 0, y: 0}
+    direction: {x: 0, y: -1}
+    onlyDirectConnections: 1
+  maxReceiveDistance: 0.35
+--- !u!114 &6974351339611237043
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -160,21 +165,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4881934791068453134}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d04df24c2211fc2489c6434ac0e6a2a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  height: 0
-  outAnchors: []
---- !u!114 &2524029157362353501
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4881934791068453134}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f255529d3e77f2c4ba58de0c7e8a44cb, type: 3}
+  m_Script: {fileID: 11500000, guid: 48a31050155f03e458caab1d02e3df5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   description: 

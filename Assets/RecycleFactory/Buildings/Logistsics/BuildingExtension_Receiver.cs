@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿using RecycleFactory.Buildings.Logistics;
 using System.Collections.Generic;
-using RecycleFactory.Buildings.Logistics;
+using UnityEngine;
 
 namespace RecycleFactory.Buildings
 {
@@ -9,6 +9,7 @@ namespace RecycleFactory.Buildings
         private Building building;
         public float height;
         [Tooltip("Must be set in inspector")] public List<ConveyorBelt_Anchor> inAnchors;
+        [SerializeField] private float maxReceiveDistance = 0.35f;
 
         public void Init(Building building, int rotation)
         {
@@ -20,48 +21,75 @@ namespace RecycleFactory.Buildings
                 inAnchor.height = height;
                 inAnchor.Revolve(rotation);
             }
-            Building.onAnyBuiltEvent += TryConnect;
-            Building.onAnyDemolishedEvent += TryConnect;
+            Building.onAnyBuiltEvent += UpdateAnchorsConnections;
+            Building.onAnyDemolishedEvent += UpdateAnchorsConnections;
         }
 
         private void OnDestroy()
         {
-            Building.onAnyBuiltEvent -= TryConnect;
-            Building.onAnyDemolishedEvent -= TryConnect;
+            Building.onAnyBuiltEvent -= UpdateAnchorsConnections;
+            Building.onAnyDemolishedEvent -= UpdateAnchorsConnections;
         }
 
-        public ConveyorBelt_ItemInfo Receive(ConveyorBelt_Item item, int anchorIndex)
+        private ConveyorBelt_Item GetLastFromAnyLane(ConveyorBelt_Driver driver)
         {
-            item.Disable();
-            return item.info;
-        }
-
-        public ConveyorBelt_ItemInfo ReceiveLast(int anchorIndex, int lane = -1)
-        {
-            if (lane != -1)
+            for (int l = 0; l < ConveyorBelt_Driver.LANES_NUMBER; l++)
             {
-                return inAnchors[anchorIndex].conveyor.lanes[lane].Last?.Value.info;
+                var lastNode = driver.lanes[l].Last;
+                if (lastNode != null && driver.GetSignedDistanceToEnd(lastNode.Value) <= maxReceiveDistance)
+                    return lastNode.Value;
             }
             return null;
         }
 
-        /// <summary>
-        /// Updates connections on all outAnchors
-        /// </summary>
-        private void TryConnect()
+        public bool TryReceive(int anchorIndex, out ConveyorBelt_ItemInfo itemInfo)
+        {
+            var anchor = inAnchors[anchorIndex];
+            itemInfo = null;
+            if (anchor.conveyor == null) return false;
+            
+            if (anchor.onlyDirectConnections)
+            {
+                // direct connection
+
+                var item = GetLastFromAnyLane(anchor.conveyor);
+                item.Disable();
+                itemInfo = item.info;
+                return true;
+            }
+            else
+            {
+                // indirect connection
+
+                // try item which is close enough
+            }
+
+            return false;
+        }
+
+        private void UpdateAnchorsConnections()
         {
             for (int i = 0; i < inAnchors.Count; i++)
             {
                 Building otherBuilding = Map.getBuildingAt(building.mapPosition + inAnchors[i].localTilePosition + inAnchors[i].direction);
 
-                if (otherBuilding == null || !otherBuilding.TryGetComponent(out ConveyorBelt_Building otherConveyor))
+                if (otherBuilding == null)
                 {
                     inAnchors[i].conveyor = null;
+                    continue;
                 }
-                else
+
+                if (otherBuilding.TryGetComponent(out ConveyorBelt_Building otherConveyor))
                 {
-                    inAnchors[i].conveyor = otherConveyor.driver;
+                    if ((inAnchors[i].onlyDirectConnections && otherConveyor.moveDirectionClamped == inAnchors[i].direction) ||
+                        (!inAnchors[i].onlyDirectConnections && otherConveyor.moveDirectionClamped != -inAnchors[i].direction))
+                    {
+                        inAnchors[i].conveyor = otherConveyor.driver;
+                        continue;
+                    }
                 }
+
+                inAnchors[i].conveyor = null;
             }
         }
     }

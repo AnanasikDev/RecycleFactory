@@ -25,6 +25,11 @@ namespace RecycleFactory.Buildings.Logistics
         public Vector2Int direction;
 
         /// <summary>
+        /// Determines whether the anchor will connect only to conveyors with same or negated direction as the anchor has. If set to false, it will also connect to orhogonal conveyors
+        /// </summary>
+        public bool onlyDirectConnections = true;
+
+        /// <summary>
         /// Rotates the direction and revolves the position around (0, 0).
         /// Inputs delta values [-4; 4].
         /// </summary>

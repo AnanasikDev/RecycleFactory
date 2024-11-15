@@ -133,18 +133,18 @@ namespace RecycleFactory.Buildings.Logistics
             // TODO: visualize transition without affecting ownership logic. Calculate travel distance according to targetLaneIndex. Use Tween methods
         }
 
-        private float GetStraightDistance(ConveyorBelt_Item item1, ConveyorBelt_Item item2)
+        internal float GetStraightDistance(ConveyorBelt_Item item1, ConveyorBelt_Item item2)
         {
             return item1 == null || item2 == null ? INF : (item1.transform.position - item2.transform.position).Multiply(this.direction).magnitude;
         }
-
-        private float GetOrthogonalDistance(ConveyorBelt_Item thisItem, ConveyorBelt_Item nextItem)
+        
+        internal float GetOrthogonalDistance(ConveyorBelt_Item thisItem, ConveyorBelt_Item nextItem)
         {
             return thisItem == null || nextItem == null ? INF : 
                 (thisItem.transform.position - nextItem.transform.position).Multiply(nextDriver.direction).magnitude;
         }
-
-        private float GetSignedDistanceFromStart(ConveyorBelt_Item item)
+        
+        internal float GetSignedDistanceFromStart(ConveyorBelt_Item item)
         {
             if (item == null) return INF;
             if (direction.x < 0)
@@ -157,8 +157,8 @@ namespace RecycleFactory.Buildings.Logistics
                 return item.transform.position.z - conveyorBuilding.startPivot.transform.position.z;
             return INF;
         }
-
-        private float GetSignedDistanceToEnd(ConveyorBelt_Item item)
+        
+        internal float GetSignedDistanceToEnd(ConveyorBelt_Item item)
         {
             if (item == null) return INF;
             if (direction.x > 0)
@@ -295,6 +295,10 @@ namespace RecycleFactory.Buildings.Logistics
             return false;
         }
 
+        /// <summary>
+        /// Removes the item from its lane on the conveyor, does not perform checks
+        /// </summary>
+        /// <param name="item"></param>
         public void RemoveItem(ConveyorBelt_Item item)
         {
             lanes[item.currentLaneIndex].Remove(item);

@@ -20,14 +20,14 @@ namespace RecycleFactory.Buildings
                 outAnchor.height = height;
                 outAnchor.Revolve(rotation);
             }
-            Building.onAnyBuiltEvent += TryConnect;
-            Building.onAnyDemolishedEvent += TryConnect;
+            Building.onAnyBuiltEvent += UpdateAnchorsConnections;
+            Building.onAnyDemolishedEvent += UpdateAnchorsConnections;
         }
 
         private void OnDestroy()
         {
-            Building.onAnyBuiltEvent -= TryConnect;
-            Building.onAnyDemolishedEvent -= TryConnect;
+            Building.onAnyBuiltEvent -= UpdateAnchorsConnections;
+            Building.onAnyDemolishedEvent -= UpdateAnchorsConnections;
         }
 
         /// <summary>
@@ -52,23 +52,29 @@ namespace RecycleFactory.Buildings
             }
         }
 
-        /// <summary>
-        /// Updates connections on all outAnchors
-        /// </summary>
-        private void TryConnect()
+        private void UpdateAnchorsConnections()
         {
             for (int i = 0; i < outAnchors.Count; i++)
             {
                 Building otherBuilding = Map.getBuildingAt(building.mapPosition + outAnchors[i].localTilePosition + outAnchors[i].direction);
 
-                if (otherBuilding == null || !otherBuilding.TryGetComponent(out ConveyorBelt_Building otherConveyor))
+                if (otherBuilding == null)
                 {
                     outAnchors[i].conveyor = null;
+                    continue;
                 }
-                else
+
+                if (otherBuilding.TryGetComponent(out ConveyorBelt_Building otherConveyor))
                 {
-                    outAnchors[i].conveyor = otherConveyor.driver;
+                    if ((outAnchors[i].onlyDirectConnections && otherConveyor.moveDirectionClamped == outAnchors[i].direction) ||
+                        (!outAnchors[i].onlyDirectConnections && otherConveyor.moveDirectionClamped != -outAnchors[i].direction))
+                    {
+                        outAnchors[i].conveyor = otherConveyor.driver;
+                        continue;
+                    }
                 }
+
+                outAnchors[i].conveyor = null;
             }
         }
     }

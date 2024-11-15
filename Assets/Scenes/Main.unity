@@ -398,7 +398,7 @@ MonoBehaviour:
   buildingsPrefabs:
   - {fileID: 8783704837012868790, guid: c295a43782e702c49b47570ae8898745, type: 3}
   - {fileID: 9152104537340627929, guid: 1638dba23b3b07b4a8a9fd280d38caa8, type: 3}
-  - {fileID: 2524029157362353501, guid: 529d848b271c51643ba0be5799cd2d6b, type: 3}
+  - {fileID: 6974351339611237043, guid: 529d848b271c51643ba0be5799cd2d6b, type: 3}
   showPreview: 1
   previews:
   - {fileID: 0}
