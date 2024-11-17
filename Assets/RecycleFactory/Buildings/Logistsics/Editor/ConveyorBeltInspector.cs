@@ -23,8 +23,31 @@ namespace RecycleFactory.Buildings
         {
             base.OnInspectorGUI();
 
+            if (!Application.isPlaying)
+            {
+                GUILayout.Label("Info about conveyor will appear here in playmode");
+                return;
+            }
+
+            if (building.driver == null)
+            {
+                GUILayout.Label("Conveyor driver is unitialized");
+                return;
+            }
+
             GUILayout.Space(15);
             SerializeConveyorBelt(building);
+            GUILayout.Space(15);
+            GUILayout.Label("Connection info");
+            if (building.driver.nextDriver == null)
+            {
+                GUILayout.Label("No next conveyor found");
+            }
+            else
+            {
+                GUILayout.Label("Next conveyor building name: " + building.driver.nextDriver.conveyorBuilding.name);
+                GUILayout.Label("Connection type: " + (building.driver.IsOrthogonalTo(building.driver.nextDriver) ? "orthogonal" : "straight"));
+            }
         }
 
         private static void SerializeConveyorBelt(ConveyorBelt_Building building)
