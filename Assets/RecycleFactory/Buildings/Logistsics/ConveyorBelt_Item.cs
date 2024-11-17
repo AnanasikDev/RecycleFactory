@@ -31,6 +31,7 @@ namespace RecycleFactory.Buildings.Logistics
             meshFilter.mesh = info.mesh;
             meshRenderer.material = info.material;  
             gameObject.name = "Item " + info.name;
+            Enable();
         }
 
         /// <summary>
