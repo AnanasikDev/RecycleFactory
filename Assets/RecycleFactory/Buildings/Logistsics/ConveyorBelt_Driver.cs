@@ -259,7 +259,7 @@ namespace RecycleFactory.Buildings.Logistics
         /// <summary>
         /// As from a releaser, this function adds an item to an arbitrary lane
         /// </summary>
-        public bool AddToStart(ConveyorBelt_Item item)
+        public bool TakeOwnershipAddToStart(ConveyorBelt_Item item)
         {
             for (int i = 0; i < LANES_NUMBER; i++)
             {

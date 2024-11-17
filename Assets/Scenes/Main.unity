@@ -406,8 +406,7 @@ MonoBehaviour:
   previewsHandler: {fileID: 957211823}
   preview_freeColor: {r: 0.36244604, g: 0.61635214, b: 0.36244604, a: 0.19215687}
   preview_takenColor: {r: 0.69803923, g: 0.2784314, b: 0, a: 0.24705882}
-  selectedBuilding: {fileID: 8783704837012868790, guid: c295a43782e702c49b47570ae8898745,
-    type: 3}
+  selectedBuildingPrefab: {fileID: 0}
   selectedBuildingIndex: 0
   isSelectedSpotAvailable: 0
   selectedCell: {x: 0, y: 0}

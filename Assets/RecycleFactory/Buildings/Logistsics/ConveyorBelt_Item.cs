@@ -5,6 +5,9 @@ namespace RecycleFactory.Buildings.Logistics
 {
     public class ConveyorBelt_Item : MonoBehaviour
     {
+        public static int ID = 0;
+        public int id;
+        
         public static readonly float SCALE = 0.2f;
         private static Pool<ConveyorBelt_Item> itemsPool = new Pool<ConveyorBelt_Item>(item => item.gameObject.activeSelf);
 
@@ -42,6 +45,7 @@ namespace RecycleFactory.Buildings.Logistics
                 item.meshRenderer = item.gameObject.AddComponent<MeshRenderer>();
                 item.meshFilter = item.gameObject.AddComponent<MeshFilter>();
                 item.transform.localScale = Vector3.one * SCALE;
+                item.id = ID++;
                 itemsPool.RecordNew(item);
             }
             item.Init(info);

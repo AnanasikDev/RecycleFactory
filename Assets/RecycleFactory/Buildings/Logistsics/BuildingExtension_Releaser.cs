@@ -46,7 +46,7 @@ namespace RecycleFactory.Buildings
         public void Release(ConveyorBelt_Item item, int anchorIndex)
         {
             item.transform.position = GetReleasePosition(anchorIndex);
-            if (!outAnchors[anchorIndex].conveyor.AddToStart(item))
+            if (!outAnchors[anchorIndex].conveyor.TakeOwnershipAddToStart(item))
             {
                 Debug.Log("Releaser halted due to fail to release an item");
             }

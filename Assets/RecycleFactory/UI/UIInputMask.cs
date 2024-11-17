@@ -27,14 +27,12 @@ namespace RecycleFactory.UI
         {
             isPointerInside = true;
             onPointerEnterEvent?.Invoke();
-            Debug.Log("Entered " + gameObject.name);
         }
 
         void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
         {
             isPointerInside = false;
             onPointerExitEvent?.Invoke();
-            Debug.Log("Exited " + gameObject.name);
         }
 
         void IPointerClickHandler.OnPointerClick(PointerEventData eventData)

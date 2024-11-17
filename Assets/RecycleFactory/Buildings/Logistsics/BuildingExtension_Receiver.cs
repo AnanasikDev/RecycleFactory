@@ -53,6 +53,8 @@ namespace RecycleFactory.Buildings
                 // direct connection
 
                 var item = GetLastFromAnyLane(anchor.conveyor);
+                if (item == null) return false;
+
                 item.Disable();
                 itemInfo = item.info;
                 return true;
@@ -71,7 +73,7 @@ namespace RecycleFactory.Buildings
         {
             for (int i = 0; i < inAnchors.Count; i++)
             {
-                Building otherBuilding = Map.getBuildingAt(building.mapPosition + inAnchors[i].localTilePosition + inAnchors[i].direction);
+                Building otherBuilding = Map.getBuildingAt(building.mapPosition + inAnchors[i].localTilePosition - inAnchors[i].direction);
 
                 if (otherBuilding == null)
                 {
