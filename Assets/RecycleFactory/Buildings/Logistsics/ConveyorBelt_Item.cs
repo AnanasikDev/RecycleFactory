@@ -8,7 +8,7 @@ namespace RecycleFactory.Buildings.Logistics
         public static int ID = 0;
         public int id;
         
-        public static readonly float SCALE = 0.38f;
+        public static readonly float SCALE = 0.3f;
         private static Pool<ConveyorBelt_Item> itemsPool = new Pool<ConveyorBelt_Item>(item => item && item.gameObject.activeSelf);
 
         [HideInInspector] public MeshRenderer meshRenderer;

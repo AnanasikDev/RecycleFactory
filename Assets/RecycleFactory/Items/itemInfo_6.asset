@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 733cf89f79b47484bad8c5d4661afc32, type: 3}
+  m_Name: itemInfo_6
+  m_EditorClassIdentifier: 
+  name: handle
+  mesh: {fileID: -2432090755550338912, guid: 19644e416785f1c4bbff7c2316988ff7, type: 3}
+  materials:
+  - {fileID: -6087771358165109452, guid: 19644e416785f1c4bbff7c2316988ff7, type: 3}
+  magnetic: 1
+  transparency: 0
+  density: 1
