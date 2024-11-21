@@ -115,6 +115,14 @@ namespace RecycleFactory
         {
             return new Vector3(Hexath.Ternarsign(vec.x), Hexath.Ternarsign(vec.y), Hexath.Ternarsign(vec.z));
         }
+
+        /// <summary>
+        /// Returns true if value is equal or greater than vector.x and equal or less than vector.y
+        /// </summary>
+        public static bool Contains(this Vector2 vector, float value)
+        {
+            return value >= vector.x && value <= vector.y;
+        }
     }
 }
 
