@@ -50,7 +50,7 @@ namespace RecycleFactory.Buildings
             {
                 foreach (var item in driver.lanes[l])
                 {
-                    if (Vector3.Distance(item.transform.position, targetPosition) < radius && itemCheckFunction(item))
+                    if (Vector3.Distance(item.transform.position.WithY(0), targetPosition.WithY(0)) < radius && itemCheckFunction(item))
                         return item;
                 }
             }
@@ -73,7 +73,7 @@ namespace RecycleFactory.Buildings
             }
             else
             {
-                // indirect connection
+                // direct or indirect connection
                 
                 // calculate position of where to search for the item
                 var pos = transform.position + anchor.localTilePosition.ConvertTo2D().ProjectTo3D() - anchor.direction.ConvertTo2D().ProjectTo3D();
