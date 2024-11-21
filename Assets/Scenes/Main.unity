@@ -399,6 +399,7 @@ MonoBehaviour:
   - {fileID: 8783704837012868790, guid: c295a43782e702c49b47570ae8898745, type: 3}
   - {fileID: 9152104537340627929, guid: 1638dba23b3b07b4a8a9fd280d38caa8, type: 3}
   - {fileID: 6974351339611237043, guid: 529d848b271c51643ba0be5799cd2d6b, type: 3}
+  - {fileID: 7403320674907957140, guid: e9d0965c8f25d9f4d98c1ad55d8fd684, type: 3}
   showPreview: 1
   previews:
   - {fileID: 0}
@@ -1488,7 +1489,10 @@ MonoBehaviour:
     sprite: {fileID: 0}
   - name: 2
     options:
-    - building: {fileID: 2524029157362353501, guid: 529d848b271c51643ba0be5799cd2d6b,
+    - building: {fileID: 7403320674907957140, guid: e9d0965c8f25d9f4d98c1ad55d8fd684,
+        type: 3}
+      sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+    - building: {fileID: 6974351339611237043, guid: 529d848b271c51643ba0be5799cd2d6b,
         type: 3}
       sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
     sprite: {fileID: 0}

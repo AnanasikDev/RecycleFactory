@@ -42,21 +42,18 @@ namespace RecycleFactory.Buildings
             return null;
         }
 
-        public bool TryReceive(int anchorIndex, out ConveyorBelt_ItemInfo itemInfo)
+        public bool CanReceive(int anchorIndex, out ConveyorBelt_Item item)
         {
             var anchor = inAnchors[anchorIndex];
-            itemInfo = null;
+            item = null;
             if (anchor.conveyor == null) return false;
-            
+
             if (anchor.onlyDirectConnections)
             {
                 // direct connection
 
-                var item = GetLastFromAnyLane(anchor.conveyor);
+                item = GetLastFromAnyLane(anchor.conveyor);
                 if (item == null) return false;
-
-                item.Disable();
-                itemInfo = item.info;
                 return true;
             }
             else
@@ -66,6 +63,24 @@ namespace RecycleFactory.Buildings
                 // try item which is close enough
             }
 
+            return false;
+        }
+
+        public void ForceReceive(ConveyorBelt_Item item)
+        {
+            item.Disable();
+        }
+
+        public bool TryReceive(int anchorIndex, out ConveyorBelt_ItemInfo itemInfo)
+        {
+            if (CanReceive(anchorIndex, out ConveyorBelt_Item item))
+            {
+                itemInfo = item.info;
+                ForceReceive(item);
+                return true;
+            }
+
+            itemInfo = null;
             return false;
         }
 

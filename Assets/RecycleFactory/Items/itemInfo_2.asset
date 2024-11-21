@@ -16,6 +16,6 @@ MonoBehaviour:
   mesh: {fileID: -2432090755550338912, guid: 477c34c03c630bb49b45d716ddd25a3f, type: 3}
   material: {fileID: -3033667219593020291, guid: 477c34c03c630bb49b45d716ddd25a3f,
     type: 3}
-  magnetic: 0
+  magnetic: 0.9
   transparency: 0
-  density: 0
+  density: 0.225

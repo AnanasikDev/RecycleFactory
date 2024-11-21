@@ -119,16 +119,18 @@ namespace RecycleFactory.Buildings.Logistics
         /// <summary>
         /// Takes ownership of the item, becoming responsible of its visibility, transition, deletion and processing.
         /// </summary>
-        public void TakeOwnership(ConveyorBelt_Driver oldOwner, ConveyorBelt_Item item)
+        public void TakeOwnership(ConveyorBelt_Driver oldOwner, ConveyorBelt_Item item, int targetLaneIndex = -1)
         {
-            oldOwner.lanes[item.currentLaneIndex].Remove(item);
-            Debug.Log(this.AddToLaneStart(item.currentLaneIndex, item) ? "Added" : "Failed to add");
+            targetLaneIndex = targetLaneIndex == -1 ? item.currentLaneIndex : targetLaneIndex;
+
+            oldOwner.lanes[targetLaneIndex].Remove(item);
+            Debug.Log(this.AddToLaneStart(targetLaneIndex, item) ? "Added" : "Failed to add");
             Debug.Log("Ownership of " + item.name + " has been taken!");
         }
 
         public void TakeOwnershipWithTransition(ConveyorBelt_Driver oldOwner, ConveyorBelt_Item item, int targetLaneIndex, float transitionSpeedFactor = 1.0f)
         {
-            TakeOwnership(oldOwner, item);
+            TakeOwnership(oldOwner, item, targetLaneIndex);
             
             // TODO: visualize transition without affecting ownership logic. Calculate travel distance according to targetLaneIndex. Use Tween methods
         }
@@ -192,11 +194,12 @@ namespace RecycleFactory.Buildings.Logistics
                 {
                     // check if the item is already in front and will not obscure targetItem's movement
                     // if vectors are same, then item is moving awat from targetItem and should not be processed
-                    if ((targetItem.transform.position - item.transform.position).WithY(0).SignedMask() != nextDriver.direction)
+                    if ((targetItem.transform.position - item.transform.position).WithY(0).SignedMask().Multiply(nextDriver.direction.UnsignedMask()) == nextDriver.direction)
                     {
                         // item is in front of where targetItem is going to go
                         if (GetOrthogonalDistance(item, targetItem) < minItemDistance) // check if there is space for the new item
                         {
+                            Debug.Log("Next item is ahead, too close");
                             isLaneObscured = true;
                             break;
                         }
@@ -207,6 +210,7 @@ namespace RecycleFactory.Buildings.Logistics
                         // possible to move to that lane only if there is enough space between
                         if (GetOrthogonalDistance(item, targetItem) < GetStraightDistance(item, targetItem) + minItemDistance)
                         {
+                            Debug.Log("Next item is behind, too close");
                             // at least one item is too close, choose next lane
                             isLaneObscured = true;
                             break;
@@ -226,7 +230,8 @@ namespace RecycleFactory.Buildings.Logistics
         {
             Building otherBuilding = Map.getBuildingAt(conveyorBuilding.mapPosition + conveyorBuilding.moveDirectionClamped * conveyorBuilding.lengthTiles);
             if (otherBuilding == null || otherBuilding == conveyorBuilding) return;
-            if (otherBuilding.TryGetComponent(out ConveyorBelt_Building otherConveyor))
+            if (otherBuilding.TryGetComponent(out ConveyorBelt_Building otherConveyor) && 
+                otherConveyor.driver.direction != -direction) // check if next conveyor is not pointing in the opposite direction
             {
                 nextDriver = otherConveyor.driver;
             }

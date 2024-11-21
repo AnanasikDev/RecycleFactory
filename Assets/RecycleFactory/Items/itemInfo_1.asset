@@ -17,5 +17,5 @@ MonoBehaviour:
   material: {fileID: -3033667219593020291, guid: 4d11740918f23e244b3c019c3f47724a,
     type: 3}
   magnetic: 0
-  transparency: 0
-  density: 0
+  transparency: 1
+  density: 0.8
