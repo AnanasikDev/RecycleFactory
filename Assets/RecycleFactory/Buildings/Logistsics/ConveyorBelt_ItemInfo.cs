@@ -8,7 +8,7 @@ namespace RecycleFactory.Buildings.Logistics
     {
         public new string name;
         public Mesh mesh;
-        public Material material;
+        public Material[] materials;
 
         [MinValue(0)][MaxValue(1)] public float magnetic;
         [MinValue(0)][MaxValue(1)] public float transparency;

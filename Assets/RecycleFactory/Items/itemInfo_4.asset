@@ -10,12 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 733cf89f79b47484bad8c5d4661afc32, type: 3}
-  m_Name: itemInfo_2
+  m_Name: itemInfo_4
   m_EditorClassIdentifier: 
-  name: box
-  mesh: {fileID: -2432090755550338912, guid: 477c34c03c630bb49b45d716ddd25a3f, type: 3}
+  name: apple
+  mesh: {fileID: -2432090755550338912, guid: 9db758695e91e3044a6702c63d60e066, type: 3}
   materials:
-  - {fileID: -6478536213147159724, guid: acf59bd2523ce2b4aadcad9476968df6, type: 3}
+  - {fileID: -8274133419916619345, guid: 9db758695e91e3044a6702c63d60e066, type: 3}
+  - {fileID: -3522955778539423533, guid: 9db758695e91e3044a6702c63d60e066, type: 3}
+  - {fileID: 9185737683893222716, guid: 9db758695e91e3044a6702c63d60e066, type: 3}
   magnetic: 0
   transparency: 0
-  density: 0.225
+  density: 0.3

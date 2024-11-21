@@ -27,9 +27,6 @@ namespace RecycleFactory
         [SerializeField] private UIController _UIController;
         public static UIController UIController;
 
-        [SerializeField] private BalanceManager _BalanceManager;
-        public static BalanceManager BalanceManager;
-
         [SerializeField] private Map _Map;
         public static Map Map;
 
@@ -46,12 +43,10 @@ namespace RecycleFactory
                 PlayerDemolisher = _PlayerDemolisher;
                 Map = _Map;
                 UIController = _UIController;
-                BalanceManager = _BalanceManager;
                 Budget = _Budget;
 
                 Budget.Init();
                 UIController.Init();
-                BalanceManager.Init();
                 Map.Init();
                 PlayerController.Init();
             }

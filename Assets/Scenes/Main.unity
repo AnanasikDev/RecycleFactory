@@ -1607,7 +1607,6 @@ GameObject:
   - component: {fileID: 1718196792}
   - component: {fileID: 1718196791}
   - component: {fileID: 1718196793}
-  - component: {fileID: 1718196794}
   - component: {fileID: 1718196795}
   m_Layer: 0
   m_Name: Managers
@@ -1633,7 +1632,6 @@ MonoBehaviour:
   _PlayerBuilder: {fileID: 330585549}
   _PlayerDemolisher: {fileID: 330585550}
   _UIController: {fileID: 1536466227}
-  _BalanceManager: {fileID: 1718196794}
   _Map: {fileID: 1718196793}
   _Budget: {fileID: 1718196795}
 --- !u!4 &1718196792
@@ -1664,21 +1662,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   floor: {fileID: 1457017548}
---- !u!114 &1718196794
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1718196790}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a29c5b9c1270af0468668fee8202ba9a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textMeshPro: {fileID: 882205680}
-  balanceFormat: ${0}
-  defaultBalance: 24000
 --- !u!114 &1718196795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1691,7 +1674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44736ef7b531a5348bd45cd041a316b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultAmount: 24000
+  defaultAmount: 100000
   textMeshProFormat: ${0}
   textMeshPro: {fileID: 882205680}
 --- !u!1 &1989074596

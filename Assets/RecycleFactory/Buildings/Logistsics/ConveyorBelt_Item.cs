@@ -8,8 +8,8 @@ namespace RecycleFactory.Buildings.Logistics
         public static int ID = 0;
         public int id;
         
-        public static readonly float SCALE = 0.2f;
-        private static Pool<ConveyorBelt_Item> itemsPool = new Pool<ConveyorBelt_Item>(item => item.gameObject.activeSelf);
+        public static readonly float SCALE = 0.38f;
+        private static Pool<ConveyorBelt_Item> itemsPool = new Pool<ConveyorBelt_Item>(item => item && item.gameObject.activeSelf);
 
         [HideInInspector] public MeshRenderer meshRenderer;
         [HideInInspector] public MeshFilter meshFilter;
@@ -29,7 +29,7 @@ namespace RecycleFactory.Buildings.Logistics
         {
             this.info = info;
             meshFilter.mesh = info.mesh;
-            meshRenderer.material = info.material;  
+            meshRenderer.materials = info.materials;  
             gameObject.name = "Item " + info.name;
             Enable();
         }
