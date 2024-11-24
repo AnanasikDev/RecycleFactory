@@ -118,10 +118,18 @@ MonoBehaviour:
   - range_magnetic: {x: 0, y: 1}
     range_density: {x: 0, y: 1}
     range_transparency: {x: 0, y: 0.6}
+    range_metallic: {x: 0, y: 1}
+    range_plastic: {x: 0, y: 1}
+    range_organic: {x: 0, y: 1}
+    range_paper: {x: 0, y: 1}
     outAnchorIndex: 0
   - range_magnetic: {x: 0, y: 1}
     range_density: {x: 0, y: 1}
     range_transparency: {x: 0.6, y: 1}
+    range_metallic: {x: 0, y: 1}
+    range_plastic: {x: 0, y: 1}
+    range_organic: {x: 0, y: 1}
+    range_paper: {x: 0, y: 1}
     outAnchorIndex: 1
 --- !u!1 &2587514010665600997
 GameObject:

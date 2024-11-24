@@ -33,7 +33,11 @@ namespace RecycleFactory.Buildings
         {
             return def.range_magnetic.Contains(item.magnetic) &&
                    def.range_density.Contains(item.density) &&
-                   def.range_transparency.Contains(item.transparency);
+                   def.range_transparency.Contains(item.transparency) &&
+                   def.range_metallic.Contains(item.metallic) &&
+                   def.range_plastic.Contains(item.plastic) &&
+                   def.range_organic.Contains(item.organic) &&
+                   def.range_paper.Contains(item.paper);
         }
     }
 
@@ -43,6 +47,10 @@ namespace RecycleFactory.Buildings
         [MinMaxSlider(0f, 1f)] public Vector2 range_magnetic;
         [MinMaxSlider(0f, 1f)] public Vector2 range_density;
         [MinMaxSlider(0f, 1f)] public Vector2 range_transparency;
+        [MinMaxSlider(0f, 1f)] public Vector2 range_metallic;
+        [MinMaxSlider(0f, 1f)] public Vector2 range_plastic;
+        [MinMaxSlider(0f, 1f)] public Vector2 range_organic;
+        [MinMaxSlider(0f, 1f)] public Vector2 range_paper;
 
         public int outAnchorIndex;
     }
