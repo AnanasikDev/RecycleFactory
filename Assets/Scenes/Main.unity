@@ -1174,7 +1174,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 210, y: 35}
+  m_AnchoredPosition: {x: 140, y: 35}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1327794463
@@ -1512,7 +1512,7 @@ MonoBehaviour:
       sprite: {fileID: 0}
     sprite: {fileID: 0}
   width: 140
-  anchor: 1
+  anchor: 0
   initialPosition: {x: 0, y: 0}
   holderTransform: {fileID: 1303922319}
   initialHolderPosition: {x: 0, y: 0, z: 0}

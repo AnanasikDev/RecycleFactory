@@ -27,7 +27,7 @@ namespace RecycleFactory.Player
             playerBuilder.Init();
             playerDemolisher.Init();
 
-            SetMode(Mode.None);
+            SetMode(Mode.Build);
         }
 
         private void Update()

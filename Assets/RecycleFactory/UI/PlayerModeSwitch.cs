@@ -27,6 +27,7 @@ namespace RecycleFactory.UI
                 { Mode.Build, icon_buildingMode },
                 { Mode.Demolish, icon_demolishingMode }
             };
+            switchIconImage.sprite = modeToIcon[Mode.Build];
         }
 
         public void Increment()
