@@ -1623,6 +1623,7 @@ GameObject:
   - component: {fileID: 1718196791}
   - component: {fileID: 1718196793}
   - component: {fileID: 1718196795}
+  - component: {fileID: 1718196796}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -1649,6 +1650,7 @@ MonoBehaviour:
   _UIController: {fileID: 1536466227}
   _Map: {fileID: 1718196793}
   _Budget: {fileID: 1718196795}
+  _BuildingArrowPreviewController: {fileID: 1718196796}
 --- !u!4 &1718196792
 Transform:
   m_ObjectHideFlags: 0
@@ -1692,6 +1694,20 @@ MonoBehaviour:
   defaultAmount: 100000
   textMeshProFormat: ${0}
   textMeshPro: {fileID: 882205680}
+--- !u!114 &1718196796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718196790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f58504e972188ac4f944f081793b37b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 3917082810528057551, guid: 079839219c3de514eaebd21d739565d7, type: 3}
+  scale: 0.2
 --- !u!1 &1989074596
 GameObject:
   m_ObjectHideFlags: 0

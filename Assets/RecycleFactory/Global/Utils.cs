@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace RecycleFactory
@@ -12,6 +12,14 @@ namespace RecycleFactory
             new Vector2Int(1, 0),  // Right
             new Vector2Int(0, -1), // Down
             new Vector2Int(-1, 0)  // Left
+        };
+
+        public static readonly Dictionary<Vector2Int, int> dir2rot = new()
+        {
+            { new Vector2Int(0, 1), 0 },  // Up
+            { new Vector2Int(1, 0), 1 },  // Right
+            { new Vector2Int(0, -1), 2 }, // Down
+            { new Vector2Int(-1, 0), 3 }  // Left
         };
 
         /// <summary>

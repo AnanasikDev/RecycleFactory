@@ -33,6 +33,9 @@ namespace RecycleFactory
         [SerializeField] private Budget _Budget;
         public static Budget Budget;
 
+        [SerializeField] private BuildingArrowPreviewController _BuildingArrowPreviewController;
+        public static BuildingArrowPreviewController BuildingArrowPreviewController;
+
         private void Start()
         {
             if (Application.isPlaying)
@@ -44,7 +47,9 @@ namespace RecycleFactory
                 Map = _Map;
                 UIController = _UIController;
                 Budget = _Budget;
+                BuildingArrowPreviewController = _BuildingArrowPreviewController;
 
+                BuildingArrowPreviewController.Init();
                 Budget.Init();
                 UIController.Init();
                 Map.Init();

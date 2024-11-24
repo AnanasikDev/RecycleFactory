@@ -77,14 +77,13 @@ namespace RecycleFactory.Player
 
         private void HandleCellSelection()
         {
-            Vector2Int prevCell = selectedCell;
-            
             Vector2Int mapPos = Scripts.PlayerController.GetSelectedCell();
 
-            selectedCell = mapPos;
-            if (prevCell != selectedCell)
+            if (mapPos != selectedCell)
             {
+                selectedCell = mapPos;
                 isSelectedSpotAvailable = Map.isSpaceFree(mapPos, Utils.RotateXY(selectedBuildingPrefab.shift, selectedRotation), Utils.RotateXY(selectedBuildingPrefab.size, selectedRotation));
+    
                 onCellSelectedEvent?.Invoke();
             }
         }
@@ -194,12 +193,19 @@ namespace RecycleFactory.Player
                     previews[i].meshRenderer.materials.ToList().ForEach(mat => mat.color = isSelectedSpotAvailable ? preview_freeColor : preview_takenColor);
                     previews[i].transform.position = selectedCell.ConvertTo2D().ProjectTo3D(Map.floorHeight);
                     previews[i].transform.eulerAngles = Vector3.up * selectedRotation * 90;
+
+                    UpdateArrowPreviews(previews[i]);
                 }
                 else
                 {
                     previews[i].gameObject.SetActive(false);
                 }
             }
+        }
+
+        private void UpdateArrowPreviews(BuildingPreview preview)
+        {
+            Scripts.BuildingArrowPreviewController.Display(preview.transform, selectedBuildingPrefab, selectedRotation);
         }
 
         private void OnDrawGizmosSelected()
