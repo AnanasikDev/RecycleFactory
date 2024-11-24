@@ -18,6 +18,10 @@ MonoBehaviour:
   - {fileID: -8274133419916619345, guid: 9db758695e91e3044a6702c63d60e066, type: 3}
   - {fileID: -3522955778539423533, guid: 9db758695e91e3044a6702c63d60e066, type: 3}
   - {fileID: 9185737683893222716, guid: 9db758695e91e3044a6702c63d60e066, type: 3}
+  metallic: 0
+  plastic: 0
+  organic: 1
+  paper: 0
   magnetic: 0
   transparency: 0
   density: 0.3

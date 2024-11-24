@@ -10,8 +10,13 @@ namespace RecycleFactory.Buildings.Logistics
         public Mesh mesh;
         public Material[] materials;
 
-        [MinValue(0)][MaxValue(1)] public float magnetic;
-        [MinValue(0)][MaxValue(1)] public float transparency;
-        [MinValue(0)][MaxValue(1)] public float density;
+        [Range(0, 1)] public float metallic;
+        [Range(0, 1)] public float plastic;
+        [Range(0, 1)] public float organic;
+        [Range(0, 1)] public float paper;
+        
+        [Range(0, 1)] public float magnetic;
+        [Range(0, 1)] public float transparency;
+        [Range(0, 1)] public float density;
     }
 }
