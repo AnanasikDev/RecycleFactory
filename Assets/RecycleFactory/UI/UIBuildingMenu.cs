@@ -29,6 +29,8 @@ namespace RecycleFactory.UI
             {
                 CreateCategory(Categories[i], i);
             }
+            buildingDescription = Instantiate(buildingDescription);
+            buildingDescription.transform.SetParent(transform);
             buildingDescription.Init();
             UIBuildingMenu_Hover.onPointerExitGUI += buildingDescription.Disable;
         }

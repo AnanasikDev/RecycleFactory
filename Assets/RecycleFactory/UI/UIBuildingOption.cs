@@ -40,7 +40,7 @@ namespace RecycleFactory.UI
         public void Expand()
         {
             background.color = hoverBackgroundColor;
-            UIController.UIBuildingMenu.buildingDescription.UpdatePosition(transform.position);
+            UIController.UIBuildingMenu.buildingDescription.UpdatePosition(transform.position + new Vector3(150, 0));
             UIController.UIBuildingMenu.buildingDescription.Enable(info.building.description);
         }
 

@@ -8,7 +8,7 @@ using UnityEngine.UI;
 /// </summary>
 public class UITooltip : MonoBehaviour
 {
-    [SerializeField] protected GameObject handler;
+    [SerializeField] protected GameObject handler;  
     [SerializeField] protected Image background;
     [SerializeField] protected TextMeshProUGUI textMeshPro;
 
@@ -16,12 +16,6 @@ public class UITooltip : MonoBehaviour
 
     public event Action onEnabled;
     public event Action onDisabled;
-
-    public static UITooltip Create()
-    {
-        UITooltip tooltip = new GameObject().AddComponent<UITooltip>();
-        return tooltip;
-    }
 
     public virtual void Init()
     {
@@ -41,6 +35,7 @@ public class UITooltip : MonoBehaviour
     public virtual void Enable(string text)
     {
         this.text = text;
+        textMeshPro.text = this.text;
         handler.gameObject.SetActive(true);
         onEnabled?.Invoke();
     }
