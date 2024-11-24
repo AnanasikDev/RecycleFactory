@@ -16,6 +16,11 @@ namespace RecycleFactory
         public override void OnInspectorGUI ()
         {
             base.OnInspectorGUI ();
+            if (!Application.isPlaying)
+            {
+                GUILayout.Label("Info about masks will appear in playmode.");
+                return;
+            }
             GUILayout.Space(15);
             if (UIInputMask.masks.Count > 0)
             for (int i = 0; i < UIInputMask.masks.Count; i++)

@@ -53,6 +53,7 @@ namespace RecycleFactory.Buildings
         private static void SerializeConveyorBelt(ConveyorBelt_Building building)
         {
             GUILayout.Label("ConveyorBelt_Building name: " + building.name);
+            GUILayout.Label("Velocity: " + building.driver.velocity + " | Direction: " + building.driver.direction);
             GUILayout.Label("Lanes info");
             GUILayout.Label($"Lanes number: {ConveyorBelt_Driver.LANES_NUMBER}; {building.driver.allItemsReadonly.Count} items in total");
             GUILayout.BeginHorizontal();

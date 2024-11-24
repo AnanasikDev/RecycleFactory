@@ -30,7 +30,7 @@ namespace RecycleFactory.Buildings.Logistics
             this.info = info;
             meshFilter.mesh = info.mesh;
             meshRenderer.materials = info.materials;  
-            gameObject.name = "Item " + info.name;
+            gameObject.name = "Item_" + info.name + "_[" + id + "]";
             Enable();
         }
 

@@ -19,7 +19,7 @@ namespace RecycleFactory.Buildings.Logistics
         public readonly float minEndDistance = 0.3f;
 
         public Vector3 direction { get; init; }
-        public Vector3 frameVelocity { get { return direction * conveyorBuilding.lengthTiles / conveyorBuilding.transportTimeSeconds * Time.deltaTime; } }
+        public Vector3 velocity { get { return direction * conveyorBuilding.lengthTiles / conveyorBuilding.transportTimeSeconds; } }
 
         public ConveyorBelt_Driver(ConveyorBelt_Building conveyorBuilding)
         {
@@ -109,7 +109,7 @@ namespace RecycleFactory.Buildings.Logistics
                         if ((itemNode.Next == null || GetStraightDistance(item, itemNode.Next.Value) > minItemDistance) &&
                         (nextDriver == null || (nextDriver.lanes[item.currentLaneIndex].First == null || GetStraightDistance(item, nextDriver.lanes[item.currentLaneIndex].First.Value) > minItemDistance)))
                         {
-                            item.transform.Translate(frameVelocity); // move item
+                            item.transform.Translate(velocity * Time.deltaTime); // move item
                         }
                     }
                 }
@@ -123,7 +123,7 @@ namespace RecycleFactory.Buildings.Logistics
         {
             targetLaneIndex = targetLaneIndex == -1 ? item.currentLaneIndex : targetLaneIndex;
 
-            oldOwner.lanes[targetLaneIndex].Remove(item);
+            oldOwner.lanes[item.currentLaneIndex].Remove(item);
             Debug.Log(this.AddToLaneStart(targetLaneIndex, item) ? "Added" : "Failed to add");
             Debug.Log("Ownership of " + item.name + " has been taken!");
         }
@@ -196,6 +196,7 @@ namespace RecycleFactory.Buildings.Logistics
                     // if vectors are same, then item is moving awat from targetItem and should not be processed
                     if ((targetItem.transform.position - item.transform.position).WithY(0).SignedMask().Multiply(nextDriver.direction.UnsignedMask()) == nextDriver.direction)
                     {
+
                         // item is in front of where targetItem is going to go
                         if (GetOrthogonalDistance(item, targetItem) < minItemDistance) // check if there is space for the new item
                         {
