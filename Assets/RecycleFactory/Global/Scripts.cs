@@ -40,6 +40,9 @@ namespace RecycleFactory
         [SerializeField] private AllBuildings _AllBuildings;
         public static AllBuildings AllBuildings;
 
+        [SerializeField] private LevelController _LevelController;
+        public static LevelController LevelController;
+
         private void Start()
         {
             if (Application.isPlaying)
@@ -53,8 +56,10 @@ namespace RecycleFactory
                 Budget = _Budget;
                 BuildingArrowPreviewController = _BuildingArrowPreviewController;
                 AllBuildings = _AllBuildings;
+                LevelController = _LevelController;
 
                 AllBuildings.Init();
+                LevelController.Init();
                 BuildingArrowPreviewController.Init();
                 Budget.Init();
                 UIController.Init();

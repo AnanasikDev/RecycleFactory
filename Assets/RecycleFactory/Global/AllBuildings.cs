@@ -10,9 +10,13 @@ namespace RecycleFactory.Buildings
         [SerializeField] private List<Building> buildingPrefabs;
         private readonly string namingFormat = "Building_{0}";
 
+        public static List<Building> allBuildings;
+
         [Button("Check (does not set any values)")]
         public void Init()
         {
+            allBuildings = buildingPrefabs;
+
             var props = typeof(AllBuildings).GetProperties().Where(x => x.GetCustomAttributes(typeof(AutoSet), false).Any());
 
             foreach (var prop in props)

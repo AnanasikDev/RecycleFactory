@@ -13,7 +13,7 @@ namespace RecycleFactory.Buildings
         public string description;
         public int cost;
 
-        public bool isAlive = true;
+        [HideInInspector] public bool isAlive = true;
 
         [HideInInspector] public BuildingExtension_Receiver receiver;
         [HideInInspector] public BuildingExtension_Releaser releaser;

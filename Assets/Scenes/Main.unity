@@ -1538,10 +1538,10 @@ MonoBehaviour:
     sprite: {fileID: 0}
   - name: Sorting machines
     options:
-    - building: {fileID: 7403320674907957140, guid: e9d0965c8f25d9f4d98c1ad55d8fd684,
+    - building: {fileID: 8834315954898719290, guid: fcfa881b658949445b0cc09f60f91f04,
         type: 3}
       sprite: {fileID: 0}
-    - building: {fileID: 8834315954898719290, guid: fcfa881b658949445b0cc09f60f91f04,
+    - building: {fileID: 7403320674907957140, guid: e9d0965c8f25d9f4d98c1ad55d8fd684,
         type: 3}
       sprite: {fileID: 0}
     - building: {fileID: 4646742573862785996, guid: cbaa1ff80763bb94abb0002d54ab287a,
@@ -1662,6 +1662,7 @@ GameObject:
   - component: {fileID: 1718196795}
   - component: {fileID: 1718196796}
   - component: {fileID: 1718196797}
+  - component: {fileID: 1718196798}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -1690,6 +1691,7 @@ MonoBehaviour:
   _Budget: {fileID: 1718196795}
   _BuildingArrowPreviewController: {fileID: 1718196796}
   _AllBuildings: {fileID: 1718196797}
+  _LevelController: {fileID: 1718196798}
 --- !u!4 &1718196792
 Transform:
   m_ObjectHideFlags: 0
@@ -1768,6 +1770,18 @@ MonoBehaviour:
   - {fileID: 7403320674907957140, guid: e9d0965c8f25d9f4d98c1ad55d8fd684, type: 3}
   - {fileID: 4646742573862785996, guid: cbaa1ff80763bb94abb0002d54ab287a, type: 3}
   - {fileID: 8834315954898719290, guid: fcfa881b658949445b0cc09f60f91f04, type: 3}
+--- !u!114 &1718196798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718196790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a2c53a5ba7c22640a8d0c6e0a02a41f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1989074596
 GameObject:
   m_ObjectHideFlags: 0

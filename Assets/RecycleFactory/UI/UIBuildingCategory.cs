@@ -20,7 +20,6 @@ namespace RecycleFactory.UI
         public event Action onOpened;
         public event Action onClosed;
 
-        private void ToggleOption(UIBuildingOption option, bool state) => option.gameObject.SetActive(state);
         public void UpdateOptions()
         {
             int vindex = 0;
@@ -42,8 +41,24 @@ namespace RecycleFactory.UI
             UpdateOptions();
         }
 
+        private void UpdateLocked()
+        {
+            for (int i = 0; i < optionObjects.Count; i++)
+            {
+                if (Scripts.LevelController.IsUnlocked(optionObjects[i].info.building))
+                {
+                    optionObjects[i].gameObject.SetActive(true);
+                }
+                else
+                {
+                    optionObjects[i].gameObject.SetActive(false);
+                }
+            }
+        }
+
         public void Expand()
         {
+            UpdateLocked();
             expandPanel.SetActive(true);
             onOpened?.Invoke();
         }
