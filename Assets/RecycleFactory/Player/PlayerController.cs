@@ -42,7 +42,7 @@ namespace RecycleFactory.Player
 
         internal Vector3 GetMouseWorldPosition()
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = playerCamera.cameraHandler.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
             if (Physics.Raycast(ray, out hit))

@@ -18,8 +18,9 @@ namespace RecycleFactory.Player
         [SerializeField] private float minVerticalAngle = -30f;
         [SerializeField] private float maxVerticalAngle = 60f;
 
-        [Header("Target Settings")]
+        [Space(20)]
         [SerializeField] private Transform target;
+        [SerializeField] internal Camera cameraHandler;
 
         private Vector3 targetRotation;
         private float targetDistance;

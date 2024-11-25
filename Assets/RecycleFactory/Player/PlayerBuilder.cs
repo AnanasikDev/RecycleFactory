@@ -1,9 +1,12 @@
+using DG.Tweening;
 using NaughtyAttributes;
 using RecycleFactory.Buildings;
 using RecycleFactory.UI;
 using System;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.LightTransport;
 
 namespace RecycleFactory.Player
 {
@@ -24,9 +27,11 @@ namespace RecycleFactory.Player
         [SerializeField][ReadOnly] private bool isSelectedSpotAvailable = false;
         [SerializeField][ReadOnly] private Vector2Int selectedCell;
 
-        private Func<bool> inputPlacement = () => Input.GetMouseButtonDown(0) && !UIInputMask.isPointerOverUI;
+        private Func<bool> placementTrigger = () => Input.GetMouseButtonDown(0) && !UIInputMask.isPointerOverUI;
 
         private event Action onCellSelectedEvent;
+        public event Action<Building> onBuildEvent;
+        public event Action onAnyBuildEvent;
 
         public void Init()
         {
@@ -83,7 +88,7 @@ namespace RecycleFactory.Player
             {
                 selectedCell = mapPos;
                 isSelectedSpotAvailable = Map.isSpaceFree(mapPos, Utils.RotateXY(selectedBuildingPrefab.shift, selectedRotation), Utils.RotateXY(selectedBuildingPrefab.size, selectedRotation));
-    
+
                 onCellSelectedEvent?.Invoke();
             }
         }
@@ -138,16 +143,19 @@ namespace RecycleFactory.Player
         /// <summary>
         /// Places building at position with rotation; Building cost is subtracted from budget. No checks on budget sufficiency or placement eligibility is done
         /// </summary>
-        private void ForceBuild(Building selectedBuilding, Vector3 position, int selectedRotation, Vector2Int mapPos)
+        private Building ForceBuild(Building selectedBuilding, Vector3 position, int selectedRotation, Vector2Int mapPos)
         {
             Building building = Instantiate(selectedBuilding, position, Quaternion.identity);
             building.Init(mapPos, selectedRotation);
             Scripts.Budget.Add(-selectedBuilding.cost);
+            onBuildEvent?.Invoke(building);
+            onAnyBuildEvent?.Invoke();
+            return building;
         }
 
         private void HandlePlacement()
         {
-            if (inputPlacement() && selectedBuildingPrefab != null)
+            if (placementTrigger() && selectedBuildingPrefab != null)
             {
                 if (Scripts.Budget.amount < selectedBuildingPrefab.cost)
                 {
@@ -160,7 +168,7 @@ namespace RecycleFactory.Player
                 {
                     if (isSelectedSpotAvailable)
                     {
-                        ForceBuild(selectedBuildingPrefab, selectedCell.ConvertTo2D().ProjectTo3D().WithY(Map.floorHeight), selectedRotation, selectedCell);
+                        StartCoroutine(AnimateAndBuild(selectedBuildingPrefab, selectedCell.ConvertTo2D().ProjectTo3D().WithY(Map.floorHeight), selectedRotation, selectedCell));
                     }
                 }
                 else
@@ -170,7 +178,7 @@ namespace RecycleFactory.Player
 
                     if (Map.isSpaceFree(mapPos, Utils.RotateXY(selectedBuildingPrefab.shift, selectedRotation), Utils.RotateXY(selectedBuildingPrefab.size, selectedRotation)))
                     {
-                        ForceBuild(selectedBuildingPrefab, position, selectedRotation, mapPos);
+                        StartCoroutine(AnimateAndBuild(selectedBuildingPrefab, position, selectedRotation, mapPos));
                     }
                     else
                     {
@@ -208,8 +216,22 @@ namespace RecycleFactory.Player
             Scripts.BuildingArrowPreviewController.Display(preview.transform, selectedBuildingPrefab, selectedRotation);
         }
 
+
+        private IEnumerator AnimateAndBuild(Building selectedBuilding, Vector3 position, int selectedRotation, Vector2Int mapPos)
+        {
+            Building building = ForceBuild(selectedBuilding, position, selectedRotation, mapPos);
+
+            YieldInstruction animate(Building _building)
+            {
+                return DOTween.Sequence().Append(_building.buildingRenderer.transform.DOMoveY(0, 0.45f).From(0.3f).SetEase(Ease.OutBounce)).Join(Scripts.PlayerCamera.cameraHandler.transform.DOShakePosition(0.2f, 0.05f)).Play().WaitForCompletion();
+            }
+            yield return animate(building);
+        }
+
         private void OnDrawGizmosSelected()
         {
+            if (!Application.isPlaying) return;
+
             Vector3 position = Scripts.PlayerController.GetMouseWorldPosition();
 
             Gizmos.color = Color.red;

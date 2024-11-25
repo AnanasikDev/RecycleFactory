@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System;
 using RecycleFactory.UI;
+using RecycleFactory.Buildings;
+using DG.Tweening;
+using System.Collections;
 
 namespace RecycleFactory.Player
 {
@@ -10,9 +13,12 @@ namespace RecycleFactory.Player
 
         private Func<bool> demolishTrigger = () => Input.GetMouseButtonDown(0) && !UIInputMask.isPointerOverUI;
 
+        public event Action<Building> onDemolishEvent;
+        public event Action onAnyDemolishEvent;
+
         public void Init()
         {
-
+            
         }
 
         public void _Update()
@@ -20,10 +26,29 @@ namespace RecycleFactory.Player
             selectedCell = Scripts.PlayerController.GetSelectedCell();
             if (demolishTrigger())
             {
-                Map.getBuildingAt(selectedCell)?.Demolish();
-                // shake camera
-                // play demolish SFX & VFX
+                Building building = Map.getBuildingAt(selectedCell);
+                if (building == null) return;
+                Demolish(building);
             }
+        }
+
+        private void Demolish(Building building)
+        {
+            StartCoroutine(AnimateOnDemolish(building));
+        }
+
+        private IEnumerator AnimateOnDemolish(Building building)
+        {
+            YieldInstruction animate(Building _building)
+            {
+                return DOTween.Sequence().Append(_building.transform.DOScale(Vector3.zero, 0.25f)).Join(Scripts.PlayerCamera.cameraHandler.transform.DOShakePosition(0.4f, 0.25f)).Play().WaitForCompletion();
+            }
+
+            yield return animate(building);
+            onDemolishEvent?.Invoke(building);
+            onAnyDemolishEvent?.Invoke();
+
+            building.Demolish();
         }
     }
 }

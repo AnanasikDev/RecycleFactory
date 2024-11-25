@@ -50,10 +50,6 @@ MonoBehaviour:
     SmallIcon: {fileID: 2800000, guid: 268edea26d8cd504da659cc71a1d8549, type: 3}
     LargeIcon: {fileID: 2800000, guid: e69e4447e8078c441b3a955855f4f080, type: 3}
   - Type: 0
-    Key: Plugins
-    SmallIcon: {fileID: 2800000, guid: 8f45cff1df9688244b1fa6e2da91e05f, type: 3}
-    LargeIcon: {fileID: 2800000, guid: 15c3471930a7ff44aa9a30bc21a5ea06, type: 3}
-  - Type: 0
     Key: Prefabs
     SmallIcon: {fileID: 2800000, guid: 483d693b3f9d5704b89409016b40bc74, type: 3}
     LargeIcon: {fileID: 2800000, guid: fac7470563f79024ebc244b39080448d, type: 3}
