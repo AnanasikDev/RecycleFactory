@@ -13,6 +13,8 @@ namespace RecycleFactory.Buildings
         public string description;
         public int cost;
 
+        public bool isAlive = true;
+
         [HideInInspector] public BuildingExtension_Receiver receiver;
         [HideInInspector] public BuildingExtension_Releaser releaser;
         public BuildingRenderer buildingRenderer;
@@ -34,8 +36,9 @@ namespace RecycleFactory.Buildings
             id = ++_id;
             gameObject.name += " " + id;
             mapPosition = mapPos;
+            isAlive = true;
 
-            Assert.That(buildingRenderer != null);
+            Assert.That(buildingRenderer != null, "[ReFa]: BuildingRenderer must be not null!");
             receiver = GetComponent<BuildingExtension_Receiver>();
             releaser = GetComponent<BuildingExtension_Releaser>();
             buildingRenderer.Init();
@@ -65,11 +68,15 @@ namespace RecycleFactory.Buildings
 
         public void Demolish()
         {
+            isAlive = false;
             Map.RemoveBuilding(this);
+            OnDemolish();
 
             onAnyDemolishedEvent?.Invoke();
             Destroy(gameObject);
         }
+
+        protected virtual void OnDemolish() { }
 
         private void OnDrawGizmosSelected()
         {

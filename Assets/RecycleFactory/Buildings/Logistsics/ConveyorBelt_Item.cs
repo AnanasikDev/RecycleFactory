@@ -1,5 +1,6 @@
 ﻿using NaughtyAttributes;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 namespace RecycleFactory.Buildings.Logistics
 {
@@ -28,6 +29,7 @@ namespace RecycleFactory.Buildings.Logistics
         public void Init(ConveyorBelt_ItemInfo info)
         {
             this.info = info;
+            transform.localScale = Vector3.one * SCALE;
             meshFilter.mesh = info.mesh;
             meshRenderer.materials = info.materials;  
             gameObject.name = "Item_" + info.name + "_[" + id + "]";
@@ -45,7 +47,6 @@ namespace RecycleFactory.Buildings.Logistics
                 item = new GameObject().AddComponent<ConveyorBelt_Item>();
                 item.meshRenderer = item.gameObject.AddComponent<MeshRenderer>();
                 item.meshFilter = item.gameObject.AddComponent<MeshFilter>();
-                item.transform.localScale = Vector3.one * SCALE;
                 item.id = ID++;
                 itemsPool.RecordNew(item);
             }

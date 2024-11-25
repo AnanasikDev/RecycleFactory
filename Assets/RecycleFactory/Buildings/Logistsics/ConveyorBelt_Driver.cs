@@ -18,11 +18,14 @@ namespace RecycleFactory.Buildings.Logistics
         public readonly float minItemDistance = 0.4f;
         public readonly float minEndDistance = 0.3f;
 
+        internal bool isAlive = true;
+
         public Vector3 direction { get; init; }
         public Vector3 velocity { get { return direction * conveyorBuilding.lengthTiles / conveyorBuilding.transportTimeSeconds; } }
 
         public ConveyorBelt_Driver(ConveyorBelt_Building conveyorBuilding)
         {
+            isAlive = true;
             this.conveyorBuilding = conveyorBuilding;
             direction = conveyorBuilding.moveDirectionClamped.ConvertTo2D().ProjectTo3D();
             Debug.Log("New Driver created with direction = " + direction);
@@ -49,6 +52,7 @@ namespace RecycleFactory.Buildings.Logistics
                 }
                 lanes[l].Clear();
             }
+            isAlive = false;
         }
 
         public void Update()
@@ -58,6 +62,8 @@ namespace RecycleFactory.Buildings.Logistics
 
         private void MoveAllItems()
         {
+            if (!isAlive) return;
+
             // for each item check distance to the next one, translate if possible, halt movement if not
             for (int laneIndex = 0; laneIndex < LANES_NUMBER; laneIndex++)
             {
@@ -71,7 +77,7 @@ namespace RecycleFactory.Buildings.Logistics
                     // check if close enough for transfer
                     if (GetSignedDistanceToEnd(item) < minEndDistance)
                     {
-                        if (nextDriver == null)
+                        if (nextDriver == null || !nextDriver.isAlive)
                         {
                             // halt
                         }
@@ -121,11 +127,13 @@ namespace RecycleFactory.Buildings.Logistics
         /// </summary>
         public void TakeOwnership(ConveyorBelt_Driver oldOwner, ConveyorBelt_Item item, int targetLaneIndex = -1)
         {
+            //if (!conveyorBuilding || !conveyorBuilding.isActiveAndEnabled) return;
+
             targetLaneIndex = targetLaneIndex == -1 ? item.currentLaneIndex : targetLaneIndex;
 
             oldOwner.lanes[item.currentLaneIndex].Remove(item);
-            Debug.Log(this.AddToLaneStart(targetLaneIndex, item) ? "Added" : "Failed to add");
-            Debug.Log("Ownership of " + item.name + " has been taken!");
+            this.AddToLaneStart(targetLaneIndex, item);
+            //Debug.Log("Ownership of " + item.name + " has been taken!");
         }
 
         public void TakeOwnershipWithTransition(ConveyorBelt_Driver oldOwner, ConveyorBelt_Item item, int targetLaneIndex, float transitionSpeedFactor = 1.0f)
@@ -286,19 +294,14 @@ namespace RecycleFactory.Buildings.Logistics
         /// <summary>
         /// Try add the item to a specific lane
         /// </summary>
-        public bool AddToLaneStart(int laneIndex, ConveyorBelt_Item item)
+        public void AddToLaneStart(int laneIndex, ConveyorBelt_Item item)
         {
-            if (true) // CanAddItemStraight(lanes[laneIndex], item)
-            {
-                lanes[laneIndex].AddFirst(item);
-                item.transform.SetParent(conveyorBuilding.transform);
-                item.currentDriver = this;
-                item.holder = conveyorBuilding;
-                item.currentLaneIndex = laneIndex;
-                AlignToLane(item, laneIndex); // align with regard to index and conveyor driver positioning
-                return true;
-            }
-            return false;
+            lanes[laneIndex].AddFirst(item);
+            item.transform.SetParent(conveyorBuilding.transform);
+            item.currentDriver = this;
+            item.holder = conveyorBuilding;
+            item.currentLaneIndex = laneIndex;
+            AlignToLane(item, laneIndex); // align with regard to index and conveyor driver positioning
         }
 
         /// <summary>

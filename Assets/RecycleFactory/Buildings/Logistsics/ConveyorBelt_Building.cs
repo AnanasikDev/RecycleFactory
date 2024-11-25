@@ -25,17 +25,20 @@ namespace RecycleFactory.Buildings
             Building.onAnyBuiltEvent += driver.TryFindNext;
         }
 
-        private void OnDestroy()
+        protected override void OnDemolish()
         {
             if (driver != null)
             {
                 Building.onAnyBuiltEvent -= driver.TryFindNext;
                 driver.Destroy();
             }
+            driver = null;
         }
 
         private void Update()
         {
+            if (!isAlive) return;
+
             driver.Update();
         }
 

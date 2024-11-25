@@ -1,9 +1,9 @@
-﻿using UnityEngine;
-using System;
-using RecycleFactory.UI;
+﻿using DG.Tweening;
 using RecycleFactory.Buildings;
-using DG.Tweening;
+using RecycleFactory.UI;
+using System;
 using System.Collections;
+using UnityEngine;
 
 namespace RecycleFactory.Player
 {
@@ -43,6 +43,7 @@ namespace RecycleFactory.Player
             {
                 return DOTween.Sequence().Append(_building.transform.DOScale(Vector3.zero, 0.25f)).Join(Scripts.PlayerCamera.cameraHandler.transform.DOShakePosition(0.4f, 0.25f)).Play().WaitForCompletion();
             }
+            building.isAlive = false;
 
             yield return animate(building);
             onDemolishEvent?.Invoke(building);

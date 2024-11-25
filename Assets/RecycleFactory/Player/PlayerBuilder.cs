@@ -77,7 +77,13 @@ namespace RecycleFactory.Player
 
             HandleRotation();
             HandleSelection();
-            HandlePlacement();
+
+            if (HandlePlacement())
+            {
+                // if built successfully, check new cell selection
+                isSelectedSpotAvailable = false;
+                UpdatePreview();
+            }
         }
 
         private void HandleCellSelection()
@@ -153,14 +159,14 @@ namespace RecycleFactory.Player
             return building;
         }
 
-        private void HandlePlacement()
+        private bool HandlePlacement()
         {
             if (placementTrigger() && selectedBuildingPrefab != null)
             {
                 if (Scripts.Budget.amount < selectedBuildingPrefab.cost)
                 {
                     Debug.LogWarning($"Cannot afford building {selectedBuildingPrefab.name} as it costs {selectedBuildingPrefab.cost} while there is only {Scripts.Budget.amount} left on account.");
-                    return;
+                    return false;
                 }
 
                 // if preview is rendered then take the calculated values (used for the preview)
@@ -169,6 +175,7 @@ namespace RecycleFactory.Player
                     if (isSelectedSpotAvailable)
                     {
                         StartCoroutine(AnimateAndBuild(selectedBuildingPrefab, selectedCell.ConvertTo2D().ProjectTo3D().WithY(Map.floorHeight), selectedRotation, selectedCell));
+                        return true;
                     }
                 }
                 else
@@ -179,13 +186,17 @@ namespace RecycleFactory.Player
                     if (Map.isSpaceFree(mapPos, Utils.RotateXY(selectedBuildingPrefab.shift, selectedRotation), Utils.RotateXY(selectedBuildingPrefab.size, selectedRotation)))
                     {
                         StartCoroutine(AnimateAndBuild(selectedBuildingPrefab, position, selectedRotation, mapPos));
+                        return true;
                     }
                     else
                     {
                         Debug.Log("Building canceled: space is already taken.");
+                        return false;
                     }
                 }
             }
+
+            return false;
         }
 
         private void UpdatePreview()
@@ -223,7 +234,7 @@ namespace RecycleFactory.Player
 
             YieldInstruction animate(Building _building)
             {
-                return DOTween.Sequence().Append(_building.buildingRenderer.transform.DOMoveY(0, 0.45f).From(0.3f).SetEase(Ease.OutBounce)).Join(Scripts.PlayerCamera.cameraHandler.transform.DOShakePosition(0.2f, 0.05f)).Play().WaitForCompletion();
+                return DOTween.Sequence().Append(_building.buildingRenderer.meshFilter.transform.DOMoveY(0, 0.45f).From(0.3f).SetEase(Ease.OutBounce)).Join(Scripts.PlayerCamera.cameraHandler.transform.DOShakePosition(0.2f, 0.05f)).Play().WaitForCompletion();
             }
             yield return animate(building);
         }
