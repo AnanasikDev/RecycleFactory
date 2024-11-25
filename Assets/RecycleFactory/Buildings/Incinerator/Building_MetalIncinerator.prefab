@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 7101084957786112586}
   - component: {fileID: 6974351339611237043}
   m_Layer: 0
-  m_Name: MetalIncinerator
+  m_Name: Building_MetalIncinerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

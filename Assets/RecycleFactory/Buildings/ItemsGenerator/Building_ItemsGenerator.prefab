@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4747837920409277860}
   - component: {fileID: 1495444695210006738}
   m_Layer: 0
-  m_Name: Buildling_ItemsGenerator
+  m_Name: Building_ItemsGenerator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1,5 +1,6 @@
 using UnityEngine;
 using RecycleFactory.UI;
+using RecycleFactory.Buildings;
 #if UNITY_EDITOR
 using UnityEditor;
 using System.Reflection;
@@ -36,6 +37,9 @@ namespace RecycleFactory
         [SerializeField] private BuildingArrowPreviewController _BuildingArrowPreviewController;
         public static BuildingArrowPreviewController BuildingArrowPreviewController;
 
+        [SerializeField] private AllBuildings _AllBuildings;
+        public static AllBuildings AllBuildings;
+
         private void Start()
         {
             if (Application.isPlaying)
@@ -48,7 +52,9 @@ namespace RecycleFactory
                 UIController = _UIController;
                 Budget = _Budget;
                 BuildingArrowPreviewController = _BuildingArrowPreviewController;
+                AllBuildings = _AllBuildings;
 
+                AllBuildings.Init();
                 BuildingArrowPreviewController.Init();
                 Budget.Init();
                 UIController.Init();

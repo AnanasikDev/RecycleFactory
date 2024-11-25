@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 8783704837012868790}
   - component: {fileID: 8408169214403507598}
   m_Layer: 0
-  m_Name: ConveyorBelt_Building
+  m_Name: Building_ConveyorBelt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -112,6 +112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   description: Conveyor belt
   cost: 3000
+  isAlive: 1
   receiver: {fileID: 0}
   releaser: {fileID: 0}
   buildingRenderer: {fileID: 8408169214403507598}

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5607131082292492922}
   - component: {fileID: 7403320674907957140}
   m_Layer: 0
-  m_Name: CameraSorter
+  m_Name: Building_CameraSorter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

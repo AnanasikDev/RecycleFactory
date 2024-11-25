@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8834315954898719290}
   - component: {fileID: 1214524508627662626}
   m_Layer: 0
-  m_Name: MagneticSorter
+  m_Name: Building_MagneticSorter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
