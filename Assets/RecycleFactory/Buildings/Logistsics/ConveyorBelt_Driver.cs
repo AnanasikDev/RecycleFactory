@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Lane = System.Collections.Generic.LinkedList<RecycleFactory.Buildings.Logistics.ConveyorBelt_Item>;
 using ItemNode = System.Collections.Generic.LinkedListNode<RecycleFactory.Buildings.Logistics.ConveyorBelt_Item>;
 using System.Linq;
+using static UnityEditor.Progress;
 
 namespace RecycleFactory.Buildings.Logistics
 {
@@ -17,6 +18,7 @@ namespace RecycleFactory.Buildings.Logistics
         internal ConveyorBelt_Driver nextDriver;
         public readonly float minItemDistance = 0.4f;
         public readonly float minEndDistance = 0.3f;
+        public readonly float transferEndDistance = 0.0f;
 
         internal bool isAlive = true;
 
@@ -74,18 +76,39 @@ namespace RecycleFactory.Buildings.Logistics
                 {
                     ConveyorBelt_Item item = itemNode.Value;
 
-                    // check if close enough for transfer
-                    if (GetSignedDistanceToEnd(item) < minEndDistance)
+                    float distToEnd = GetSignedDistanceToEnd(item);
+
+                    // there is next driver connected
+
+                    if (distToEnd <= transferEndDistance)
                     {
                         if (nextDriver == null || !nextDriver.isAlive)
                         {
                             // halt
+                            continue;
                         }
 
-                        // there is next driver connected
-
-                        else if (IsOrthogonalTo(nextDriver))
+                        // next driver has same direction, check if its first item is far enough
+                        if (nextDriver.lanes[item.currentLaneIndex].First == null || GetStraightDistance(item, nextDriver.lanes[item.currentLaneIndex].First.Value) > minItemDistance)
                         {
+                            // there is either no items in the next conveyor or its first item is far enough
+                            nextDriver.TakeOwnershipStraight(this, itemNode);
+                        }
+                        continue;
+                    }
+
+                    else if (distToEnd <= minEndDistance)
+                    {
+                        if (nextDriver == null || !nextDriver.isAlive)
+                        {
+                            // halt
+                            continue;
+                        }
+
+                        if (IsOrthogonalTo(nextDriver))
+                        {
+                            // too far
+
                             int targetLaneIndex = ChooseOrthogonalLane(item); // find a lane where the item can go right now
                             Debug.Log("Is orthogonal, new targetLaneIndex = " + targetLaneIndex);
                             if (targetLaneIndex == -1)
@@ -94,53 +117,79 @@ namespace RecycleFactory.Buildings.Logistics
                             }
                             else
                             {
-                                nextDriver.TakeOwnershipWithTransition(this, item, targetLaneIndex); // transfer item with smooth transition
-                            }
+                                nextDriver.TakeOwnershipOrthogonal(this, itemNode, targetLaneIndex);
+                            }   
                         }
-
                         else
                         {
-                            // next driver has same direction, check if its first item is far enough
                             if (nextDriver.lanes[item.currentLaneIndex].First == null || GetStraightDistance(item, nextDriver.lanes[item.currentLaneIndex].First.Value) > minItemDistance)
                             {
-                                // there is either no items in the next conveyor or its first item is far enough
-                                nextDriver.TakeOwnership(this, item); // transfer item with no transitions, just switch ownership
+                                item.transform.Translate(velocity * Time.deltaTime); // move item
                             }
                         }
+                        continue;
                     }
 
-                    else // not close to edge, try to move
+                    if (itemNode.Next == null || GetStraightDistance(item, itemNode.Next.Value) > minItemDistance)
                     {
-                        // check if there is room to go
-                        if ((itemNode.Next == null || GetStraightDistance(item, itemNode.Next.Value) > minItemDistance) &&
-                        (nextDriver == null || (nextDriver.lanes[item.currentLaneIndex].First == null || GetStraightDistance(item, nextDriver.lanes[item.currentLaneIndex].First.Value) > minItemDistance)))
+                        item.transform.Translate(velocity * Time.deltaTime); // move item
+                    }
+
+                    /*// not close to edge, try to move item
+
+                    // if no connection, halt at minEndDistance
+                    // if orthogonal connection and farther than minEndDistance, move
+                    if (nextDriver == null || IsOrthogonalTo(nextDriver))
+                    {
+                        if (distToEnd > minEndDistance)
                         {
                             item.transform.Translate(velocity * Time.deltaTime); // move item
                         }
                     }
+
+                    // if straight connection and there is space to go, move
+                    else
+                    {
+                        // straight connection
+
+                        if (nextDriver.lanes[item.currentLaneIndex].First == null || GetStraightDistance(item, nextDriver.lanes[item.currentLaneIndex].First.Value) > minItemDistance)
+                        {
+                            item.transform.Translate(velocity * Time.deltaTime); // move item
+                        }
+                    }*/
                 }
             }
         }
 
-        /// <summary>
+        /// <summary> 
         /// Takes ownership of the item, becoming responsible of its visibility, transition, deletion and processing.
         /// </summary>
-        public void TakeOwnership(ConveyorBelt_Driver oldOwner, ConveyorBelt_Item item, int targetLaneIndex = -1)
+        public void TakeOwnershipOrthogonal(ConveyorBelt_Driver oldOwner, ItemNode item, int targetLaneIndex = -1)
         {
-            //if (!conveyorBuilding || !conveyorBuilding.isActiveAndEnabled) return;
+            targetLaneIndex = targetLaneIndex == -1 ? item.Value.currentLaneIndex : targetLaneIndex;
 
-            targetLaneIndex = targetLaneIndex == -1 ? item.currentLaneIndex : targetLaneIndex;
+            oldOwner.lanes[item.Value.currentLaneIndex].Remove(item);
 
-            oldOwner.lanes[item.currentLaneIndex].Remove(item);
-            this.AddToLaneStart(targetLaneIndex, item);
-            //Debug.Log("Ownership of " + item.name + " has been taken!");
+            ItemNode nextItem = lanes[targetLaneIndex].First;
+            float minDistance = INF;
+            for (ItemNode itemNode = lanes[targetLaneIndex].First; itemNode != null; itemNode = itemNode.Next)
+            {
+                float distance = oldOwner.GetOrthogonalDistance(item.Value, itemNode.Value);
+                if (distance < minDistance && oldOwner.IsOrthogonalItemAhead(item.Value, itemNode.Value))
+                {
+                    minDistance = distance;
+                    nextItem = itemNode;
+                }
+            }
+
+            this.AddToLaneBeforeNext(targetLaneIndex, item, nextItem);
         }
 
-        public void TakeOwnershipWithTransition(ConveyorBelt_Driver oldOwner, ConveyorBelt_Item item, int targetLaneIndex, float transitionSpeedFactor = 1.0f)
+        public void TakeOwnershipStraight(ConveyorBelt_Driver oldOwner, ItemNode item)
         {
-            TakeOwnership(oldOwner, item, targetLaneIndex);
-            
-            // TODO: visualize transition without affecting ownership logic. Calculate travel distance according to targetLaneIndex. Use Tween methods
+            int lane = item.Value.currentLaneIndex;
+            oldOwner.lanes[lane].Remove(item.Value);
+            this.AddToLaneBeforeNext(lane, item, lanes[lane].First);
         }
 
         internal float GetStraightDistance(ConveyorBelt_Item item1, ConveyorBelt_Item item2)
@@ -190,6 +239,11 @@ namespace RecycleFactory.Buildings.Logistics
             return other.direction != this.direction && other.direction != -this.direction;
         }
 
+        private bool IsOrthogonalItemAhead(ConveyorBelt_Item thisItem, ConveyorBelt_Item nextItem)
+        {
+            return (thisItem.transform.position - nextItem.transform.position).SignedMask().Multiply(nextDriver.direction.UnsignedMask()) == nextDriver.direction;
+        }
+
         /// <summary>
         /// Calculates lane index of the nextDriver where targetItem can travel right now. Returns -1 if there is no available lane.
         /// </summary>
@@ -201,10 +255,9 @@ namespace RecycleFactory.Buildings.Logistics
                 foreach (var item in nextDriver.lanes[laneIndex])
                 {
                     // check if the item is already in front and will not obscure targetItem's movement
-                    // if vectors are same, then item is moving awat from targetItem and should not be processed
-                    if ((targetItem.transform.position - item.transform.position).WithY(0).SignedMask().Multiply(nextDriver.direction.UnsignedMask()) == nextDriver.direction)
+                    // if vectors are same, then item is moving away from targetItem and should not be processed
+                    if (IsOrthogonalItemAhead(item, targetItem))
                     {
-
                         // item is in front of where targetItem is going to go
                         if (GetOrthogonalDistance(item, targetItem) < minItemDistance) // check if there is space for the new item
                         {
@@ -294,9 +347,17 @@ namespace RecycleFactory.Buildings.Logistics
         /// <summary>
         /// Try add the item to a specific lane
         /// </summary>
-        public void AddToLaneStart(int laneIndex, ConveyorBelt_Item item)
+        public void AddToLaneBeforeNext(int laneIndex, ItemNode itemNode, ItemNode nextItem = null)
         {
-            lanes[laneIndex].AddFirst(item);
+            if (nextItem == null)
+            {
+                lanes[laneIndex].AddLast(itemNode);
+            }
+            else
+            {
+                lanes[laneIndex].AddBefore(nextItem, itemNode.Value);
+            }
+            ConveyorBelt_Item item = itemNode.Value;
             item.transform.SetParent(conveyorBuilding.transform);
             item.currentDriver = this;
             item.holder = conveyorBuilding;

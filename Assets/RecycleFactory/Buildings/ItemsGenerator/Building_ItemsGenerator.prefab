@@ -49,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   description: 
   cost: 0
+  isAlive: 1
   receiver: {fileID: 0}
   releaser: {fileID: 0}
   buildingRenderer: {fileID: 1495444695210006738}
@@ -62,7 +63,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 38cedd981d63c2547a9d29f6bdc181ac, type: 2}
   - {fileID: 11400000, guid: b47aab83352c0c540bf09c7d9939477e, type: 2}
   - {fileID: 11400000, guid: 93e644c30cfb7014390da4c2b7ea119f, type: 2}
-  intervalSeconds: 1.5
+  intervalSeconds: 3.5
 --- !u!114 &4747837920409277860
 MonoBehaviour:
   m_ObjectHideFlags: 0
