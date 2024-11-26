@@ -33,6 +33,37 @@ namespace RecycleFactory
             }
         }
 
+        [Button]
+        internal void UnlockAllLevels()
+        {
+            if (!Application.isPlaying)
+            {
+                Debug.LogError("Unavailable in edit mode.");
+                return;
+            }
+            if (currentLevel < levels.Length)
+            {
+                for (int i = currentLevel + 1; i < levels.Length; i++)
+                {
+                    levels[i].Unlock();
+                }
+            }
+        }
+
+        [Button]
+        internal void UnlockAllBuildings()
+        {
+            if (!Application.isPlaying)
+            {
+                Debug.LogError("Unavailable in edit mode.");
+                return;
+            }
+            foreach (Building building in AllBuildings.allBuildings)
+            {
+                buildingsStates[building] = true;
+            }
+        }
+
         public void Init()
         {
             buildingsStates = AllBuildings.allBuildings.ToDictionary(x => x, x => false);

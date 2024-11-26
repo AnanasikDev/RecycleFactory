@@ -1,9 +1,8 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
-using Lane = System.Collections.Generic.LinkedList<RecycleFactory.Buildings.Logistics.ConveyorBelt_Item>;
-using ItemNode = System.Collections.Generic.LinkedListNode<RecycleFactory.Buildings.Logistics.ConveyorBelt_Item>;
+﻿using System.Collections.Generic;
 using System.Linq;
-using static UnityEditor.Progress;
+using UnityEngine;
+using ItemNode = System.Collections.Generic.LinkedListNode<RecycleFactory.Buildings.Logistics.ConveyorBelt_Item>;
+using Lane = System.Collections.Generic.LinkedList<RecycleFactory.Buildings.Logistics.ConveyorBelt_Item>;
 
 namespace RecycleFactory.Buildings.Logistics
 {
@@ -77,6 +76,7 @@ namespace RecycleFactory.Buildings.Logistics
                     ConveyorBelt_Item item = itemNode.Value;
 
                     float distToEnd = GetSignedDistanceToEnd(item);
+                    TextPromptManager.UpdateText(item.gameObject, "distToEnd", distToEnd.ToString("n2"));
 
                     // there is next driver connected
 
@@ -97,7 +97,7 @@ namespace RecycleFactory.Buildings.Logistics
                         continue;
                     }
 
-                    else if (distToEnd <= minEndDistance)
+                    if (distToEnd <= minEndDistance)
                     {
                         if (nextDriver == null || !nextDriver.isAlive)
                         {
@@ -118,7 +118,7 @@ namespace RecycleFactory.Buildings.Logistics
                             else
                             {
                                 nextDriver.TakeOwnershipOrthogonal(this, itemNode, targetLaneIndex);
-                            }   
+                            }
                         }
                         else
                         {
@@ -134,29 +134,6 @@ namespace RecycleFactory.Buildings.Logistics
                     {
                         item.transform.Translate(velocity * Time.deltaTime); // move item
                     }
-
-                    /*// not close to edge, try to move item
-
-                    // if no connection, halt at minEndDistance
-                    // if orthogonal connection and farther than minEndDistance, move
-                    if (nextDriver == null || IsOrthogonalTo(nextDriver))
-                    {
-                        if (distToEnd > minEndDistance)
-                        {
-                            item.transform.Translate(velocity * Time.deltaTime); // move item
-                        }
-                    }
-
-                    // if straight connection and there is space to go, move
-                    else
-                    {
-                        // straight connection
-
-                        if (nextDriver.lanes[item.currentLaneIndex].First == null || GetStraightDistance(item, nextDriver.lanes[item.currentLaneIndex].First.Value) > minItemDistance)
-                        {
-                            item.transform.Translate(velocity * Time.deltaTime); // move item
-                        }
-                    }*/
                 }
             }
         }
@@ -170,7 +147,7 @@ namespace RecycleFactory.Buildings.Logistics
 
             oldOwner.lanes[item.Value.currentLaneIndex].Remove(item);
 
-            ItemNode nextItem = lanes[targetLaneIndex].First;
+            ItemNode nextItem = null;
             float minDistance = INF;
             for (ItemNode itemNode = lanes[targetLaneIndex].First; itemNode != null; itemNode = itemNode.Next)
             {
@@ -180,7 +157,7 @@ namespace RecycleFactory.Buildings.Logistics
                     minDistance = distance;
                     nextItem = itemNode;
                 }
-            }
+            } 
 
             this.AddToLaneBeforeNext(targetLaneIndex, item, nextItem);
         }
@@ -254,29 +231,11 @@ namespace RecycleFactory.Buildings.Logistics
                 bool isLaneObscured = false;
                 foreach (var item in nextDriver.lanes[laneIndex])
                 {
-                    // check if the item is already in front and will not obscure targetItem's movement
-                    // if vectors are same, then item is moving away from targetItem and should not be processed
-                    if (IsOrthogonalItemAhead(item, targetItem))
+                    // check if there is space for the new item
+                    if (GetOrthogonalDistance(item, targetItem) < minItemDistance) 
                     {
-                        // item is in front of where targetItem is going to go
-                        if (GetOrthogonalDistance(item, targetItem) < minItemDistance) // check if there is space for the new item
-                        {
-                            Debug.Log("Next item is ahead, too close");
-                            isLaneObscured = true;
-                            break;
-                        }
-                        continue;
-                    }
-                    else
-                    {
-                        // possible to move to that lane only if there is enough space between
-                        if (GetOrthogonalDistance(item, targetItem) < GetStraightDistance(item, targetItem) + minItemDistance)
-                        {
-                            Debug.Log("Next item is behind, too close");
-                            // at least one item is too close, choose next lane
-                            isLaneObscured = true;
-                            break;
-                        }
+                        isLaneObscured = true;
+                        break;
                     }
                 }
                 if (!isLaneObscured)
