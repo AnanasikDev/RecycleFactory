@@ -43,10 +43,9 @@ public class PromptContainer
 
     private void UpdatePromptPositions()
     {
-        Debug.Log(_sortedPrompts.Count);
         for (int i = 0; i < _sortedPrompts.Count; i++)
         {
-            _sortedPrompts[i].SetLocalPosition(Vector3.up * i);
+            _sortedPrompts[i].SetLocalPosition(Vector3.up * i * TextPromptManager.PromptDistance);
         }
     }
 }

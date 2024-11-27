@@ -2,12 +2,11 @@
 
 public class TextPromptFaceCamera : MonoBehaviour
 {
-    private Camera _mainCamera;
+    private Camera _mainCamera; // camera object has to be tagged with "MainCamera"
 
     private void Start()
     {
         _mainCamera = Camera.main;
-        Debug.Log(_mainCamera);
     }
 
     private void Update()

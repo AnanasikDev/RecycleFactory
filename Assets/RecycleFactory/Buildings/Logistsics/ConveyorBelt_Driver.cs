@@ -76,7 +76,10 @@ namespace RecycleFactory.Buildings.Logistics
                     ConveyorBelt_Item item = itemNode.Value;
 
                     float distToEnd = GetSignedDistanceToEnd(item);
-                    TextPromptManager.UpdateText(item.gameObject, "distToEnd", distToEnd.ToString("n2"));
+                    TextPromptManager.UpdateText(item.gameObject, "distToEnd", "e " + distToEnd.ToString("n2"));
+                    TextPromptManager.UpdateText(item.gameObject, "distToNext", "n " + (itemNode.Next == null ? INF : GetStraightDistance(item, itemNode.Next.Value)).ToString("n2"));
+                    TextPromptManager.UpdateText(item.gameObject, "name", item.name);
+                    //TextPromptManager.UpdateText(item.gameObject, "next", itemNode.Next?.Value?.name ?? "null");
 
                     // there is next driver connected
 
@@ -157,7 +160,11 @@ namespace RecycleFactory.Buildings.Logistics
                     minDistance = distance;
                     nextItem = itemNode;
                 }
-            } 
+            }
+            //nextItem = lanes[targetLaneIndex].First;
+
+            TextPromptManager.UpdateText(item.Value.gameObject, "next", nextItem?.Value?.name ?? "null");
+
 
             this.AddToLaneBeforeNext(targetLaneIndex, item, nextItem);
         }
@@ -218,7 +225,7 @@ namespace RecycleFactory.Buildings.Logistics
 
         private bool IsOrthogonalItemAhead(ConveyorBelt_Item thisItem, ConveyorBelt_Item nextItem)
         {
-            return (thisItem.transform.position - nextItem.transform.position).SignedMask().Multiply(nextDriver.direction.UnsignedMask()) == nextDriver.direction;
+            return (nextItem.transform.position - thisItem.transform.position).SignedMask().Multiply(nextDriver.direction.UnsignedMask()) == nextDriver.direction;
         }
 
         /// <summary>
@@ -226,19 +233,26 @@ namespace RecycleFactory.Buildings.Logistics
         /// </summary>
         private int ChooseOrthogonalLane(ConveyorBelt_Item targetItem)
         {
-            for (int laneIndex = 0; laneIndex < LANES_NUMBER; laneIndex++)
+            bool laneAvailable(int laneIndex)
             {
-                bool isLaneObscured = false;
                 foreach (var item in nextDriver.lanes[laneIndex])
                 {
                     // check if there is space for the new item
-                    if (GetOrthogonalDistance(item, targetItem) < minItemDistance) 
+                    if (GetOrthogonalDistance(item, targetItem) < minItemDistance)
                     {
-                        isLaneObscured = true;
-                        break;
+                        return false;
                     }
                 }
-                if (!isLaneObscured)
+                return true;
+            }
+
+            if (laneAvailable(targetItem.currentLaneIndex)) return targetItem.currentLaneIndex;
+
+            for (int laneIndex = 0; laneIndex < LANES_NUMBER; laneIndex++)
+            {
+                if (targetItem.currentLaneIndex == laneIndex) continue;
+                
+                if (laneAvailable(laneIndex))
                 {
                     return laneIndex;
                 }
