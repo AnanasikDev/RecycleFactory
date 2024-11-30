@@ -7,6 +7,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.LightTransport;
+using static UnityEditor.PlayerSettings;
 
 namespace RecycleFactory.Player
 {
@@ -86,6 +87,12 @@ namespace RecycleFactory.Player
             }
         }
 
+        private bool CheckSelectedSpot()
+        {
+            isSelectedSpotAvailable = Map.isSpaceFree(selectedCell, Utils.RotateXY(selectedBuildingPrefab.shift, selectedRotation), Utils.RotateXY(selectedBuildingPrefab.size, selectedRotation));
+            return isSelectedSpotAvailable;
+        }
+
         private void HandleCellSelection()
         {
             Vector2Int mapPos = Scripts.PlayerController.GetSelectedCell();
@@ -93,7 +100,7 @@ namespace RecycleFactory.Player
             if (mapPos != selectedCell)
             {
                 selectedCell = mapPos;
-                isSelectedSpotAvailable = Map.isSpaceFree(mapPos, Utils.RotateXY(selectedBuildingPrefab.shift, selectedRotation), Utils.RotateXY(selectedBuildingPrefab.size, selectedRotation));
+                CheckSelectedSpot();
 
                 onCellSelectedEvent?.Invoke();
             }
@@ -129,8 +136,11 @@ namespace RecycleFactory.Player
             selectedBuildingPrefab = buildingPrefab;
             selectedBuildingIndex = buildingsPrefabs.ToList().IndexOf(buildingPrefab);
             selectedRotation = 0;
-            Debug.Log($"Selected building: {selectedBuildingPrefab.name}");
-            if (showPreview) UpdatePreview();
+            if (showPreview)
+            {
+                CheckSelectedSpot();
+                UpdatePreview();
+            }
         }
 
         public void ForceSelectBuilding(int index)
@@ -181,11 +191,11 @@ namespace RecycleFactory.Player
                 else
                 {
                     Vector3 position = Scripts.PlayerController.GetMouseWorldPosition();
-                    Vector2Int mapPos = new Vector2(position.x, position.z).FloorToInt();
+                    selectedCell = new Vector2(position.x, position.z).FloorToInt();
 
-                    if (Map.isSpaceFree(mapPos, Utils.RotateXY(selectedBuildingPrefab.shift, selectedRotation), Utils.RotateXY(selectedBuildingPrefab.size, selectedRotation)))
+                    if (CheckSelectedSpot())
                     {
-                        StartCoroutine(AnimateAndBuild(selectedBuildingPrefab, position, selectedRotation, mapPos));
+                        StartCoroutine(AnimateAndBuild(selectedBuildingPrefab, position, selectedRotation, selectedCell));
                         return true;
                     }
                     else
