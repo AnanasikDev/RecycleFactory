@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using RecycleFactory.Buildings.Logistics;
+using Node = System.Collections.Generic.LinkedListNode<RecycleFactory.Buildings.Logistics.ConveyorBelt_Item>;
 
 namespace RecycleFactory.Buildings
 {
@@ -8,7 +9,9 @@ namespace RecycleFactory.Buildings
     {
         private Building building;
         public float height;
-        [Tooltip("Must be set in inspector")] public List<ConveyorBelt_Anchor> outAnchors;
+
+        [Tooltip("Must be set in inspector")]
+        public List<ConveyorBelt_Anchor> outAnchors;
 
         public void Init(Building building, int rotation)
         {
@@ -30,26 +33,106 @@ namespace RecycleFactory.Buildings
             Building.onAnyDemolishedEvent -= UpdateAnchorsConnections;
         }
 
-        /// <summary>
-        /// Returns position where the specified anchor would release its items
-        /// </summary>
-        private Vector3 GetReleasePosition(int anchorIndex)
+        private Vector3 GetReleasePosition(int anchorIndex, int laneIndex)
         {
-            return (building.mapPosition.ConvertTo2D() + outAnchors[anchorIndex].localTilePosition.ConvertTo2D() + outAnchors[anchorIndex].direction.ConvertTo2D() / 2f).ProjectTo3D().WithY(outAnchors[anchorIndex].height);
+            return outAnchors[anchorIndex].conveyor.GetPositionAlignedToLane
+                (
+                (building.mapPosition.ConvertTo2D() + outAnchors[anchorIndex].localTilePosition.ConvertTo2D() + outAnchors[anchorIndex].direction.ConvertTo2D() / 2f).ProjectTo3D().WithY(outAnchors[anchorIndex].height), 
+                laneIndex
+                );
         }
 
-        public bool CanRelease(int anchorIndex)
+        public int ChooseLane(int anchorIndex, out Node nextNode)
         {
-            return outAnchors[anchorIndex].conveyor != null && outAnchors[anchorIndex].conveyor.CanEnqueueAnyItem();
-        }
+            var anchor = outAnchors[anchorIndex];
 
-        public void Release(ConveyorBelt_Item item, int anchorIndex)
-        {
-            item.transform.position = GetReleasePosition(anchorIndex);
-            if (!outAnchors[anchorIndex].conveyor.TakeOwnershipAddToStart(item))
+            // direct connection
+            if (anchor.direction == anchor.conveyor.direction.ProjectTo2D())
             {
-                Debug.Log("Releaser halted due to fail to release an item");
+                var con = ChooseLaneStraight(anchorIndex);
+                nextNode = con.nextItem;
+                return con.laneIndex;
             }
+
+            // orthogonal connection
+            else if (!anchor.onlyDirectConnections && anchor.direction != -anchor.conveyor.direction.ProjectTo2D())
+            {
+                var con = ChooseLaneOrthogonal(anchorIndex);
+                nextNode = con.nextItem;
+                return con.laneIndex;
+            }
+
+            nextNode = null;
+            return -1;
+        }
+
+        public void ForceRelease(int anchorIndex, int laneIndex, ConveyorBelt_Item item, Node nextNode)
+        {
+            item.transform.position = GetReleasePosition(anchorIndex, laneIndex);
+            outAnchors[anchorIndex].conveyor.AddToLaneBeforeNext(laneIndex, item, nextNode);
+        }
+
+        /// <summary>
+        /// Returns index of lane of the next STRAIGHT conveyor driver where an item from specified anchor can go in this frame. Returns -1 if there is no such lane. Does not check if next driver exists, if anchor index is correct or if next driver is connected straight.
+        /// </summary>
+        private ConnectionData ChooseLaneStraight(int anchorIndex)
+        {
+            var nextDriver = outAnchors[anchorIndex].conveyor;
+
+            for (int l = 0; l < ConveyorBelt_Driver.LANES_NUMBER; l++)
+            {
+                if (nextDriver.lanes[l].First == null || nextDriver.GetSignedDistanceFromStart(nextDriver.lanes[l].First.Value) > nextDriver.minItemDistance)
+                {
+                    return new ConnectionData(l, nextDriver.lanes[l].First);
+                }
+            }
+
+            return new ConnectionData(-1, null);
+        }
+
+        /// <summary>
+        /// Returns index of lane of the next ORTHOGONAL conveyor driver where an item from specified anchor can go in this frame. Returns -1 if there is no such lane. Does not check if next driver exists, if anchor index is correct or if next driver is connected orthogonally.
+        /// </summary>
+        private ConnectionData ChooseLaneOrthogonal(int anchorIndex)
+        {
+            var nextDriver = outAnchors[anchorIndex].conveyor;
+            Vector2 nextDirectionMask = outAnchors[anchorIndex].conveyor.direction.Abs();
+            Vector3 anchorReleasePosition = (building.mapPosition + outAnchors[anchorIndex].localTilePosition).ConvertTo2D().ProjectTo3D() + outAnchors[anchorIndex].direction.ConvertTo2D().ProjectTo3D() / 2f;
+
+            bool laneAvailable(int laneIndex, out Node nextNode)
+            {
+                float minDist = float.MaxValue;
+                nextNode = null;
+                Vector3 targetItemPos = nextDriver.GetPositionAlignedToLane(anchorReleasePosition, laneIndex);
+                for (Node node = nextDriver.lanes[laneIndex].First; node != null; node = node.Next)
+                {
+                    float dist = (node.Value.transform.position - targetItemPos).Multiply(nextDirectionMask.ProjectTo3D()).magnitude;
+
+                    // check if there is space for the new item
+                    if (dist < nextDriver.minItemDistance)
+                    {
+                        return false;
+                    }
+
+                    if (dist < minDist)
+                    {
+                        minDist = dist;
+                        nextNode = node;
+                    }
+                }
+
+                return true;
+            }
+
+            for (int laneIndex = 0; laneIndex < ConveyorBelt_Driver.LANES_NUMBER; laneIndex++)
+            {
+                if (laneAvailable(laneIndex, out Node nextNode))
+                {
+                    return new ConnectionData(laneIndex, nextNode);
+                }
+            }
+
+            return new ConnectionData(-1, null); // no lane available, wait
         }
 
         private void UpdateAnchorsConnections()
@@ -76,6 +159,18 @@ namespace RecycleFactory.Buildings
 
                 outAnchors[i].conveyor = null;
             }
+        }
+    }
+
+    public struct ConnectionData
+    {
+        public int laneIndex;
+        public Node nextItem;
+
+        public ConnectionData(int laneIndex, Node nextItem)
+        {
+            this.laneIndex = laneIndex;
+            this.nextItem = nextItem;
         }
     }
 }

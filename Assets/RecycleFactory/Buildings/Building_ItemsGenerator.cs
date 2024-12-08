@@ -26,12 +26,12 @@ namespace RecycleFactory.Buildings
 
         private void ReleaseOneItem()
         {
-            // do not create item if no lane is free
-            if (!releaser.CanRelease(0)) return;
+            int laneIndex = releaser.ChooseLane(0, out var nextNode);
+            if (laneIndex == -1) return; // do not create item if no lane is free
 
             var item = ConveyorBelt_Item.Create(itemInfos.RandomElement());
             item.transform.position = transform.position;
-            releaser.Release(item, 0);
+            releaser.ForceRelease(0, laneIndex, item, nextNode);
         }
 
         private void OnDrawGizmos()

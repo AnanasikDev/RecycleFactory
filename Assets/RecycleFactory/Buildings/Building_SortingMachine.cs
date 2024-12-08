@@ -21,10 +21,12 @@ namespace RecycleFactory.Buildings
             {
                 if (receiver.CanReceive(0, out ConveyorBelt_Item item, (ConveyorBelt_Item i) => isItemSortable(i.info, def)))
                 {
-                    if (!releaser.CanRelease(def.outAnchorIndex)) return;
+                    int laneIndex = releaser.ChooseLane(def.outAnchorIndex, out var nextNode);
+                    if (laneIndex == -1) return; //?
+
                     receiver.ForceReceive(item);
                     item = ConveyorBelt_Item.Create(item.info);
-                    releaser.Release(item, def.outAnchorIndex);
+                    releaser.ForceRelease(def.outAnchorIndex, laneIndex, item, nextNode);
                 }
             }
         }

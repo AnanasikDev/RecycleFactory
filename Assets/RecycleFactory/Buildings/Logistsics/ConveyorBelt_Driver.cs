@@ -311,7 +311,7 @@ namespace RecycleFactory.Buildings.Logistics
                     item.currentLaneIndex = i;
                     item.currentDriver = this;
                     item.holder = conveyorBuilding;
-                    AlignToLane(item, i);
+                    item.transform.position = GetPositionAlignedToLane(item.transform.position, i);
                     return true;
                 }
             }
@@ -323,20 +323,24 @@ namespace RecycleFactory.Buildings.Logistics
         /// </summary>
         public void AddToLaneBeforeNext(int laneIndex, ItemNode itemNode, ItemNode nextItem = null)
         {
+            AddToLaneBeforeNext(laneIndex, itemNode.Value, nextItem);
+        }
+
+        public void AddToLaneBeforeNext(int laneIndex, ConveyorBelt_Item item, ItemNode nextItem = null)
+        {
             if (nextItem == null)
             {
-                lanes[laneIndex].AddLast(itemNode);
+                lanes[laneIndex].AddLast(item);
             }
             else
             {
-                lanes[laneIndex].AddBefore(nextItem, itemNode.Value);
+                lanes[laneIndex].AddBefore(nextItem, item);
             }
-            ConveyorBelt_Item item = itemNode.Value;
             item.transform.SetParent(conveyorBuilding.transform);
             item.currentDriver = this;
             item.holder = conveyorBuilding;
             item.currentLaneIndex = laneIndex;
-            AlignToLane(item, laneIndex); // align with regard to index and conveyor driver positioning
+            item.transform.position = GetPositionAlignedToLane(item.transform.position, laneIndex); // align with regard to index and conveyor driver positioning
         }
 
         /// <summary>
@@ -348,13 +352,14 @@ namespace RecycleFactory.Buildings.Logistics
             lanes[item.currentLaneIndex].Remove(item);
         }
 
-        private void AlignToLane(ConveyorBelt_Item item, int laneIndex)
+        public Vector3 GetPositionAlignedToLane(Vector3 position, int laneIndex)
         {
             float delta = conveyorBuilding.beltWidth / 2f - conveyorBuilding.beltWidth / (LANES_NUMBER-1) * laneIndex;
             if (direction.x != 0)
-                item.transform.position = item.transform.position.WithZ(conveyorBuilding.startPivot.position.z - delta);
+                return position.WithZ(conveyorBuilding.startPivot.position.z - delta);
             if (direction.z != 0)
-                item.transform.position = item.transform.position.WithX(conveyorBuilding.startPivot.position.x - delta);
+                return position.WithX(conveyorBuilding.startPivot.position.x - delta);
+            return position;
         }
     }
 }

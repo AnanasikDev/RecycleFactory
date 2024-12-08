@@ -25,6 +25,53 @@ namespace RecycleFactory.Buildings
             Building.onAnyDemolishedEvent += UpdateAnchorsConnections;
         }
 
+        public bool CanReceive(int anchorIndex, out ConveyorBelt_Item item, System.Func<ConveyorBelt_Item, bool> itemCheckFunction = null)
+        {
+            var anchor = inAnchors[anchorIndex];
+            item = null;
+            if (anchor.conveyor == null) return false;
+            if (itemCheckFunction == null) itemCheckFunction = (ConveyorBelt_Item i) => true;
+
+            if (anchor.onlyDirectConnections)
+            {
+                // direct connection
+
+                item = GetLastFromAnyLane(anchor.conveyor, itemCheckFunction);
+                return item != null;
+            }
+            else
+            {
+                // direct or indirect connection
+
+                // calculate position of where to search for the item
+                var pos = transform.position + anchor.localTilePosition.ConvertTo2D().ProjectTo3D() - anchor.direction.ConvertTo2D().ProjectTo3D();
+                float radius = 0.4f;
+
+                // find an item on any lane near that position
+                item = GetFromAnyLane(anchor.conveyor, pos, radius, itemCheckFunction);
+                return item != null;
+            }
+        }
+
+        public void ForceReceive(ConveyorBelt_Item item)
+        {
+            item.Disable();
+        }
+
+        public bool TryReceive(int anchorIndex, out ConveyorBelt_ItemInfo itemInfo, System.Func<ConveyorBelt_Item, bool> itemCheckFunction = null)
+        {
+            if (CanReceive(anchorIndex, out ConveyorBelt_Item item, itemCheckFunction))
+            {
+                itemInfo = item.info;
+                ForceReceive(item);
+                return true;
+            }
+
+            itemInfo = null;
+            return false;
+        }
+
+
         private void OnDestroy()
         {
             Building.onAnyBuiltEvent -= UpdateAnchorsConnections;
@@ -55,52 +102,6 @@ namespace RecycleFactory.Buildings
                 }
             }
             return null;
-        }
-
-        public bool CanReceive(int anchorIndex, out ConveyorBelt_Item item, System.Func<ConveyorBelt_Item, bool> itemCheckFunction = null)
-        {
-            var anchor = inAnchors[anchorIndex];
-            item = null;
-            if (anchor.conveyor == null) return false;
-            if (itemCheckFunction == null) itemCheckFunction = (ConveyorBelt_Item i) => true;
-
-            if (anchor.onlyDirectConnections)
-            {
-                // direct connection
-
-                item = GetLastFromAnyLane(anchor.conveyor, itemCheckFunction);
-                return item != null;
-            }
-            else
-            {
-                // direct or indirect connection
-                
-                // calculate position of where to search for the item
-                var pos = transform.position + anchor.localTilePosition.ConvertTo2D().ProjectTo3D() - anchor.direction.ConvertTo2D().ProjectTo3D();
-                float radius = 0.4f;
-
-                // find an item on any lane near that position
-                item = GetFromAnyLane(anchor.conveyor, pos, radius, itemCheckFunction);
-                return item != null;
-            }
-        }
-
-        public void ForceReceive(ConveyorBelt_Item item)
-        {
-            item.Disable();
-        }
-
-        public bool TryReceive(int anchorIndex, out ConveyorBelt_ItemInfo itemInfo, System.Func<ConveyorBelt_Item, bool> itemCheckFunction = null)
-        {
-            if (CanReceive(anchorIndex, out ConveyorBelt_Item item, itemCheckFunction))
-            {
-                itemInfo = item.info;
-                ForceReceive(item);
-                return true;
-            }
-
-            itemInfo = null;
-            return false;
         }
 
         private void UpdateAnchorsConnections()
