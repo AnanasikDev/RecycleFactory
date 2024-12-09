@@ -45,6 +45,13 @@ namespace RecycleFactory.Buildings
         public int ChooseLane(int anchorIndex, out Node nextNode)
         {
             var anchor = outAnchors[anchorIndex];
+            nextNode = null;
+
+            // no conveyor connected OR next conveyor is flipped
+            if (outAnchors[anchorIndex].conveyor == null || anchor.direction == -anchor.conveyor.direction.ProjectTo2D())
+            {
+                return -1;
+            }
 
             // direct connection
             if (anchor.direction == anchor.conveyor.direction.ProjectTo2D())
@@ -55,14 +62,13 @@ namespace RecycleFactory.Buildings
             }
 
             // orthogonal connection
-            else if (!anchor.onlyDirectConnections && anchor.direction != -anchor.conveyor.direction.ProjectTo2D())
+            else if (!anchor.onlyDirectConnections)
             {
                 var con = ChooseLaneOrthogonal(anchorIndex);
                 nextNode = con.nextItem;
                 return con.laneIndex;
             }
 
-            nextNode = null;
             return -1;
         }
 

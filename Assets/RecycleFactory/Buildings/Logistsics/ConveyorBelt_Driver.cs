@@ -114,7 +114,6 @@ namespace RecycleFactory.Buildings.Logistics
                             // too far
 
                             int targetLaneIndex = ChooseOrthogonalLane(item); // find a lane where the item can go right now
-                            Debug.Log("Is orthogonal, new targetLaneIndex = " + targetLaneIndex);
                             if (targetLaneIndex == -1)
                             {
                                 // halt
