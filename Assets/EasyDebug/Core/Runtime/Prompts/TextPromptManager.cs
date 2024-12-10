@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace EasyDebug.Prompts
@@ -27,6 +28,7 @@ namespace EasyDebug.Prompts
                 _showAll = value;
             }
         }
+        public static TextPromptTransformMode transformMode = TextPromptTransformMode.FaceCamera;
         public static string ShowOnlyWithName = null;
         public static Vector3 StartLocalOffset = new Vector3(0, 1.5f, 0);
 
@@ -52,11 +54,20 @@ namespace EasyDebug.Prompts
 
         public static void DestroyAllPrompts(GameObject gameobject)
         {
-            if (PromptContainers.TryGetValue(gameobject, out var container))
+            if (PromptContainers.TryGetValue(gameobject, out PromptContainer container))
             {
                 PromptContainers.Remove(gameobject);
-                GameObject.Destroy(gameobject);
+                GameObject.Destroy(container.GetGameobject());
             }
+        }
+
+        /// <summary>
+        /// Returns an array containing all gameobjects which have prompt containers attached to them, even if they are empty, unless includeEmpty is set to false.
+        /// </summary>
+        /// <returns></returns>
+        public static GameObject[] GetAllGameobjects(bool includeEmpty = true)
+        {
+            return PromptContainers.Keys.ToArray();
         }
     }
 }

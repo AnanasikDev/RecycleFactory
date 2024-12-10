@@ -2,20 +2,32 @@
 
 namespace EasyDebug.Prompts
 {
-    public class TextPromptFaceCamera : MonoBehaviour
+    public enum TextPromptTransformMode
+    {
+        /// <summary>
+        /// Static position and rotation
+        /// </summary>
+        Static,
+        FaceCamera
+    }
+
+    public class TextPromptTransform : MonoBehaviour
     {
         private Camera _mainCamera; // camera object has to be tagged with "MainCamera"
 
         private void Start()
         {
             _mainCamera = Camera.main;
+            transform.eulerAngles = new Vector3(90, 0, 0);
         }
 
         private void Update()
         {
-            transform.LookAwayFrom(_mainCamera.transform);
+            if (TextPromptManager.transformMode == TextPromptTransformMode.FaceCamera)
+                transform.LookAwayFrom(_mainCamera.transform);
         }
     }
+
     public static class TransformExtensions
     {
         /// <summary>
