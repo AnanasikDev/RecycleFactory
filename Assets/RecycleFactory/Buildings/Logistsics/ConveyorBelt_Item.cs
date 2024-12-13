@@ -62,11 +62,20 @@ namespace RecycleFactory.Buildings.Logistics
         /// <summary>
         /// Disables the item in pool, detaches from its owning conveyor
         /// </summary>
-        public void Disable()
+        public void DetachAndDisable()
         {
             holder.driver.RemoveItem(this);
             gameObject.transform.SetParent(null);
             gameObject.SetActive(false);
+        }
+
+        /// <summary>
+        /// Detaches from its owning conveyor
+        /// </summary>
+        public void Detach()
+        {
+            holder.driver.RemoveItem(this);
+            gameObject.transform.SetParent(null);
         }
     }
 }

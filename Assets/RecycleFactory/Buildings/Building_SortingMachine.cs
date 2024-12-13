@@ -2,6 +2,7 @@
 using RecycleFactory.Buildings.Logistics;
 using NaughtyAttributes;
 using System;
+using System.Collections.Generic;
 
 namespace RecycleFactory.Buildings
 {
@@ -11,24 +12,59 @@ namespace RecycleFactory.Buildings
     {
         [SerializeField] private SortingDefinition[] sortingDefinitions;
 
+        internal event Action<ConveyorBelt_Item, SortingDefinition> onReceivedEvent;
+
+        private SortingMachineAnimator animationController;
+        private bool isAnimated;
+
+        protected override void PostInit()
+        {
+            animationController = GetComponent<SortingMachineAnimator>();
+            isAnimated = animationController != null;
+            if (isAnimated)
+            {
+                animationController.Init();
+                //animationController.onReadyToReleaseEvent += Release;
+            }
+        }
+
         private void Update()
         {
             ManageItem();
         }
+
         public void ManageItem()
         {
-            foreach (var def in sortingDefinitions)
+            foreach (SortingDefinition def in sortingDefinitions)
             {
                 if (receiver.CanReceive(0, out ConveyorBelt_Item item, (ConveyorBelt_Item i) => isItemSortable(i.info, def)))
                 {
-                    int laneIndex = releaser.ChooseLane(def.outAnchorIndex, out var nextNode);
-                    if (laneIndex == -1) return; //?
-
-                    receiver.ForceReceive(item);
-                    item = ConveyorBelt_Item.Create(item.info);
-                    releaser.ForceRelease(def.outAnchorIndex, laneIndex, item, nextNode);
+                    if (!isAnimated)
+                    {
+                        int laneIndex = releaser.ChooseLane(def.outAnchorIndex, out var nextNode);
+                        if (laneIndex == -1) return; // no other items could be released either, no need to check
+                        receiver.ForceReceive(item);
+                        onReceivedEvent?.Invoke(item, def);
+                        item = ConveyorBelt_Item.Create(item.info);
+                        releaser.ForceRelease(def.outAnchorIndex, laneIndex, item, nextNode);
+                    }
+                    else
+                    {
+                        receiver.ForceReceive(item, disable: false); // receive without disabling item
+                        animationController.OnReceive(item, def.outAnchorIndex);
+                        // Item received, wait for animationController.onReadyToReleaseEvent
+                    }
                 }
             }
+        }
+
+        internal bool Release(ConveyorBelt_Item item, int anchorIndex)
+        {
+            int laneIndex = releaser.ChooseLane(anchorIndex, out var nextNode);
+            if (laneIndex == -1) return false; // no other items could be released either, no need to check
+            item = ConveyorBelt_Item.Create(item.info);
+            releaser.ForceRelease(anchorIndex, laneIndex, item, nextNode);
+            return true;
         }
 
         internal bool isItemSortable(ConveyorBelt_ItemInfo item, SortingDefinition def)

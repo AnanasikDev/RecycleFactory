@@ -53,9 +53,12 @@ namespace RecycleFactory.Buildings
             }
         }
 
-        public void ForceReceive(ConveyorBelt_Item item)
+        public void ForceReceive(ConveyorBelt_Item item, bool disable = true)
         {
-            item.Disable();
+            if (disable)
+                item.DetachAndDisable();
+            else
+                item.Detach();
         }
 
         public bool TryReceive(int anchorIndex, out ConveyorBelt_ItemInfo itemInfo, System.Func<ConveyorBelt_Item, bool> itemCheckFunction = null)
