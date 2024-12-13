@@ -1,8 +1,7 @@
-﻿using UnityEngine;
+﻿using NaughtyAttributes;
 using RecycleFactory.Buildings.Logistics;
-using NaughtyAttributes;
 using System;
-using System.Collections.Generic;
+using UnityEngine;
 
 namespace RecycleFactory.Buildings
 {
@@ -48,7 +47,7 @@ namespace RecycleFactory.Buildings
                         item = ConveyorBelt_Item.Create(item.info);
                         releaser.ForceRelease(def.outAnchorIndex, laneIndex, item, nextNode);
                     }
-                    else
+                    else if (animationController.isReadyToReceive)
                     {
                         receiver.ForceReceive(item, disable: false); // receive without disabling item
                         animationController.OnReceive(item, def.outAnchorIndex);
@@ -61,8 +60,8 @@ namespace RecycleFactory.Buildings
         internal bool Release(ConveyorBelt_Item item, int anchorIndex)
         {
             int laneIndex = releaser.ChooseLane(anchorIndex, out var nextNode);
-            if (laneIndex == -1) return false; // no other items could be released either, no need to check
-            item = ConveyorBelt_Item.Create(item.info);
+            if (laneIndex == -1) return false;
+
             releaser.ForceRelease(anchorIndex, laneIndex, item, nextNode);
             return true;
         }

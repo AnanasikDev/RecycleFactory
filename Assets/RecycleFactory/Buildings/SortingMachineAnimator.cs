@@ -18,6 +18,8 @@ namespace RecycleFactory.Buildings.Logistics
     {
         protected Building_SortingMachine sortingMachine;
 
+        public bool isReadyToReceive = true;
+
         public Action<ConveyorBelt_Item, int> onReadyToReleaseEvent;
         public Action<ConveyorBelt_Item, int> onReadyToReceiveEvent;
 
