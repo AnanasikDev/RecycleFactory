@@ -62,6 +62,7 @@ namespace RecycleFactory.Buildings
             int laneIndex = releaser.ChooseLane(anchorIndex, out var nextNode);
             if (laneIndex == -1) return false;
 
+            item.transform.rotation = Quaternion.identity;
             releaser.ForceRelease(anchorIndex, laneIndex, item, nextNode);
             return true;
         }

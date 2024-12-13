@@ -38,7 +38,7 @@ namespace RecycleFactory.Buildings
         public override void Receive2ReleaseAnimEnded()
         {
             Debug.Log("Receive2Release anim ended");
-            onReadyToReleaseEvent?.Invoke(item, anchorIndex);
+            //onReadyToReleaseEvent?.Invoke(item, anchorIndex);
 
             IEnumerator tryUntil()
             {
