@@ -2,13 +2,14 @@ using UnityEngine;
 using UnityEditor;
 using EasyDebug;
 using EasyDebug.Prompts;
+using System.Collections;
 
 public class EasyDebugWindow : EditorWindow
 {
     private int tab = 0;
     private string[] tabs = new string[] { "General", "CommandLine", "Prompts", "PipeConsole" };
     private static Color bgdefault;
-    private static string version = "2.0.4";
+    private static string version = "2.0.5";
 
     [MenuItem("Tools/EasyDebug")]
     public static void ShowWindow()
@@ -19,7 +20,6 @@ public class EasyDebugWindow : EditorWindow
 
     private void DrawTab_General()
     {
-
         // main body
 
         GUILayout.Space(20);
@@ -48,7 +48,7 @@ public class EasyDebugWindow : EditorWindow
     {
         GUILayout.Label("Runtime gameobject prompts manager");
         TextPromptManager.ShowAll = GUILayout.Toggle(TextPromptManager.ShowAll, "Show all");
-        
+
         GUILayout.BeginHorizontal();
 
         GUI.backgroundColor = new Color(1f, 0.65f, 0.68f);

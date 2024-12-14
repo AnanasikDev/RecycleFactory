@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,7 +10,12 @@ namespace EasyDebug.Prompts
         public static float TextSize = 1.3f;
         public static float PromptDistance = 0.4f;
 
-        private static bool _showAll = true;
+#if UNITY_EDITOR
+        private static bool _showAll = true; // for editor default is true
+#else
+        private static bool _showAll = false; // for release default is false
+#endif
+
         public static bool ShowAll
         {
             get
@@ -28,6 +34,7 @@ namespace EasyDebug.Prompts
                 _showAll = value;
             }
         }
+
         public static TextPromptTransformMode transformMode = TextPromptTransformMode.FaceCamera;
         public static string ShowOnlyWithName = null;
         public static Vector3 StartLocalOffset = new Vector3(0, 1.5f, 0);
