@@ -65,6 +65,7 @@ namespace RecycleFactory
                 UIController.Init();
                 Map.Init();
                 PlayerController.Init();
+                StatisticsManager.Init();
             }
         }
 

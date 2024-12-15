@@ -1,5 +1,4 @@
-﻿using NaughtyAttributes;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace RecycleFactory.Buildings.Logistics
 {
@@ -7,6 +6,7 @@ namespace RecycleFactory.Buildings.Logistics
     public class ConveyorBelt_ItemInfo : ScriptableObject
     {
         public new string name;
+        public ItemCategories category;
         public Mesh mesh;
         public Material[] materials;
 
@@ -18,5 +18,15 @@ namespace RecycleFactory.Buildings.Logistics
         [Range(0, 1)] public float magnetic;
         [Range(0, 1)] public float transparency;
         [Range(0, 1)] public float density;
+    }
+
+    public enum ItemCategories
+    {
+        Paper,
+        Glass,
+        Plastic,
+        Metal,
+        Organic,
+        Battery
     }
 }

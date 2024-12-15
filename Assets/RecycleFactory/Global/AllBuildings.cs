@@ -33,14 +33,16 @@ namespace RecycleFactory.Buildings
             Debug.Log($"All {props.ToList().Count} Buildings initialized correctly");
         }
 
-        [AutoSet] public static Building ItemsGenerator { get; private set; }
+        [AutoSet] public static Building TrashProvider { get; private set; }
         [AutoSet] public static Building ConveyorBelt { get; private set; }
-        [AutoSet] public static Building CameraSorter { get; private set; }
+        [AutoSet] public static Building TransparencySorter { get; private set; }
         [AutoSet] public static Building MagneticSorter { get; private set; }
-        [AutoSet] public static Building EmployeeSorter { get; private set; }
-        [AutoSet] public static Building NeutralIncinerator { get; private set; }
-        [AutoSet] public static Building MetalIncinerator { get; private set; }
-        [AutoSet] public static Building PlasticIncinerator { get; private set; }
+        [AutoSet] public static Building PaperSorter { get; private set; }
+        //[AutoSet] public static Building DensitySorter { get; private set; }
+        [AutoSet] public static Building Incinerator { get; private set; }
+        [AutoSet] public static Building MetalRecycler { get; private set; }
+        [AutoSet] public static Building PlasticRecycler { get; private set; }
+        [AutoSet] public static Building PaperRecycler { get; private set; }
     }
 
     [System.AttributeUsage(System.AttributeTargets.Property | System.AttributeTargets.Field, AllowMultiple = false)]

@@ -1,9 +1,9 @@
+using NaughtyAttributes;
 using RecycleFactory.Buildings;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
-using NaughtyAttributes;
 using System.Linq;
+using UnityEngine;
 
 namespace RecycleFactory
 {
@@ -14,13 +14,10 @@ namespace RecycleFactory
 
         private Dictionary<Building, bool> buildingsStates;
 
-        public bool IsUnlocked(Building building)
-        {
-            return buildingsStates[building];
-        }
+        #region inspector_helpers
 
-        [Button]
-        internal void UnlockNext()
+        [Button("Unlock next")]
+        internal void cmd_UnlockNext()
         {
             if (!Application.isPlaying)
             {
@@ -33,8 +30,8 @@ namespace RecycleFactory
             }
         }
 
-        [Button]
-        internal void UnlockAllLevels()
+        [Button("Unlock all levels")]
+        internal void cmd_UnlockAllLevels()
         {
             if (!Application.isPlaying)
             {
@@ -50,8 +47,8 @@ namespace RecycleFactory
             }
         }
 
-        [Button]
-        internal void UnlockAllBuildings()
+        [Button("Unlock all buildings")]
+        internal void cmd_UnlockAllBuildings()
         {
             if (!Application.isPlaying)
             {
@@ -64,21 +61,28 @@ namespace RecycleFactory
             }
         }
 
+        #endregion inspector_helpers
+
+        public bool IsUnlocked(Building building)
+        {
+            return buildingsStates[building];
+        }
+
         public void Init()
         {
             buildingsStates = AllBuildings.allBuildings.ToDictionary(x => x, x => false);
 
-            levels = new Level[2];
+            levels = new Level[3];
 
             levels[0] = new Level()
             {
                 CanBeUnlocked = () =>
                 {
-                    return true;
+                    return true; // always unlocked
                 },
                 Unlock = () =>
                 {
-                    UnlockBuildings(new List<Building>() { AllBuildings.ConveyorBelt, AllBuildings.ItemsGenerator, AllBuildings.NeutralIncinerator });
+                    UnlockBuildings(new List<Building>() { AllBuildings.ConveyorBelt, AllBuildings.TrashProvider, AllBuildings.Incinerator });
                 },
                 id = 0
             };
@@ -87,13 +91,26 @@ namespace RecycleFactory
             {
                 CanBeUnlocked = () =>
                 {
-                    return true;
+                    return StatisticsManager.totalItemsIncinerated > 5;
                 },
                 Unlock = () =>
                 {
-                    UnlockBuildings(new List<Building>() { AllBuildings.MetalIncinerator, AllBuildings.MagneticSorter });
+                    UnlockBuildings(new List<Building>() { AllBuildings.MetalRecycler, AllBuildings.MagneticSorter });
                 },
                 id = 1
+            };
+
+            levels[2] = new Level()
+            {
+                CanBeUnlocked = () =>
+                {
+                    return StatisticsManager.itemsRecycledByCategory[Buildings.Logistics.ItemCategories.Metal] > 20;
+                },
+                Unlock = () =>
+                {
+                    UnlockBuildings(new List<Building>() { AllBuildings.PaperSorter, AllBuildings.PaperRecycler });
+                },
+                id = 2
             };
 
             levels[0].Unlock();

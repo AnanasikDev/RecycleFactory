@@ -5889,7 +5889,7 @@ GameObject:
   - component: {fileID: 821925633535466625}
   - component: {fileID: 4254899417818935000}
   m_Layer: 0
-  m_Name: Building_EmployeeSorter
+  m_Name: Building_PaperSorter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

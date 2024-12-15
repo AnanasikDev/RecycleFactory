@@ -1,6 +1,6 @@
 ﻿using NaughtyAttributes;
+using System;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 namespace RecycleFactory.Buildings.Logistics
 {
@@ -19,6 +19,9 @@ namespace RecycleFactory.Buildings.Logistics
         [ReadOnly] public ConveyorBelt_Building holder;
         public ConveyorBelt_ItemInfo info;
         [Tooltip("Index of lane of the conveyor at which it is at now")] public int currentLaneIndex;
+
+        public static event Action<ConveyorBelt_ItemInfo, int> onItemIncineratedEvent;
+        public static event Action<ConveyorBelt_ItemInfo, int> onItemRecycledEvent;
 
         private void Awake()
         {
@@ -76,6 +79,16 @@ namespace RecycleFactory.Buildings.Logistics
         {
             holder.driver.RemoveItem(this);
             gameObject.transform.SetParent(null);
+        }
+
+        public void MarkIncinerated(int moneyBonus)
+        {
+            onItemIncineratedEvent?.Invoke(info, moneyBonus);
+        }
+
+        public void MarkRecycled(int moneyBonus)
+        {
+            onItemRecycledEvent?.Invoke(info, moneyBonus);
         }
     }
 }

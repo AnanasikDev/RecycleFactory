@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 7101084957786112586}
   - component: {fileID: 6974351339611237043}
   m_Layer: 0
-  m_Name: Building_PlasticIncinerator
+  m_Name: Building_MetalRecycler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48a31050155f03e458caab1d02e3df5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: Recycles plastic
+  description: Recycles metal
   cost: 1250
   receiver: {fileID: 0}
   releaser: {fileID: 0}
@@ -176,7 +176,7 @@ MonoBehaviour:
   size: {x: 3, y: 3}
   shift: {x: -1, y: -1}
   mapPosition: {x: 0, y: 0}
-  metaillicBonus: -40
-  plasticBonus: 35
-  organicBonus: -20
-  paperBonus: -12
+  metaillicBonus: 30
+  plasticBonus: -25
+  organicBonus: -15
+  paperBonus: -15

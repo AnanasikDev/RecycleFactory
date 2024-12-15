@@ -61,16 +61,16 @@ namespace RecycleFactory.Buildings
                 item.Detach();
         }
 
-        public bool TryReceive(int anchorIndex, out ConveyorBelt_ItemInfo itemInfo, System.Func<ConveyorBelt_Item, bool> itemCheckFunction = null)
+        public bool TryReceive(int anchorIndex, out ConveyorBelt_Item item, System.Func<ConveyorBelt_Item, bool> itemCheckFunction = null)
         {
-            if (CanReceive(anchorIndex, out ConveyorBelt_Item item, itemCheckFunction))
+            if (CanReceive(anchorIndex, out ConveyorBelt_Item _item, itemCheckFunction))
             {
-                itemInfo = item.info;
-                ForceReceive(item);
+                item = _item;
+                ForceReceive(_item);
                 return true;
             }
 
-            itemInfo = null;
+            item = null;
             return false;
         }
 

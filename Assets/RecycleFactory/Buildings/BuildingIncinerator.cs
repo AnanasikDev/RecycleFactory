@@ -25,18 +25,25 @@ namespace RecycleFactory.Buildings
         private void Incinerate()
         {
             // try receive an item
-            if (receiver.TryReceive(0, out ConveyorBelt_ItemInfo info))
+            if (receiver.TryReceive(0, out ConveyorBelt_Item item))
             {
                 float bonus = 0;
-                bonus += metaillicBonus * info.metallic;
-                bonus += plasticBonus   * info.plastic;
-                bonus += organicBonus   * info.organic;
-                bonus += paperBonus     * info.paper;
+                bonus += metaillicBonus * item.info.metallic;
+                bonus += plasticBonus   * item.info.plastic;
+                bonus += organicBonus   * item.info.organic;
+                bonus += paperBonus     * item.info.paper;
                 Scripts.Budget.Add((int)bonus);
-                Debug.Log("INCINERATED SUCCESSFULLY");
-            }
 
-            // if success, destroy it
+                // if recycled properly
+                if (bonus > 0)
+                {
+                    item.MarkRecycled((int)bonus);
+                }
+                else // if recycled not properly OR incinerated
+                {
+                    item.MarkIncinerated((int)bonus);
+                }
+            }
         }
     }
 }
