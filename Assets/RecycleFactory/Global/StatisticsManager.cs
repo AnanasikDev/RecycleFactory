@@ -22,9 +22,12 @@ namespace RecycleFactory
         {
             ConveyorBelt_Item.onItemRecycledEvent += (ConveyorBelt_ItemInfo info, int bonus) =>
             {
-                itemsRecycled.Add(info, itemsRecycled.TryGetValue(info, out int val) ? val + 1 : 1);
-                itemsRecycledMoneyEarned.Add(info, itemsRecycledMoneyEarned.TryGetValue(info, out int val2) ? val2 + bonus : bonus);
-                itemsRecycledByCategory.Add(info.category, itemsRecycledByCategory.TryGetValue(info.category, out int val3) ? val3 + 1 : 1);
+                itemsRecycled[info] = itemsRecycled.ContainsKey(info) ? itemsRecycled[info] + 1 : 1;
+
+                itemsRecycledMoneyEarned[info] = itemsRecycledMoneyEarned.ContainsKey(info) ? itemsRecycledMoneyEarned[info] + bonus : bonus;
+
+                itemsRecycledByCategory[info.category] = itemsRecycledByCategory.ContainsKey(info.category) ? itemsRecycledByCategory[info.category] + 1 : 1;
+
                 totalMoneyEarnedFromRecycling += bonus;
             };
 

@@ -974,6 +974,7 @@ MonoBehaviour:
   - {fileID: 6974351339611237043, guid: 529d848b271c51643ba0be5799cd2d6b, type: 3}
   - {fileID: 6974351339611237043, guid: 997cd3b2a0668e148a2b79de3062111a, type: 3}
   - {fileID: 6974351339611237043, guid: 7efcf68ec9465ac42b4ab2581cb4cab2, type: 3}
+  - {fileID: 6974351339611237043, guid: 0ded7f01e8c704f458f20d92045324b0, type: 3}
   showPreview: 1
   previews:
   - {fileID: 0}
@@ -2990,6 +2991,9 @@ MonoBehaviour:
     - building: {fileID: 6974351339611237043, guid: 7efcf68ec9465ac42b4ab2581cb4cab2,
         type: 3}
       sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+    - building: {fileID: 6974351339611237043, guid: 0ded7f01e8c704f458f20d92045324b0,
+        type: 3}
+      sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
     sprite: {fileID: 0}
   - name: Sorting machines
     options:
@@ -3322,7 +3326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44736ef7b531a5348bd45cd041a316b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultAmount: 100000
+  defaultAmount: 12000
   textMeshProFormat: ${0}
   textMeshPro: {fileID: 882205680}
 --- !u!114 &1718196796
