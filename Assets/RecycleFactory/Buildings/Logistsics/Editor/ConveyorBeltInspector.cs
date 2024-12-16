@@ -1,10 +1,9 @@
 using UnityEngine;
 using UnityEditor;
-using RecycleFactory.Buildings;
-using RecycleFactory.Buildings.Logistics;
 
-namespace RecycleFactory.Buildings
+namespace RecycleFactory.Buildings.Logistics
 {
+#if UNITY_EDITOR
     [CustomEditor(typeof(ConveyorBelt_Building))]
     public class ConveyorBeltInspector : Editor
     {
@@ -71,4 +70,5 @@ namespace RecycleFactory.Buildings
             GUILayout.EndHorizontal();
         }
     }
+#endif
 }

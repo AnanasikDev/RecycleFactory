@@ -1,6 +1,6 @@
 using NaughtyAttributes;
-using NUnit.Framework;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace RecycleFactory.Buildings
 {
@@ -38,7 +38,7 @@ namespace RecycleFactory.Buildings
             mapPosition = mapPos;
             isAlive = true;
 
-            Assert.That(buildingRenderer != null, "[ReFa]: BuildingRenderer must be not null!");
+            Assert.IsTrue(buildingRenderer != null, "[ReFa]: BuildingRenderer must be not null!");
             receiver = GetComponent<BuildingExtension_Receiver>();
             releaser = GetComponent<BuildingExtension_Releaser>();
             buildingRenderer.Init();

@@ -9,18 +9,18 @@ namespace RecycleFactory.Buildings.Logistics
 {
     public class ConveyorBelt_Driver
     {
-        internal static readonly int INF = 100000;
+        public static readonly int INF = 100000;
         public static readonly int LANES_NUMBER = 3;
-        internal readonly Lane[] lanes = new Lane[LANES_NUMBER];
-        internal List<ConveyorBelt_Item> allItemsReadonly { get { return lanes.SelectMany(lane => lane).ToList(); } }
+        public readonly Lane[] lanes = new Lane[LANES_NUMBER];
+        public List<ConveyorBelt_Item> allItemsReadonly { get { return lanes.SelectMany(lane => lane).ToList(); } }
 
-        internal ConveyorBelt_Building conveyorBuilding { get; init; }
-        internal ConveyorBelt_Driver nextDriver;
+        public ConveyorBelt_Building conveyorBuilding { get; init; }
+        public ConveyorBelt_Driver nextDriver;
         public readonly float minItemDistance = 0.4f;
         public readonly float minEndDistance = 0.3f;
         public readonly float transferEndDistance = 0.0f;
 
-        internal bool isAlive = true;
+        public bool isAlive = true;
 
         public Vector3 direction { get; init; }
         public Vector3 velocity { get { return direction * conveyorBuilding.lengthTiles / conveyorBuilding.transportTimeSeconds; } }
@@ -176,18 +176,18 @@ namespace RecycleFactory.Buildings.Logistics
             this.AddToLaneBeforeNext(lane, item, lanes[lane].First);
         }
 
-        internal float GetStraightDistance(ConveyorBelt_Item item1, ConveyorBelt_Item item2)
+        public float GetStraightDistance(ConveyorBelt_Item item1, ConveyorBelt_Item item2)
         {
             return item1 == null || item2 == null ? INF : (item1.transform.position - item2.transform.position).Multiply(this.direction).magnitude;
         }
         
-        internal float GetOrthogonalDistance(ConveyorBelt_Item thisItem, ConveyorBelt_Item nextItem)
+        public float GetOrthogonalDistance(ConveyorBelt_Item thisItem, ConveyorBelt_Item nextItem)
         {
             return thisItem == null || nextItem == null ? INF : 
                 (thisItem.transform.position - nextItem.transform.position).Multiply(nextDriver.direction).magnitude;
         }
         
-        internal float GetSignedDistanceFromStart(ConveyorBelt_Item item)
+        public float GetSignedDistanceFromStart(ConveyorBelt_Item item)
         {
             if (item == null) return INF;
             if (direction.x < 0)
@@ -201,7 +201,7 @@ namespace RecycleFactory.Buildings.Logistics
             return INF;
         }
         
-        internal float GetSignedDistanceToEnd(ConveyorBelt_Item item)
+        public float GetSignedDistanceToEnd(ConveyorBelt_Item item)
         {
             if (item == null) return INF;
             if (direction.x > 0)

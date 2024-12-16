@@ -6,8 +6,6 @@ using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.LightTransport;
-using static UnityEditor.PlayerSettings;
 
 namespace RecycleFactory.Player
 {

@@ -45,28 +45,37 @@ namespace RecycleFactory
 
         private void Start()
         {
-            if (Application.isPlaying)
-            {
-                PlayerController = _PlayerController;
-                PlayerCamera = _PlayerCamera;
-                PlayerBuilder = _PlayerBuilder;
-                PlayerDemolisher = _PlayerDemolisher;
-                Map = _Map;
-                UIController = _UIController;
-                Budget = _Budget;
-                BuildingArrowPreviewController = _BuildingArrowPreviewController;
-                AllBuildings = _AllBuildings;
-                LevelController = _LevelController;
+            #if UNITY_EDITOR
+                if (Application.isPlaying)
+                {
+                    Init();
+                }
+            #else
+                Init();
+            #endif
+        }
 
-                AllBuildings.Init();
-                LevelController.Init();
-                BuildingArrowPreviewController.Init();
-                Budget.Init();
-                UIController.Init();
-                Map.Init();
-                PlayerController.Init();
-                StatisticsManager.Init();
-            }
+        private void Init()
+        {
+            PlayerController = _PlayerController;
+            PlayerCamera = _PlayerCamera;
+            PlayerBuilder = _PlayerBuilder;
+            PlayerDemolisher = _PlayerDemolisher;
+            Map = _Map;
+            UIController = _UIController;
+            Budget = _Budget;
+            BuildingArrowPreviewController = _BuildingArrowPreviewController;
+            AllBuildings = _AllBuildings;
+            LevelController = _LevelController;
+
+            AllBuildings.Init();
+            LevelController.Init();
+            BuildingArrowPreviewController.Init();
+            Budget.Init();
+            UIController.Init();
+            Map.Init();
+            PlayerController.Init();
+            StatisticsManager.Init();
         }
 
         private void OnValidate()

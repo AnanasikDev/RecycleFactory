@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: AnanasikGames
+  companyName: Ananasik Entertainment
   productName: RecycleFactory
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -828,7 +828,7 @@ PlayerSettings:
     QNX: UNITY_POST_PROCESSING_STACK_V2;DOTWEEN
     ReservedCFE: UNITY_POST_PROCESSING_STACK_V2;DOTWEEN
     Stadia: UNITY_POST_PROCESSING_STACK_V2
-    Standalone: UNITY_POST_PROCESSING_STACK_V2;DOTWEEN
+    Standalone: UNITY_POST_PROCESSING_STACK_V2;DOTWEEN;UNITY_INCLUDE_TESTS
     VisionOS: UNITY_POST_PROCESSING_STACK_V2;DOTWEEN
     WebGL: UNITY_POST_PROCESSING_STACK_V2;DOTWEEN
     Windows Store Apps: DOTWEEN

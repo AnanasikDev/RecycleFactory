@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 
 namespace RecycleFactory
 {
+#if UNITY_EDITOR
     [CustomEditor(typeof(RecycleFactory.UI.UIController))]
     public class UIInputMaskInspector : Editor
     {
@@ -30,4 +31,5 @@ namespace RecycleFactory
             }
         }
     }
+#endif
 }
