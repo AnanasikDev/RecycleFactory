@@ -5965,7 +5965,7 @@ MonoBehaviour:
     height: 0
     localTilePosition: {x: 0, y: 0}
     direction: {x: 1, y: 0}
-    onlyDirectConnections: 1
+    onlyDirectConnections: 0
 --- !u!114 &4646742573862785996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6008,6 +6008,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d43e1a82937014baffcd829343e3b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isReadyToReceive: 1
   animator: {fileID: 4254899417818935000}
   handTransform: {fileID: 6411192645623643967}
 --- !u!95 &4254899417818935000
