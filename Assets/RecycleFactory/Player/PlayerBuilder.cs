@@ -112,7 +112,11 @@ namespace RecycleFactory.Player
                 if (r != 0)
                 {
                     selectedRotation = (int)Mathf.Repeat(selectedRotation + r, 4);
-                    if (showPreview) UpdatePreview();
+                    if (showPreview)
+                    {
+                        CheckSelectedSpot();
+                        UpdatePreview();
+                    }
                 }
             }
         }

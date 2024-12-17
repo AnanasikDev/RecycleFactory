@@ -132,5 +132,13 @@ namespace RecycleFactory.Buildings
                 inAnchors[i].conveyor = null;
             }
         }
+
+        private void OnDrawGizmos()
+        {
+            for (int i = 0; i < inAnchors.Count; i++)
+            {
+                DrawArrow.ForGizmo((building.mapPosition + inAnchors[i].localTilePosition).ConvertTo2D().ProjectTo3D(), inAnchors[i].direction.ConvertTo2D().ProjectTo3D());
+            }
+        }
     }
 }

@@ -16,10 +16,17 @@ namespace RecycleFactory.Buildings
         private SortingMachineAnimator animationController;
         private bool isAnimated;
 
+        private int inAnchorsCount;
+        private int outAnchorsCount;
+
         protected override void PostInit()
         {
             animationController = GetComponent<SortingMachineAnimator>();
             isAnimated = animationController != null;
+
+            inAnchorsCount = receiver?.inAnchors?.Count ?? 0;
+            outAnchorsCount = releaser?.outAnchors?.Count ?? 0;
+
             if (isAnimated)
             {
                 animationController.Init();
@@ -36,22 +43,25 @@ namespace RecycleFactory.Buildings
         {
             foreach (SortingDefinition def in sortingDefinitions)
             {
-                if (receiver.CanReceive(0, out ConveyorBelt_Item item, (ConveyorBelt_Item i) => isItemSortable(i.info, def)))
+                for (int a = 0; a < inAnchorsCount; a++)
                 {
-                    if (!isAnimated)
+                    if (receiver.CanReceive(a, out ConveyorBelt_Item item, (ConveyorBelt_Item i) => isItemSortable(i.info, def)))
                     {
-                        int laneIndex = releaser.ChooseLane(def.outAnchorIndex, out var nextNode);
-                        if (laneIndex == -1) return; // no other items could be released either, no need to check
-                        receiver.ForceReceive(item);
-                        onReceivedEvent?.Invoke(item, def);
-                        item = ConveyorBelt_Item.Create(item.info);
-                        releaser.ForceRelease(def.outAnchorIndex, laneIndex, item, nextNode);
-                    }
-                    else if (animationController.isReadyToReceive)
-                    {
-                        receiver.ForceReceive(item, disable: false); // receive without disabling item
-                        animationController.OnReceive(item, def.outAnchorIndex);
-                        // Item received, wait for animationController.onReadyToReleaseEvent
+                        if (!isAnimated)
+                        {
+                            int laneIndex = releaser.ChooseLane(def.outAnchorIndex, out var nextNode);
+                            if (laneIndex == -1) return; // no other items could be released either, no need to check
+                            receiver.ForceReceive(item);
+                            onReceivedEvent?.Invoke(item, def);
+                            item = ConveyorBelt_Item.Create(item.info);
+                            releaser.ForceRelease(def.outAnchorIndex, laneIndex, item, nextNode);
+                        }
+                        else if (animationController.isReadyToReceive)
+                        {
+                            receiver.ForceReceive(item, disable: false); // receive without disabling item
+                            animationController.OnReceive(item, def.outAnchorIndex);
+                            // Item received, wait for animationController.onReadyToReleaseEvent
+                        }
                     }
                 }
             }
