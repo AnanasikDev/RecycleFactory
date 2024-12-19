@@ -13,9 +13,14 @@ MonoBehaviour:
   m_Name: itemInfo_1
   m_EditorClassIdentifier: 
   name: bottle
+  category: 2
   mesh: {fileID: -2432090755550338912, guid: 4d11740918f23e244b3c019c3f47724a, type: 3}
   materials:
   - {fileID: -3846018093981099296, guid: 70d9f6e35815d4f47ba713b176ef7768, type: 3}
+  metallic: 0
+  plastic: 0
+  organic: 0
+  paper: 0
   magnetic: 0
   transparency: 1
   density: 0.8

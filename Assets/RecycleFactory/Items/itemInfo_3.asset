@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: itemInfo_3
   m_EditorClassIdentifier: 
   name: bolt
+  category: 3
   mesh: {fileID: -2432090755550338912, guid: f8a72282c0de64b4883b3518773588b8, type: 3}
   materials:
   - {fileID: 4874126678125670354, guid: f8a72282c0de64b4883b3518773588b8, type: 3}

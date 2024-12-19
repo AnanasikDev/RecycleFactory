@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: itemInfo_6
   m_EditorClassIdentifier: 
   name: handle
+  category: 3
   mesh: {fileID: -2432090755550338912, guid: 19644e416785f1c4bbff7c2316988ff7, type: 3}
   materials:
   - {fileID: -6087771358165109452, guid: 19644e416785f1c4bbff7c2316988ff7, type: 3}

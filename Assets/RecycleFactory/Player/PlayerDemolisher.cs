@@ -49,6 +49,7 @@ namespace RecycleFactory.Player
             onDemolishEvent?.Invoke(building);
             onAnyDemolishEvent?.Invoke();
 
+            Scripts.Budget.Add(building.cost);
             building.Demolish();
         }
     }

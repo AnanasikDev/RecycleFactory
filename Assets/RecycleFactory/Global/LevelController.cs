@@ -1,5 +1,6 @@
 using NaughtyAttributes;
 using RecycleFactory.Buildings;
+using RecycleFactory.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,11 @@ namespace RecycleFactory
         [ShowNativeProperty] public int currentLevel { get; private set; } = 0;
 
         private Dictionary<Building, bool> buildingsStates;
+
+        [SerializeField] private UIProgressBar progressBar;
+        private float progressToNext = 0.0f;
+
+        private const float threshold = 1.0f - 10e-4f;
 
         #region inspector_helpers
 
@@ -76,9 +82,9 @@ namespace RecycleFactory
 
             levels[0] = new Level()
             {
-                CanBeUnlocked = () =>
+                GetProgress = () =>
                 {
-                    return true; // always unlocked
+                    return 1; // always unlocked
                 },
                 Unlock = () =>
                 {
@@ -89,31 +95,34 @@ namespace RecycleFactory
 
             levels[1] = new Level()
             {
-                CanBeUnlocked = () =>
+                GetProgress = () =>
                 {
-                    return StatisticsManager.totalItemsIncinerated > 5;
+                    return StatisticsManager.totalItemsIncinerated / 10f;
                 },
                 Unlock = () =>
                 {
                     UnlockBuildings(new List<Building>() { AllBuildings.MetalRecycler, AllBuildings.MagneticSorter });
+                    Scripts.Budget.Add(5000);
                 },
                 id = 1
             };
 
             levels[2] = new Level()
             {
-                CanBeUnlocked = () =>
+                GetProgress = () =>
                 {
-                    return StatisticsManager.itemsRecycledByCategory[Buildings.Logistics.ItemCategories.Metal] > 20;
+                    return StatisticsManager.itemsRecycledByCategory.TryGetValue(Buildings.Logistics.ItemCategories.Metal, out var val) ? val / 20f : 0;
                 },
                 Unlock = () =>
                 {
                     UnlockBuildings(new List<Building>() { AllBuildings.PaperSorter, AllBuildings.PaperRecycler });
+                    Scripts.Budget.Add(5000);
                 },
                 id = 2
             };
 
             levels[0].Unlock();
+            progressBar.SetValue(0);
         }
 
         private void UnlockBuildings(List<Building> buildings)
@@ -123,12 +132,25 @@ namespace RecycleFactory
                 buildingsStates[building] = true;
             }
         }
+
+        private void Update()
+        {
+            if (currentLevel == levels.Length - 1) return;
+
+            progressToNext = levels[currentLevel + 1].GetProgress();
+            progressBar.SetValue(progressToNext);
+            if (progressToNext >= threshold)
+            {
+                levels[currentLevel + 1].Unlock();
+                currentLevel++;
+            }
+        }
     }
 
     public class Level
     {
         public int id;
-        public Func<bool> CanBeUnlocked;
+        public Func<float> GetProgress;
         public Action Unlock;
     }
 }
