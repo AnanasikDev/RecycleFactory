@@ -135,6 +135,8 @@ namespace RecycleFactory.Buildings
 
         private void OnDrawGizmos()
         {
+            if (!Application.isPlaying) return;
+
             for (int i = 0; i < inAnchors.Count; i++)
             {
                 DrawArrow.ForGizmo((building.mapPosition + inAnchors[i].localTilePosition).ConvertTo2D().ProjectTo3D(), inAnchors[i].direction.ConvertTo2D().ProjectTo3D());
