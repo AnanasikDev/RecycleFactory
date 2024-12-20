@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   description: Conveyor belt
-  cost: 3000
+  cost: 800
   isAlive: 1
   receiver: {fileID: 0}
   releaser: {fileID: 0}

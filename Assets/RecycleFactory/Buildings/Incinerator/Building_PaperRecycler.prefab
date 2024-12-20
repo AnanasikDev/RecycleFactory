@@ -82,7 +82,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   description: Recycles paper
-  cost: 1250
+  cost: 1600
   isAlive: 1
   receiver: {fileID: 0}
   releaser: {fileID: 0}

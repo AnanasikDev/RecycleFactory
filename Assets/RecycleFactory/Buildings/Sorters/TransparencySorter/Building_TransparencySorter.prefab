@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   description: Filters transparent materials out
-  cost: 2000
+  cost: 3500
   isAlive: 1
   receiver: {fileID: 0}
   releaser: {fileID: 0}

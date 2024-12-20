@@ -5979,7 +5979,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   description: Filters paper materials out
-  cost: 1400
+  cost: 3000
   isAlive: 1
   receiver: {fileID: 0}
   releaser: {fileID: 0}
@@ -6010,7 +6010,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isReadyToReceive: 1
   animator: {fileID: 4254899417818935000}
-  handTransform: {fileID: 6411192645623643967}
+  attachToOneTransform: 0
+  singleParent: {fileID: 0}
+  averageHandlers:
+  - {fileID: 971229131482930969}
+  - {fileID: 4757887514760723932}
 --- !u!95 &4254899417818935000
 Animator:
   serializedVersion: 7
