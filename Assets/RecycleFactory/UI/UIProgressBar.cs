@@ -21,7 +21,8 @@ namespace RecycleFactory.UI
         public void SetValue(float value)
         {
             progress = Mathf.Clamp01(value);
-            filler.transform.localPosition = new Vector3(-length, 0, 0) + filler.transform.localPosition.WithX(length * progress);
+            //filler.transform.localPosition = new Vector3(-length, 0, 0) + filler.transform.localPosition.WithX(length * progress);
+            filler.transform.localScale = filler.transform.localScale.WithX(progress);
         }
     }
 }
