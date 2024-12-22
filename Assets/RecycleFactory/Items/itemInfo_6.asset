@@ -16,7 +16,7 @@ MonoBehaviour:
   category: 3
   mesh: {fileID: -2432090755550338912, guid: 19644e416785f1c4bbff7c2316988ff7, type: 3}
   materials:
-  - {fileID: -6087771358165109452, guid: 19644e416785f1c4bbff7c2316988ff7, type: 3}
+  - {fileID: 2100000, guid: b7ab2bfdbeb006d48ac9ec466f16dac3, type: 2}
   metallic: 1
   plastic: 0
   organic: 0

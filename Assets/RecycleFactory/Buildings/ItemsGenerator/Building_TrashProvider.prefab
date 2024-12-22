@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   description: Infinite source of trash
-  cost: 300
+  cost: 8000
   isAlive: 1
   receiver: {fileID: 0}
   releaser: {fileID: 0}

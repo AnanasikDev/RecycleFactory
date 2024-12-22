@@ -50,6 +50,7 @@ namespace RecycleFactory.Buildings.Logistics
                 item = new GameObject().AddComponent<ConveyorBelt_Item>();
                 item.meshRenderer = item.gameObject.AddComponent<MeshRenderer>();
                 item.meshFilter = item.gameObject.AddComponent<MeshFilter>();
+                item.meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
                 item.id = ID++;
                 itemsPool.RecordNew(item);
             }

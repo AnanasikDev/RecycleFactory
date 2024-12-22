@@ -78,7 +78,7 @@ namespace RecycleFactory
         {
             buildingsStates = AllBuildings.allBuildings.ToDictionary(x => x, x => false);
 
-            levels = new Level[3];
+            levels = new Level[4];
 
             levels[0] = new Level()
             {
@@ -97,12 +97,12 @@ namespace RecycleFactory
             {
                 GetProgress = () =>
                 {
-                    return StatisticsManager.totalItemsIncinerated / 10f;
+                    return StatisticsManager.totalItemsIncinerated / 12f;
                 },
                 Unlock = () =>
                 {
                     UnlockBuildings(new List<Building>() { AllBuildings.MetalRecycler, AllBuildings.MagneticSorter });
-                    Scripts.Budget.Add(5000);
+                    Scripts.Budget.Add(6000);
                 },
                 id = 1
             };
@@ -111,14 +111,28 @@ namespace RecycleFactory
             {
                 GetProgress = () =>
                 {
-                    return StatisticsManager.itemsRecycledByCategory.TryGetValue(Buildings.Logistics.ItemCategories.Metal, out var val) ? val / 20f : 0;
+                    return StatisticsManager.itemsRecycledByCategory.TryGetValue(Buildings.Logistics.ItemCategories.Metal, out var val) ? val / 25f : 0;
                 },
                 Unlock = () =>
                 {
                     UnlockBuildings(new List<Building>() { AllBuildings.PaperSorter, AllBuildings.PaperRecycler });
-                    Scripts.Budget.Add(5000);
+                    Scripts.Budget.Add(3000);
                 },
                 id = 2
+            };
+
+            levels[3] = new Level()
+            {
+                GetProgress = () =>
+                {
+                    return StatisticsManager.itemsRecycledByCategory.TryGetValue(Buildings.Logistics.ItemCategories.Paper, out var val) ? val / 50f : 0;
+                },
+                Unlock = () =>
+                {
+                    UnlockBuildings(new List<Building>() { AllBuildings.TransparencySorter, AllBuildings.PlasticRecycler });
+                    Scripts.Budget.Add(1000);
+                },
+                id = 3
             };
 
             levels[0].Unlock();

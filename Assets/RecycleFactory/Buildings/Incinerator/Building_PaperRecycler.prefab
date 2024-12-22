@@ -93,7 +93,7 @@ MonoBehaviour:
   metaillicBonus: -40
   plasticBonus: -25
   organicBonus: -9
-  paperBonus: 17
+  paperBonus: 26
 --- !u!1001 &7370571290019885
 PrefabInstance:
   m_ObjectHideFlags: 0

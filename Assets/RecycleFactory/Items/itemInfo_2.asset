@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: itemInfo_2
   m_EditorClassIdentifier: 
   name: box
-  mesh: {fileID: -2432090755550338912, guid: 477c34c03c630bb49b45d716ddd25a3f, type: 3}
+  category: 0
+  mesh: {fileID: -2432090755550338912, guid: acf59bd2523ce2b4aadcad9476968df6, type: 3}
   materials:
-  - {fileID: -6478536213147159724, guid: acf59bd2523ce2b4aadcad9476968df6, type: 3}
+  - {fileID: 2100000, guid: 51c3f6432e0b7444ba650e639b26e216, type: 2}
   metallic: 0
   plastic: 0
   organic: 0

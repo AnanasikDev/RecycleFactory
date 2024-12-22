@@ -41,7 +41,7 @@ namespace RecycleFactory.UI
         {
             background.color = hoverBackgroundColor;
             UIController.UIBuildingMenu.buildingDescription.UpdatePosition(transform.position + new Vector3(150, 0));
-            UIController.UIBuildingMenu.buildingDescription.Enable(info.building.description);
+            UIController.UIBuildingMenu.buildingDescription.Enable($"{info.building.name}\n{info.building.description}\nCosts ${info.building.cost}");
         }
 
         public void Shrink()
