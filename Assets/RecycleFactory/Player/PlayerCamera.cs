@@ -6,7 +6,6 @@ namespace RecycleFactory.Player
     {
         [Header("Rotation Settings")]
         [SerializeField, Min(0.1f)] private float rotationSpeed = 5f;
-        [SerializeField, Min(0.01f)] private float rotationSmoothing = 0.1f;
 
         [Header("Zoom Settings")]
         [SerializeField, Min(0.1f)] private float zoomSpeed = 5f;

@@ -264,8 +264,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.12350844, y: -0.83215624, z: 0.20555255, w: 0.50000995}
+  m_LocalPosition: {x: 14.334438, y: 4.0724635, z: 8.133935}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -285,7 +285,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 5
-  rotationSmoothing: 0.1
   zoomSpeed: 20
   minZoom: 5
   maxZoom: 12
@@ -541,7 +540,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!108 &410087040
 Light:
   m_ObjectHideFlags: 0
@@ -749,7 +748,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.16174158, y: 0, z: 0, w: 0.98683316}
   m_LocalPosition: {x: 12.5238, y: 11.7182, z: 14.08}
-  m_LocalScale: {x: 58.30391, y: 0.56832206, z: -19.318504}
+  m_LocalScale: {x: 58.30391, y: 0.56832206, z: 19.3185}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 265878611}
@@ -924,7 +923,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: c342e0f6bc4ecc64f91c61f0e5905994,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c342e0f6bc4ecc64f91c61f0e5905994,
         type: 3}
@@ -1563,7 +1562,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: c226aca4e5cf6614d86d7350b55409f5,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2136,7 +2135,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44736ef7b531a5348bd45cd041a316b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultAmount: 120000
+  defaultAmount: 17000
   textMeshProFormat: ${0}
   textMeshPro: {fileID: 882205680}
 --- !u!114 &1718196796
@@ -2357,7 +2356,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.16174053, y: -0, z: -0, w: 0.9868334}
   m_LocalPosition: {x: 12.5238, y: 11.7182, z: -4.4891}
-  m_LocalScale: {x: 58.30391, y: 0.56832206, z: -19.318504}
+  m_LocalScale: {x: 58.30391, y: 0.56832206, z: 19.3185}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 265878611}

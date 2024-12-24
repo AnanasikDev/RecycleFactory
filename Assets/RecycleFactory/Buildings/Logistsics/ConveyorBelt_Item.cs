@@ -8,6 +8,8 @@ namespace RecycleFactory.Buildings.Logistics
     {
         public static int ID = 0;
         public int id;
+
+        public static readonly bool enableShadowcasting = false;
         
         public static readonly float SCALE = 0.3f;
         private static Pool<ConveyorBelt_Item> itemsPool = new Pool<ConveyorBelt_Item>(item => item && item.gameObject.activeSelf);
@@ -50,7 +52,7 @@ namespace RecycleFactory.Buildings.Logistics
                 item = new GameObject().AddComponent<ConveyorBelt_Item>();
                 item.meshRenderer = item.gameObject.AddComponent<MeshRenderer>();
                 item.meshFilter = item.gameObject.AddComponent<MeshFilter>();
-                item.meshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+                item.meshRenderer.shadowCastingMode = enableShadowcasting ? UnityEngine.Rendering.ShadowCastingMode.On : UnityEngine.Rendering.ShadowCastingMode.Off;
                 item.id = ID++;
                 itemsPool.RecordNew(item);
             }
