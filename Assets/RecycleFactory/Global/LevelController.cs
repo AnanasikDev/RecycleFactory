@@ -4,6 +4,7 @@ using RecycleFactory.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 
 namespace RecycleFactory
@@ -17,6 +18,8 @@ namespace RecycleFactory
 
         [SerializeField] private UIProgressBar progressBar;
         private float progressToNext = 0.0f;
+
+        [SerializeField] private TextMeshProUGUI nextStageDescription;
 
         private const float threshold = 1.0f - 10e-4f;
 
@@ -90,6 +93,10 @@ namespace RecycleFactory
                 {
                     UnlockBuildings(new List<Building>() { AllBuildings.ConveyorBelt, AllBuildings.TrashProvider, AllBuildings.Incinerator });
                 },
+                GetDescription = () =>
+                {
+                    return "";
+                },
                 id = 0
             };
 
@@ -103,6 +110,12 @@ namespace RecycleFactory
                 {
                     UnlockBuildings(new List<Building>() { AllBuildings.MetalRecycler, AllBuildings.MagneticSorter });
                     Scripts.Budget.Add(6000);
+                },
+                GetDescription = () =>
+                {
+                    return $"Next level: 2\n" +
+                           $"Items collected: {StatisticsManager.totalItemsIncinerated}/12\n" +
+                           $"Unlocks Metal";
                 },
                 id = 1
             };
@@ -118,6 +131,12 @@ namespace RecycleFactory
                     UnlockBuildings(new List<Building>() { AllBuildings.PaperSorter, AllBuildings.PaperRecycler });
                     Scripts.Budget.Add(3000);
                 },
+                GetDescription = () =>
+                {
+                    return $"Next level: 3\n" +
+                           $"Metal recycled: {(StatisticsManager.itemsRecycledByCategory.TryGetValue(Buildings.Logistics.ItemCategories.Metal, out var val) ? val : 0)}/25\n" +
+                           $"Unlocks Paper";
+                },
                 id = 2
             };
 
@@ -125,17 +144,24 @@ namespace RecycleFactory
             {
                 GetProgress = () =>
                 {
-                    return StatisticsManager.itemsRecycledByCategory.TryGetValue(Buildings.Logistics.ItemCategories.Paper, out var val) ? val / 50f : 0;
+                    return StatisticsManager.itemsRecycledByCategory.TryGetValue(Buildings.Logistics.ItemCategories.Paper, out var val) ? val / 40f : 0;
                 },
                 Unlock = () =>
                 {
                     UnlockBuildings(new List<Building>() { AllBuildings.TransparencySorter, AllBuildings.PlasticRecycler });
                     Scripts.Budget.Add(1000);
                 },
+                GetDescription = () =>
+                {
+                    return $"Next level: 4\n" +
+                            $"Paper recycled: {(StatisticsManager.itemsRecycledByCategory.TryGetValue(Buildings.Logistics.ItemCategories.Paper, out var val) ? val : 0)}/40\n" +
+                            $"Unlocks Plastic";
+                },
                 id = 3
             };
 
             levels[0].Unlock();
+            currentLevel++;
             progressBar.SetValue(0);
         }
 
@@ -151,11 +177,12 @@ namespace RecycleFactory
         {
             if (currentLevel == levels.Length - 1) return;
 
-            progressToNext = levels[currentLevel + 1].GetProgress();
+            progressToNext = levels[currentLevel].GetProgress();
             progressBar.SetValue(progressToNext);
+            nextStageDescription.text = levels[currentLevel].GetDescription();
             if (progressToNext >= threshold)
             {
-                levels[currentLevel + 1].Unlock();
+                levels[currentLevel].Unlock();
                 currentLevel++;
             }
         }
@@ -166,5 +193,9 @@ namespace RecycleFactory
         public int id;
         public Func<float> GetProgress;
         public Action Unlock;
+        /// <summary>
+        /// Shown on the corresponding panel on HUD until the level is researched
+        /// </summary>
+        public Func<string> GetDescription;
     }
 }
