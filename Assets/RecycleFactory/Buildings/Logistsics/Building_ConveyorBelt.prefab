@@ -110,7 +110,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99fcaf4466eafc34c9c404ab2691a3b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: Conveyor belt
+  name: Conveyor belt
+  description: 
   cost: 800
   isAlive: 1
   receiver: {fileID: 0}

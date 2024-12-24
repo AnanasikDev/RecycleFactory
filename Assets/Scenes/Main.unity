@@ -2271,37 +2271,37 @@ MonoBehaviour:
     options:
     - building: {fileID: 8783704837012868790, guid: c295a43782e702c49b47570ae8898745,
         type: 3}
-      sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+      sprite: {fileID: 21300000, guid: 70c96eb62a957304aadec10163a96dce, type: 3}
     - building: {fileID: 9152104537340627929, guid: 1638dba23b3b07b4a8a9fd280d38caa8,
         type: 3}
-      sprite: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
+      sprite: {fileID: 21300000, guid: 72eee7e255b4e3d43b7b03c5a6d662b5, type: 3}
     sprite: {fileID: 21300000, guid: d00e9a08725b4b442bf025a85294e649, type: 3}
   - name: Recyclers
     options:
     - building: {fileID: 6974351339611237043, guid: 529d848b271c51643ba0be5799cd2d6b,
         type: 3}
-      sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+      sprite: {fileID: 21300000, guid: 52e67bf040272164297b9f58a2317e9c, type: 3}
     - building: {fileID: 6974351339611237043, guid: 997cd3b2a0668e148a2b79de3062111a,
         type: 3}
-      sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+      sprite: {fileID: 21300000, guid: 8018951f9e3c60d44b4afff0d8fedef1, type: 3}
     - building: {fileID: 6974351339611237043, guid: 0ded7f01e8c704f458f20d92045324b0,
         type: 3}
-      sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+      sprite: {fileID: 21300000, guid: bda626272c0c46a44968ca1365f0092c, type: 3}
     - building: {fileID: 6974351339611237043, guid: 7efcf68ec9465ac42b4ab2581cb4cab2,
         type: 3}
-      sprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+      sprite: {fileID: 21300000, guid: 69a47c51d0e431745b1ba78baa5cb77e, type: 3}
     sprite: {fileID: 21300000, guid: 2ad4f0ebfc1fbd64da29340335a5cb71, type: 3}
   - name: Sorting machines
     options:
     - building: {fileID: 8834315954898719290, guid: fcfa881b658949445b0cc09f60f91f04,
         type: 3}
-      sprite: {fileID: 0}
+      sprite: {fileID: 21300000, guid: 325242cc1024e1844af24476ca467169, type: 3}
     - building: {fileID: 4646742573862785996, guid: cbaa1ff80763bb94abb0002d54ab287a,
         type: 3}
-      sprite: {fileID: 0}
+      sprite: {fileID: 21300000, guid: 38c6f1b3f3979d94281aa829bf37d3b0, type: 3}
     - building: {fileID: 7403320674907957140, guid: e9d0965c8f25d9f4d98c1ad55d8fd684,
         type: 3}
-      sprite: {fileID: 0}
+      sprite: {fileID: 21300000, guid: cec7e2dd97a06e1419be1c1f533f5735, type: 3}
     sprite: {fileID: 21300000, guid: 905a4956576665145a4440384522aa26, type: 3}
   width: 140
   anchor: 0

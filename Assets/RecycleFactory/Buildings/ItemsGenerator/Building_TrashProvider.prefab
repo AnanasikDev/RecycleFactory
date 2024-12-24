@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9364a1a6de9c6e54284c78c82ba08388, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  name: Trash provider
   description: Infinite source of trash
   cost: 8000
   isAlive: 1

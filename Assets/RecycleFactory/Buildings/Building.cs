@@ -10,6 +10,7 @@ namespace RecycleFactory.Buildings
         private static int _id = -1;
         protected int id;
 
+        public new string name;
         public string description;
         public int cost;
 

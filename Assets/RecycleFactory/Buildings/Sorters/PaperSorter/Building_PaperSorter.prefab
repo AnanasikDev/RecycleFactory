@@ -5978,7 +5978,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f255529d3e77f2c4ba58de0c7e8a44cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: Filters paper materials out
+  name: Paper sorter
+  description: 
   cost: 3000
   isAlive: 1
   receiver: {fileID: 0}

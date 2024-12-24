@@ -22,7 +22,7 @@ namespace RecycleFactory.Buildings
             foreach (var prop in props)
             {
                 string targetName = string.Format(namingFormat, prop.Name);
-                var val = buildingPrefabs.Find(b => b.name == targetName);
+                var val = buildingPrefabs.Find(b => b.gameObject.name == targetName);
                 if (val == null)
                 {
                     Debug.LogError($"[ReFa]: On Buildings Init: building with name ({targetName}) to fill in property ({prop.Name}) is not found.");

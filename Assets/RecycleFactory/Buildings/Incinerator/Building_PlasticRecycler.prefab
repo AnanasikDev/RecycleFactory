@@ -86,7 +86,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48a31050155f03e458caab1d02e3df5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: Recycles plastic
+  name: Plastic recycler
+  description: 
   cost: 2600
   isAlive: 1
   receiver: {fileID: 0}

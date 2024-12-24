@@ -108,7 +108,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f255529d3e77f2c4ba58de0c7e8a44cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  description: Filters transparent materials out
+  name: Transparency sorter
+  description: 
   cost: 3500
   isAlive: 1
   receiver: {fileID: 0}
