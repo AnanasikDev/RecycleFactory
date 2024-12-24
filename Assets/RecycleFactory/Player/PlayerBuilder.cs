@@ -63,6 +63,8 @@ namespace RecycleFactory.Player
                 preview.meshRenderer = meshRenderer;
 
                 preview.gameObject.SetActive(true);
+                preview.gameObject.transform.position += Vector3.right * i;
+                Debug.Log($"Instantiated a new preview [{i}], newMesh={newMesh?.name ?? "NONE"}, meshFilter={preview.meshFilter?.name ?? "NONE"}, meshRenderer={preview?.meshRenderer.name ?? "NONE"}, position={preview.transform.position}");
                 previews[i] = preview;
             }
         }
