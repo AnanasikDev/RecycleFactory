@@ -1,4 +1,5 @@
 ﻿using NaughtyAttributes;
+using TMPro;
 using UnityEngine;
 
 namespace RecycleFactory.UI
@@ -6,14 +7,10 @@ namespace RecycleFactory.UI
     public class UIProgressBar : MonoBehaviour
     {
         [SerializeField] private RectTransform filler;
-        private float length;
+        [SerializeField] private TextMeshProUGUI text;
+        private string textFormat = "{0}%";
 
         [ShowNativeProperty] public float progress { get; private set; }
-
-        private void Awake()
-        {
-            length = filler.rect.width;
-        }
 
         /// <summary>
         /// Updates progress bar with new value (0<=value<=1)
@@ -21,8 +18,8 @@ namespace RecycleFactory.UI
         public void SetValue(float value)
         {
             progress = Mathf.Clamp01(value);
-            //filler.transform.localPosition = new Vector3(-length, 0, 0) + filler.transform.localPosition.WithX(length * progress);
             filler.transform.localScale = filler.transform.localScale.WithX(progress);
+            text.text = string.Format(textFormat, (int)(value * 100));
         }
     }
 }
