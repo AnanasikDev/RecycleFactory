@@ -19,6 +19,8 @@ namespace RecycleFactory.Player
         [SerializeField][ShowIf("showPreview")] private Transform previewsHandler;
         [SerializeField][ShowIf("showPreview")] private Color preview_freeColor;
         [SerializeField][ShowIf("showPreview")] private Color preview_takenColor;
+
+        [SerializeField] private bool allowChoosingUnavailableBuildings = false;
         [ShowNativeProperty] public int selectedRotation { get; private set; }
 
         [SerializeField][ReadOnly] private Building selectedBuildingPrefab;
@@ -62,9 +64,7 @@ namespace RecycleFactory.Player
                 preview.meshFilter = meshFilter;
                 preview.meshRenderer = meshRenderer;
 
-                preview.gameObject.SetActive(true);
-                preview.gameObject.transform.position += Vector3.right * i;
-                Debug.Log($"Instantiated a new preview [{i}], newMesh={newMesh?.name ?? "NONE"}, meshFilter={preview.meshFilter?.name ?? "NONE"}, meshRenderer={preview?.meshRenderer.name ?? "NONE"}, position={preview.transform.position}");
+                preview.gameObject.SetActive(false);
                 previews[i] = preview;
             }
         }
@@ -129,8 +129,11 @@ namespace RecycleFactory.Player
             {
                 if (Input.GetKeyDown((i + 1).ToString()))
                 {
-                    selectedBuildingIndex = i;
-                    SelectBuilding(i);
+                    if (allowChoosingUnavailableBuildings || Scripts.LevelController.IsUnlocked(buildingsPrefabs[i]))
+                    {
+                        selectedBuildingIndex = i;
+                        SelectBuilding(i);
+                    }
                 }
             }
         }
