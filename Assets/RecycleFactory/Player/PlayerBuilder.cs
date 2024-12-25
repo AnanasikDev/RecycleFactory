@@ -20,7 +20,7 @@ namespace RecycleFactory.Player
         [SerializeField][ShowIf("showPreview")] private Color preview_freeColor;
         [SerializeField][ShowIf("showPreview")] private Color preview_takenColor;
 
-        [SerializeField] private bool allowChoosingUnavailableBuildings = false;
+        [SerializeField] private bool allowChoosingUnavailableBuildings = true;
         [ShowNativeProperty] public int selectedRotation { get; private set; }
 
         [SerializeField][ReadOnly] private Building selectedBuildingPrefab;
