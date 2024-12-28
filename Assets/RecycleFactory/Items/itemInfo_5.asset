@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: itemInfo_5
   m_EditorClassIdentifier: 
   name: book
+  category: 0
   mesh: {fileID: -2432090755550338912, guid: 43dffd77aa2311d409de1794fed0ef94, type: 3}
   materials:
   - {fileID: -6629797300637803691, guid: 43dffd77aa2311d409de1794fed0ef94, type: 3}
@@ -23,4 +24,4 @@ MonoBehaviour:
   paper: 1
   magnetic: 0
   transparency: 0
-  density: 0.3
+  density: 0.265
