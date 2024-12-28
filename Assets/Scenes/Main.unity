@@ -317,6 +317,7 @@ MonoBehaviour:
   - {fileID: 6974351339611237043, guid: 7efcf68ec9465ac42b4ab2581cb4cab2, type: 3}
   - {fileID: 7403320674907957140, guid: 76d07dcb8d3b28e41add56fc1314ad6c, type: 3}
   - {fileID: 6974351339611237043, guid: 53800f404a8b78248a90346bb8dfe4ef, type: 3}
+  - {fileID: 7403320674907957140, guid: 98e77ca6212f7a840a313e613e1e8cac, type: 3}
   showPreview: 1
   previews:
   - {fileID: 0}
@@ -2311,6 +2312,9 @@ MonoBehaviour:
     - building: {fileID: 7403320674907957140, guid: 76d07dcb8d3b28e41add56fc1314ad6c,
         type: 3}
       sprite: {fileID: 21300000, guid: da75f4dcfeb54f84189d19ef2b4a0fce, type: 3}
+    - building: {fileID: 7403320674907957140, guid: 98e77ca6212f7a840a313e613e1e8cac,
+        type: 3}
+      sprite: {fileID: 21300000, guid: 3f667d2ae8b17b74cbbf2c547411a4a3, type: 3}
     sprite: {fileID: 21300000, guid: 905a4956576665145a4440384522aa26, type: 3}
   width: 140
   anchor: 0
@@ -2496,7 +2500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44736ef7b531a5348bd45cd041a316b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultAmount: 17000
+  defaultAmount: 170000
   textMeshProFormat: ${0}
   textMeshPro: {fileID: 882205680}
 --- !u!114 &1718196796
@@ -2537,6 +2541,7 @@ MonoBehaviour:
   - {fileID: 8834315954898719290, guid: fcfa881b658949445b0cc09f60f91f04, type: 3}
   - {fileID: 7403320674907957140, guid: 76d07dcb8d3b28e41add56fc1314ad6c, type: 3}
   - {fileID: 6974351339611237043, guid: 53800f404a8b78248a90346bb8dfe4ef, type: 3}
+  - {fileID: 7403320674907957140, guid: 98e77ca6212f7a840a313e613e1e8cac, type: 3}
 --- !u!114 &1718196798
 MonoBehaviour:
   m_ObjectHideFlags: 0

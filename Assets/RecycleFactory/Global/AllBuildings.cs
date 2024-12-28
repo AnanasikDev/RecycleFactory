@@ -35,14 +35,16 @@ namespace RecycleFactory.Buildings
 
         [AutoSet] public static Building TrashProvider { get; private set; }
         [AutoSet] public static Building ConveyorBelt { get; private set; }
-        [AutoSet] public static Building TransparencySorter { get; private set; }
-        [AutoSet] public static Building MagneticSorter { get; private set; }
-        [AutoSet] public static Building PaperSorter { get; private set; }
-        //[AutoSet] public static Building DensitySorter { get; private set; }
         [AutoSet] public static Building Incinerator { get; private set; }
+        [AutoSet] public static Building MagneticSorter { get; private set; }
+        [AutoSet] public static Building TransparencySorter { get; private set; }
+        [AutoSet] public static Building PaperSorter { get; private set; }
+        [AutoSet] public static Building DensitySorter { get; private set; }
+        [AutoSet] public static Building ElectromagneticSorter { get; private set; }
         [AutoSet] public static Building MetalRecycler { get; private set; }
         [AutoSet] public static Building PlasticRecycler { get; private set; }
         [AutoSet] public static Building PaperRecycler { get; private set; }
+        [AutoSet] public static Building BatteryRecycler { get; private set; }
     }
 
     [System.AttributeUsage(System.AttributeTargets.Property | System.AttributeTargets.Field, AllowMultiple = false)]

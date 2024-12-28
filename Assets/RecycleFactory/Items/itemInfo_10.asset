@@ -20,9 +20,10 @@ MonoBehaviour:
   - {fileID: 3780671244086486322, guid: e34f129cd1d15e541800d3d8e2a5ab07, type: 3}
   - {fileID: 3016479151454471876, guid: e34f129cd1d15e541800d3d8e2a5ab07, type: 3}
   metallic: 0.791
-  plastic: 1
+  plastic: 0
   organic: 0
   paper: 0
-  magnetic: 0.154
+  magnetic: 0.026
   transparency: 0
-  density: 0.602
+  density: 0.581
+  battery: 0
