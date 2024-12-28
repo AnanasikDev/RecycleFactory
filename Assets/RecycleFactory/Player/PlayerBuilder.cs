@@ -125,7 +125,7 @@ namespace RecycleFactory.Player
 
         private void HandleSelection()
         {
-            for (int i = 0; i < buildingsPrefabs.Length; i++)
+            for (int i = 0; i < Mathf.Min(buildingsPrefabs.Length, 9); i++)
             {
                 if (Input.GetKeyDown((i + 1).ToString()))
                 {

@@ -141,6 +141,7 @@ namespace RecycleFactory.Buildings
             return new ConnectionData(-1, null); // no lane available, wait
         }
 
+
         private void UpdateAnchorsConnections()
         {
             for (int i = 0; i < outAnchors.Count; i++)
@@ -164,6 +165,24 @@ namespace RecycleFactory.Buildings
                 }
 
                 outAnchors[i].conveyor = null;
+            }
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (Application.isPlaying)
+            {
+                for (int i = 0; i < outAnchors.Count; i++)
+                {
+                    DrawArrow.ForGizmo((building.mapPosition + outAnchors[i].localTilePosition).ConvertTo2D().ProjectTo3D(), outAnchors[i].direction.ConvertTo2D().ProjectTo3D());
+                }
+            }
+            else
+            {
+                for (int i = 0; i < outAnchors.Count; i++)
+                {
+                    DrawArrow.ForGizmo((outAnchors[i].localTilePosition).ConvertTo2D().ProjectTo3D(), outAnchors[i].direction.ConvertTo2D().ProjectTo3D());
+                }
             }
         }
     }

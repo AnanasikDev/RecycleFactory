@@ -18,6 +18,8 @@ namespace RecycleFactory.Buildings.Logistics
         [Range(0, 1)] public float magnetic;
         [Range(0, 1)] public float transparency;
         [Range(0, 1)] public float density;
+
+        public bool battery;
     }
 
     public enum ItemCategories
