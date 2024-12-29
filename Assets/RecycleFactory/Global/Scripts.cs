@@ -43,6 +43,9 @@ namespace RecycleFactory
         [SerializeField] private LevelController _LevelController;
         public static LevelController LevelController;
 
+        [SerializeField] private AllItems _AllItems;
+        public static AllItems AllItems;
+
         private void Start()
         {
             #if UNITY_EDITOR
@@ -67,8 +70,10 @@ namespace RecycleFactory
             BuildingArrowPreviewController = _BuildingArrowPreviewController;
             AllBuildings = _AllBuildings;
             LevelController = _LevelController;
+            AllItems = _AllItems;
 
             AllBuildings.Init();
+            AllItems.Init();
             LevelController.Init();
             BuildingArrowPreviewController.Init();
             Budget.Init();

@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 733cf89f79b47484bad8c5d4661afc32, type: 3}
-  m_Name: itemInfo_7
+  m_Name: item_book
   m_EditorClassIdentifier: 
-  name: banana
-  category: 4
-  mesh: {fileID: -2432090755550338912, guid: f349bf59b3bf8bf489bbe05729a6ee0c, type: 3}
+  name: book
+  category: 0
+  mesh: {fileID: -2432090755550338912, guid: 43dffd77aa2311d409de1794fed0ef94, type: 3}
   materials:
-  - {fileID: -876546973899608171, guid: f349bf59b3bf8bf489bbe05729a6ee0c, type: 3}
-  - {fileID: 6699446615349125189, guid: f349bf59b3bf8bf489bbe05729a6ee0c, type: 3}
+  - {fileID: -6629797300637803691, guid: 43dffd77aa2311d409de1794fed0ef94, type: 3}
+  - {fileID: -2813467912831258332, guid: 43dffd77aa2311d409de1794fed0ef94, type: 3}
   metallic: 0
   plastic: 0
-  organic: 1
-  paper: 0
+  organic: 0
+  paper: 1
   magnetic: 0
   transparency: 0
-  density: 0.491
+  density: 0.265

@@ -7,8 +7,6 @@ namespace RecycleFactory.Buildings
     [RequireComponent(typeof(BuildingExtension_Releaser))]
     public class Building_ItemsGenerator : Building
     {
-        [SerializeField] private List<ConveyorBelt_ItemInfo> itemInfos;
-
         [SerializeField] private float intervalSeconds = 1;
 
         protected override void PostInit()
@@ -29,7 +27,7 @@ namespace RecycleFactory.Buildings
             int laneIndex = releaser.ChooseLane(0, out var nextNode);
             if (laneIndex == -1) return; // do not create item if no lane is free
 
-            var item = ConveyorBelt_Item.Create(itemInfos.RandomElement());
+            var item = ConveyorBelt_Item.Create(Scripts.LevelController.unlockedItems.RandomElement());
             item.transform.position = transform.position;
             releaser.ForceRelease(0, laneIndex, item, nextNode);
         }

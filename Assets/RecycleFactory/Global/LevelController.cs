@@ -1,5 +1,6 @@
 using NaughtyAttributes;
 using RecycleFactory.Buildings;
+using RecycleFactory.Buildings.Logistics;
 using RecycleFactory.UI;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,9 @@ namespace RecycleFactory
         [ShowNativeProperty] public int currentLevel { get; private set; } = 0;
 
         private Dictionary<Building, bool> buildingsStates;
+        private Dictionary<ConveyorBelt_ItemInfo, bool> itemsStates;
+
+        public List<ConveyorBelt_ItemInfo> unlockedItems = new List<ConveyorBelt_ItemInfo>();
 
         [SerializeField] private UIProgressBar progressBar;
         private float progressToNext = 0.0f;
@@ -80,8 +84,9 @@ namespace RecycleFactory
         public void Init()
         {
             buildingsStates = AllBuildings.allBuildings.ToDictionary(x => x, x => false);
+            itemsStates = AllItems.allItemInfos.ToDictionary(x => x, x => false);
 
-            levels = new Level[4];
+            levels = new Level[5];
 
             levels[0] = new Level()
             {
@@ -92,6 +97,7 @@ namespace RecycleFactory
                 Unlock = () =>
                 {
                     UnlockBuildings(new List<Building>() { AllBuildings.ConveyorBelt, AllBuildings.TrashProvider, AllBuildings.Incinerator });
+                    UnlockItems(new List<ConveyorBelt_ItemInfo>() { AllItems.Apple, AllItems.Bottle, AllItems.Box, AllItems.Bolt, AllItems.Handle });
                 },
                 GetDescription = () =>
                 {
@@ -109,13 +115,15 @@ namespace RecycleFactory
                 Unlock = () =>
                 {
                     UnlockBuildings(new List<Building>() { AllBuildings.MetalRecycler, AllBuildings.MagneticSorter });
+                    UnlockItems(new List<ConveyorBelt_ItemInfo>() { AllItems.Lock });
                     Scripts.Budget.Add(6000);
                 },
                 GetDescription = () =>
                 {
                     return $"Next level: 2\n" +
                            $"Items collected: {StatisticsManager.totalItemsIncinerated}/12\n" +
-                           $"Unlocks Metal";
+                           $"Unlocks Metal\n" +
+                           $"New items: lock";
                 },
                 id = 1
             };
@@ -124,18 +132,20 @@ namespace RecycleFactory
             {
                 GetProgress = () =>
                 {
-                    return StatisticsManager.itemsRecycledByCategory.TryGetValue(Buildings.Logistics.ItemCategories.Metal, out var val) ? val / 25f : 0;
+                    return GetItemCategoryProgress(ItemCategories.Metal, 25);
                 },
                 Unlock = () =>
                 {
                     UnlockBuildings(new List<Building>() { AllBuildings.PaperSorter, AllBuildings.PaperRecycler });
+                    UnlockItems(new List<ConveyorBelt_ItemInfo>() { AllItems.Banana, AllItems.Book });
                     Scripts.Budget.Add(3000);
                 },
                 GetDescription = () =>
                 {
                     return $"Next level: 3\n" +
-                           $"Metal recycled: {(StatisticsManager.itemsRecycledByCategory.TryGetValue(Buildings.Logistics.ItemCategories.Metal, out var val) ? val : 0)}/25\n" +
-                           $"Unlocks Paper";
+                           $"Metal recycled: {GetItemCategoryProgress(ItemCategories.Metal, 25)}/25\n" +
+                           $"Unlocks Paper\n" +
+                           $"New items: banana, book";
                 },
                 id = 2
             };
@@ -144,7 +154,7 @@ namespace RecycleFactory
             {
                 GetProgress = () =>
                 {
-                    return StatisticsManager.itemsRecycledByCategory.TryGetValue(Buildings.Logistics.ItemCategories.Paper, out var val) ? val / 40f : 0;
+                    return GetItemCategoryProgress(ItemCategories.Paper, 30) * 3/7f + GetItemCategoryProgress(ItemCategories.Metal, 40) * 4/7f;
                 },
                 Unlock = () =>
                 {
@@ -154,10 +164,35 @@ namespace RecycleFactory
                 GetDescription = () =>
                 {
                     return $"Next level: 4\n" +
-                            $"Paper recycled: {(StatisticsManager.itemsRecycledByCategory.TryGetValue(Buildings.Logistics.ItemCategories.Paper, out var val) ? val : 0)}/40\n" +
+                            $"Metal recycled: {(StatisticsManager.itemsRecycledByCategory.TryGetValue(Buildings.Logistics.ItemCategories.Metal, out var metal) ? metal : 0)}/40\n" +
+                            $"Paper recycled: {(StatisticsManager.itemsRecycledByCategory.TryGetValue(Buildings.Logistics.ItemCategories.Paper, out var paper) ? paper : 0)}/30\n" +
                             $"Unlocks Plastic";
                 },
                 id = 3
+            };
+
+            levels[4] = new Level()
+            {
+                GetProgress = () =>
+                {
+                    return GetItemCategoryProgress(ItemCategories.Paper, 50) * 5/13f + GetItemCategoryProgress(ItemCategories.Metal, 60) * 6/13f + GetItemCategoryProgress(ItemCategories.Plastic, 20) * 2/13f;
+                },
+                Unlock = () =>
+                {
+                    UnlockBuildings(new List<Building>() { AllBuildings.TransparencySorter, AllBuildings.PlasticRecycler });
+                    UnlockItems(new List<ConveyorBelt_ItemInfo>() { AllItems.Battery, AllItems.Yoghurt });
+                    Scripts.Budget.Add(1000);
+                },
+                GetDescription = () =>
+                {
+                    return $"Next level: 5\n" +
+                            $"Paper recycled: {GetItemCategoryProgress(ItemCategories.Paper, 50)}/50\n" +
+                            $"Metal recycled: {GetItemCategoryProgress(ItemCategories.Metal, 60)}/60\n" +
+                            $"Plastic recycled: {GetItemCategoryProgress(ItemCategories.Plastic, 20)}/20\n" +
+                            $"Unlocks Batteries\n" +
+                            $"New items: yoghurt, battery";
+                },
+                id = 4
             };
 
             levels[0].Unlock();
@@ -171,6 +206,22 @@ namespace RecycleFactory
             {
                 buildingsStates[building] = true;
             }
+        }
+
+        private void UnlockItems(List<ConveyorBelt_ItemInfo> items)
+        {
+            foreach (ConveyorBelt_ItemInfo item in items)
+            {
+                itemsStates[item] = true;
+                unlockedItems.Add(item);
+            }
+        }
+
+        private float GetItemCategoryProgress(ItemCategories category, int targetAmount)
+        {
+            return Mathf.Clamp01(StatisticsManager.itemsRecycledByCategory.TryGetValue(category, out int val) ? 
+                val / (float)targetAmount : 
+                0);
         }
 
         private void Update()

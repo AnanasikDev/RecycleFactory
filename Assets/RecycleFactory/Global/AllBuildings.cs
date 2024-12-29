@@ -48,7 +48,7 @@ namespace RecycleFactory.Buildings
     }
 
     [System.AttributeUsage(System.AttributeTargets.Property | System.AttributeTargets.Field, AllowMultiple = false)]
-    internal class AutoSet : System.Attribute
+    public class AutoSet : System.Attribute
     {
 
     }

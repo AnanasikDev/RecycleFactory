@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 733cf89f79b47484bad8c5d4661afc32, type: 3}
-  m_Name: itemInfo_6
+  m_Name: item_box
   m_EditorClassIdentifier: 
-  name: handle
-  category: 3
-  mesh: {fileID: -2432090755550338912, guid: 19644e416785f1c4bbff7c2316988ff7, type: 3}
+  name: box
+  category: 0
+  mesh: {fileID: -2432090755550338912, guid: acf59bd2523ce2b4aadcad9476968df6, type: 3}
   materials:
-  - {fileID: 2100000, guid: b7ab2bfdbeb006d48ac9ec466f16dac3, type: 2}
-  metallic: 1
+  - {fileID: 2100000, guid: 51c3f6432e0b7444ba650e639b26e216, type: 2}
+  metallic: 0
   plastic: 0
   organic: 0
-  paper: 0
-  magnetic: 1
+  paper: 0.7
+  magnetic: 0
   transparency: 0
-  density: 1
+  density: 0.164

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 733cf89f79b47484bad8c5d4661afc32, type: 3}
-  m_Name: itemInfo_10
+  m_Name: item_battery
   m_EditorClassIdentifier: 
   name: battery
   category: 5
