@@ -6011,11 +6011,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isReadyToReceive: 1
   animator: {fileID: 4254899417818935000}
-  attachToOneTransform: 0
+  attachToMultipleTransforms: 1
   singleParent: {fileID: 0}
   averageHandlers:
   - {fileID: 971229131482930969}
   - {fileID: 4757887514760723932}
+  updateRotation: 0
 --- !u!95 &4254899417818935000
 Animator:
   serializedVersion: 7

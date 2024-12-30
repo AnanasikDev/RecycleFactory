@@ -131,6 +131,14 @@ namespace RecycleFactory
         {
             return value >= vector.x && value <= vector.y;
         }
+
+        public static Vector3 SumVectors(this IEnumerable<Vector3> enumerable)
+        {
+            Vector3 sum = new Vector3();
+            foreach (var v in enumerable)
+                sum += v;
+            return sum;
+        }
     }
 }
 

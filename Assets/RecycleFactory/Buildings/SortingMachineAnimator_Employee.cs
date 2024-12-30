@@ -1,6 +1,7 @@
 ﻿using NaughtyAttributes;
 using RecycleFactory.Buildings.Logistics;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 
 namespace RecycleFactory.Buildings
@@ -8,10 +9,12 @@ namespace RecycleFactory.Buildings
     internal class SortingMachineAnimator_Employee : SortingMachineAnimator
     {
         [SerializeField] private Animator animator;
-        [SerializeField] private bool attachToOneTransform = true;
-        [SerializeField][ShowIf("attachToOneTransform")] private Transform singleParent;
+        [SerializeField] private bool attachToMultipleTransforms = true;
+        [SerializeField][HideIf("attachToMultipleTransforms")] private Transform singleParent;
 
-        [SerializeField][HideIf("attachToOneTransform")][Tooltip("An array of transforms, average position of which represent an item position")] private Transform[] averageHandlers;
+        [SerializeField][ShowIf("attachToMultipleTransforms")][Tooltip("An array of transforms, average position of which represent an item position")] private Transform[] averageHandlers;
+        private int avgHandlersLength;
+        [SerializeField] private bool updateRotation = false;
 
         private bool isAnimating = false;
 
@@ -21,6 +24,7 @@ namespace RecycleFactory.Buildings
         public override void Init()
         {
             base.Init();
+            avgHandlersLength = averageHandlers.Length;
             animator = GetComponent<Animator>();
         }
 
@@ -28,15 +32,23 @@ namespace RecycleFactory.Buildings
         {
             if (!isAnimating || item == null) return;
 
-            if (!attachToOneTransform)
+            if (attachToMultipleTransforms)
             {
-                Vector3 pos = Vector3.zero;
-                foreach (var handler in averageHandlers)
+                Vector3 pos = averageHandlers.Select(t => t.transform.position).SumVectors();
+
+                item.transform.position = pos / avgHandlersLength;
+                if (updateRotation)
                 {
-                    pos += handler.position;
+                    if (avgHandlersLength > 2)
+                    {
+                        Debug.LogException(new System.Exception("Average handlers cannot evaluate average rotation"));
+                        return;
+                    }
+
+                    item.transform.rotation = Quaternion.Slerp(averageHandlers[0].rotation, averageHandlers[1].rotation, 0.5f);
                 }
-                item.transform.position = pos / averageHandlers.Length;
             }
+            // if attached to single, it is parented directly, inheriting all transform values
         }
 
         public override void OnReceive(ConveyorBelt_Item item, int anchorIndex)
@@ -44,7 +56,7 @@ namespace RecycleFactory.Buildings
             isReadyToReceive = false;
             this.item = item;
             this.anchorIndex = anchorIndex;
-            if (attachToOneTransform)
+            if (attachToMultipleTransforms)
                 item.transform.SetParent(singleParent);
             else
             item.transform.localPosition = Vector3.zero;

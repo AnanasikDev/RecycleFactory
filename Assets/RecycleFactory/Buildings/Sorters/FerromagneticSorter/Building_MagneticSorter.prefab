@@ -2307,11 +2307,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isReadyToReceive: 1
   animator: {fileID: 1214524508627662626}
-  attachToOneTransform: 0
+  attachToMultipleTransforms: 1
   singleParent: {fileID: 0}
   averageHandlers:
   - {fileID: 1750971208357159693}
   - {fileID: 869128571112985589}
+  updateRotation: 1
 --- !u!1001 &4507178489839726830
 PrefabInstance:
   m_ObjectHideFlags: 0
