@@ -35,5 +35,13 @@ namespace RecycleFactory.UI
             Scripts.PlayerController.IncrementMode();
             switchIconImage.sprite = modeToIcon[Scripts.PlayerController.mode];
         }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                Increment();
+            }
+        }
     }
 }
