@@ -16,7 +16,7 @@ namespace RecycleFactory
 
         public void Init()
         {
-            amount = defaultAmount;
+            SetAmount(defaultAmount);
         }
 
         public void Add(int delta)

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 namespace RecycleFactory.UI
 {
     [RequireComponent(typeof(UIInputMask))]
-    internal class PlayerModeSwitch : MonoBehaviour
+    public class PlayerModeSwitch : MonoBehaviour
     {
         [SerializeField] private Image switchIconImage;
 
@@ -18,7 +18,7 @@ namespace RecycleFactory.UI
 
         private UIInputMask inputMask;
 
-        private void Start()
+        public void Init()
         {
             inputMask = GetComponent<UIInputMask>();
             modeToIcon = new Dictionary<Mode, Sprite>()
@@ -30,18 +30,12 @@ namespace RecycleFactory.UI
             switchIconImage.sprite = modeToIcon[Mode.Build];
         }
 
-        public void Increment()
+        /// <summary>
+        /// Sets mode switch icon according to current player mode
+        /// </summary>
+        public void UpdateModeIcon()
         {
-            Scripts.PlayerController.IncrementMode();
             switchIconImage.sprite = modeToIcon[Scripts.PlayerController.mode];
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Tab))
-            {
-                Increment();
-            }
         }
     }
 }

@@ -521,9 +521,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 388235196}
-        m_TargetAssemblyTypeName: RecycleFactory.UI.PlayerModeSwitch, RecycleFactory
-        m_MethodName: Increment
+      - m_Target: {fileID: 330585551}
+        m_TargetAssemblyTypeName: RecycleFactory.Player.PlayerController, RecycleFactory
+        m_MethodName: IncrementMode
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1180,7 +1180,7 @@ GameObject:
   - component: {fileID: 702827847}
   - component: {fileID: 702827849}
   m_Layer: 5
-  m_Name: Image
+  m_Name: BuildingMenuBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2529,6 +2529,7 @@ MonoBehaviour:
   _PlayerBuilder: {fileID: 330585549}
   _PlayerDemolisher: {fileID: 330585550}
   _UIController: {fileID: 1536466227}
+  _PlayerModeSwitch: {fileID: 388235196}
   _Map: {fileID: 1718196793}
   _Budget: {fileID: 1718196795}
   _BuildingArrowPreviewController: {fileID: 1718196796}

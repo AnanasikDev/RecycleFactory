@@ -33,6 +33,12 @@ namespace RecycleFactory.Player
 
         private void Update()
         {
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                IncrementMode();
+                return;
+            }
+
             updateFunction();
         }
 
@@ -76,7 +82,7 @@ namespace RecycleFactory.Player
             SetMode((Mode)Mathf.Repeat((int)this.mode + 1, Enum.GetValues(typeof(Mode)).Length));
         }
 
-        internal void SetMode(Mode mode)
+        public void SetMode(Mode mode)
         {
             switch (mode)
             {
@@ -94,11 +100,14 @@ namespace RecycleFactory.Player
             this.mode = mode;
 
             if (before != mode)
+            {
+                Scripts.PlayerModeSwitch.UpdateModeIcon();
                 onAfterModeChangedEvent?.Invoke(mode);
+            }
         }
     }
 
-    internal enum Mode
+    public enum Mode
     {
         None,
         Build,

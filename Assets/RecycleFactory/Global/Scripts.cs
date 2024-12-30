@@ -28,6 +28,9 @@ namespace RecycleFactory
         [SerializeField] private UIController _UIController;
         public static UIController UIController;
 
+        [SerializeField] private PlayerModeSwitch _PlayerModeSwitch;
+        public static PlayerModeSwitch PlayerModeSwitch;
+
         [SerializeField] private Map _Map;
         public static Map Map;
 
@@ -71,7 +74,9 @@ namespace RecycleFactory
             AllBuildings = _AllBuildings;
             LevelController = _LevelController;
             AllItems = _AllItems;
+            PlayerModeSwitch = _PlayerModeSwitch;
 
+            PlayerModeSwitch.Init();
             AllBuildings.Init();
             AllItems.Init();
             LevelController.Init();
