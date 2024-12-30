@@ -27,7 +27,7 @@ namespace RecycleFactory.Player
             if (demolishTrigger())
             {
                 Building building = Map.getBuildingAt(selectedCell);
-                if (building == null) return;
+                if (building == null || !building.isAlive) return;
                 Demolish(building);
             }
         }

@@ -14,6 +14,7 @@ namespace RecycleFactory.Player
         public PlayerDemolisher playerDemolisher { get; private set; }
 
         [ShowNativeProperty] internal Mode mode { get; private set; }
+        internal event Action<Mode> onAfterModeChangedEvent;
 
         private Action updateFunction;
 
@@ -77,8 +78,6 @@ namespace RecycleFactory.Player
 
         internal void SetMode(Mode mode)
         {
-            this.mode = mode;
-
             switch (mode)
             {
                 case Mode.None:
@@ -91,6 +90,11 @@ namespace RecycleFactory.Player
                     updateFunction = playerDemolisher._Update;
                     break;
             }
+            Mode before = this.mode;
+            this.mode = mode;
+
+            if (before != mode)
+                onAfterModeChangedEvent?.Invoke(mode);
         }
     }
 

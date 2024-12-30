@@ -36,6 +36,7 @@ namespace RecycleFactory.Player
 
         public void Init()
         {
+            Scripts.PlayerController.onAfterModeChangedEvent += OnAfterModeChanged;
             selectedBuildingPrefab = buildingsPrefabs[0];
             InitPreview();
 
@@ -66,6 +67,20 @@ namespace RecycleFactory.Player
 
                 preview.gameObject.SetActive(false);
                 previews[i] = preview;
+            }
+        }
+        
+        private void OnAfterModeChanged(Mode newMode)
+        {
+            if (newMode == Mode.Build)
+            {
+                SelectBuilding(0);
+            }
+            else
+            {
+                selectedBuildingIndex = -1;
+                selectedBuildingPrefab = null;
+                UpdatePreview();
             }
         }
 
@@ -218,8 +233,6 @@ namespace RecycleFactory.Player
 
         private void UpdatePreview()
         {
-            // TODO: add toggle on/off
-
             for (int i = 0; i < previews.Length; i++)
             {
                 // activate only the preview of the selected building
