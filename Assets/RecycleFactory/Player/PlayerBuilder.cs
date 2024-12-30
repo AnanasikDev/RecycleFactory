@@ -81,6 +81,7 @@ namespace RecycleFactory.Player
                 selectedBuildingIndex = -1;
                 selectedBuildingPrefab = null;
                 UpdatePreview();
+                Scripts.BuildingArrowPreviewController.HideAll();
             }
         }
 

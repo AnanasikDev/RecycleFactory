@@ -51,5 +51,10 @@ namespace RecycleFactory
 
             }
         }
+
+        public void HideAll()
+        {
+            pool.objects.ForEach(o => o.gameObject.SetActive(false));
+        }
     }
 }
