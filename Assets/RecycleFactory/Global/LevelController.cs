@@ -116,7 +116,7 @@ namespace RecycleFactory
                 {
                     UnlockBuildings(new List<Building>() { AllBuildings.MetalRecycler, AllBuildings.MagneticSorter });
                     UnlockItems(new List<ConveyorBelt_ItemInfo>() { AllItems.Lock });
-                    Scripts.Budget.Add(6000);
+                    Scripts.Budget.Add(7000);
                 },
                 GetDescription = () =>
                 {
@@ -132,18 +132,18 @@ namespace RecycleFactory
             {
                 GetProgress = () =>
                 {
-                    return GetItemCategoryProgress(ItemCategories.Metal, 25);
+                    return GetItemCategoryProgress(ItemCategories.Metal, 20);
                 },
                 Unlock = () =>
                 {
                     UnlockBuildings(new List<Building>() { AllBuildings.PaperSorter, AllBuildings.PaperRecycler });
                     UnlockItems(new List<ConveyorBelt_ItemInfo>() { AllItems.Banana, AllItems.Book });
-                    Scripts.Budget.Add(3000);
+                    Scripts.Budget.Add(5500);
                 },
                 GetDescription = () =>
                 {
                     return $"Next level: 3\n" +
-                           $"Metal recycled: {GetItemCategoryProgress(ItemCategories.Metal, 25)}/25\n" +
+                           $"Metal recycled: {GetItemCategoryAmount(ItemCategories.Metal)}/20\n" +
                            $"Unlocks Paper\n" +
                            $"New items: banana, book";
                 },
@@ -159,13 +159,13 @@ namespace RecycleFactory
                 Unlock = () =>
                 {
                     UnlockBuildings(new List<Building>() { AllBuildings.TransparencySorter, AllBuildings.PlasticRecycler });
-                    Scripts.Budget.Add(1000);
+                    Scripts.Budget.Add(2700);
                 },
                 GetDescription = () =>
                 {
                     return $"Next level: 4\n" +
-                            $"Metal recycled: {(StatisticsManager.itemsRecycledByCategory.TryGetValue(Buildings.Logistics.ItemCategories.Metal, out var metal) ? metal : 0)}/40\n" +
-                            $"Paper recycled: {(StatisticsManager.itemsRecycledByCategory.TryGetValue(Buildings.Logistics.ItemCategories.Paper, out var paper) ? paper : 0)}/30\n" +
+                            $"Metal recycled: {GetItemCategoryAmount(ItemCategories.Metal)}/40\n" +
+                            $"Paper recycled: {GetItemCategoryAmount(ItemCategories.Paper)}/30\n" +
                             $"Unlocks Plastic";
                 },
                 id = 3
@@ -186,9 +186,9 @@ namespace RecycleFactory
                 GetDescription = () =>
                 {
                     return $"Next level: 5\n" +
-                            $"Paper recycled: {GetItemCategoryProgress(ItemCategories.Paper, 50)}/50\n" +
-                            $"Metal recycled: {GetItemCategoryProgress(ItemCategories.Metal, 60)}/60\n" +
-                            $"Plastic recycled: {GetItemCategoryProgress(ItemCategories.Plastic, 20)}/20\n" +
+                            $"Paper recycled: {GetItemCategoryAmount(ItemCategories.Paper)}/50\n" +
+                            $"Metal recycled: {GetItemCategoryAmount(ItemCategories.Metal)}/60\n" +
+                            $"Plastic recycled: {GetItemCategoryAmount(ItemCategories.Plastic)}/20\n" +
                             $"Unlocks Batteries\n" +
                             $"New items: yoghurt, battery";
                 },
@@ -217,11 +217,16 @@ namespace RecycleFactory
             }
         }
 
-        private float GetItemCategoryProgress(ItemCategories category, int targetAmount)
+        private float GetItemCategoryProgress(ItemCategories category, int targetAmount, bool scale01 = true)
         {
             return Mathf.Clamp01(StatisticsManager.itemsRecycledByCategory.TryGetValue(category, out int val) ? 
                 val / (float)targetAmount : 
-                0);
+                0) * (scale01 ? 1 : targetAmount);
+        }
+        private float GetItemCategoryAmount(ItemCategories category)
+        {
+            return StatisticsManager.itemsRecycledByCategory.TryGetValue(category, out int val) ?
+                val : 0;
         }
 
         private void Update()

@@ -21,7 +21,7 @@ namespace RecycleFactory
 
         public static Building getBuildingAt(Vector2Int mapPos)
         {
-            if (mapPos.x > 0 && mapPos.x < mapSize.x && mapPos.y > 0 && mapPos.y < mapSize.y)
+            if (mapPos.x >= 0 && mapPos.x < mapSize.x && mapPos.y >= 0 && mapPos.y < mapSize.y)
                 return buildingsAt[mapPos.y, mapPos.x];
             return null;
         }

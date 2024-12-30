@@ -95,6 +95,7 @@ MonoBehaviour:
   plasticBonus: 0
   organicBonus: 0
   paperBonus: 0
+  batteryBonus: -100
 --- !u!1001 &7902170261439127230
 PrefabInstance:
   m_ObjectHideFlags: 0
