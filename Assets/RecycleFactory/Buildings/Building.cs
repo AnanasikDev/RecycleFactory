@@ -30,6 +30,8 @@ namespace RecycleFactory.Buildings
         public static event System.Action onAnyBuiltEvent;
         public static event System.Action onAnyDemolishedEvent;
 
+        public event System.Action onDemolishedEvent;
+
         public void Init(Vector2Int mapPos, int selectedRotation)
         {
             // rotation has been done beforehand in PlayerBuilder
@@ -73,6 +75,7 @@ namespace RecycleFactory.Buildings
             Map.RemoveBuilding(this);
             OnDemolish();
 
+            onDemolishedEvent?.Invoke();
             onAnyDemolishedEvent?.Invoke();
             Destroy(gameObject);
         }

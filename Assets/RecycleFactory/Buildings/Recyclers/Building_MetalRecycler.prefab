@@ -92,9 +92,9 @@ MonoBehaviour:
   shift: {x: 0, y: 0}
   mapPosition: {x: 0, y: 0}
   metaillicBonus: 30
-  plasticBonus: -25
-  organicBonus: -15
-  paperBonus: -15
+  plasticBonus: -40
+  organicBonus: -25
+  paperBonus: -25
   batteryBonus: -100
 --- !u!1001 &1208082124933134531
 PrefabInstance:

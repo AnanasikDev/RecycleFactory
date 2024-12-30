@@ -21,11 +21,23 @@ namespace RecycleFactory.Buildings
         private ConveyorBelt_Item item;
         private int anchorIndex;
 
+        private Building building;
+
         public override void Init()
         {
             base.Init();
+            building = GetComponent<Building>();
+
             avgHandlersLength = averageHandlers.Length;
             animator = GetComponent<Animator>();
+
+            building.onDemolishedEvent += OnDemolish;
+        }
+
+        private void OnDemolish()
+        {
+            building.onDemolishedEvent -= OnDemolish;
+            item.DetachAndDisable();
         }
 
         private void Update()

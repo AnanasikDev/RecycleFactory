@@ -13,7 +13,7 @@ namespace RecycleFactory
     public class LevelController : MonoBehaviour
     {
         public Level[] levels;
-        [ShowNativeProperty] public int currentLevel { get; private set; } = 0;
+        [ShowNativeProperty] public int levelInProgress { get; private set; } = 0;
 
         private Dictionary<Building, bool> buildingsStates;
         private Dictionary<ConveyorBelt_ItemInfo, bool> itemsStates;
@@ -37,9 +37,10 @@ namespace RecycleFactory
                 Debug.LogError("Unavailable in edit mode.");
                 return;
             }
-            if (currentLevel < levels.Length)
+            if (levelInProgress < levels.Length - 1)
             {
-                levels[currentLevel + 1].Unlock();
+                levels[levelInProgress + 1].Unlock();
+                levelInProgress++;
             }
         }
 
@@ -51,11 +52,12 @@ namespace RecycleFactory
                 Debug.LogError("Unavailable in edit mode.");
                 return;
             }
-            if (currentLevel < levels.Length)
+            if (levelInProgress < levels.Length)
             {
-                for (int i = currentLevel + 1; i < levels.Length; i++)
+                for (int i = levelInProgress + 1; i < levels.Length; i++)
                 {
                     levels[i].Unlock();
+                    levelInProgress++;
                 }
             }
         }
@@ -116,7 +118,7 @@ namespace RecycleFactory
                 {
                     UnlockBuildings(new List<Building>() { AllBuildings.MetalRecycler, AllBuildings.MagneticSorter });
                     UnlockItems(new List<ConveyorBelt_ItemInfo>() { AllItems.Lock });
-                    Scripts.Budget.Add(7000);
+                    Scripts.Budget.Add(5400);
                 },
                 GetDescription = () =>
                 {
@@ -138,7 +140,7 @@ namespace RecycleFactory
                 {
                     UnlockBuildings(new List<Building>() { AllBuildings.PaperSorter, AllBuildings.PaperRecycler });
                     UnlockItems(new List<ConveyorBelt_ItemInfo>() { AllItems.Banana, AllItems.Book });
-                    Scripts.Budget.Add(5500);
+                    Scripts.Budget.Add(3200);
                 },
                 GetDescription = () =>
                 {
@@ -159,7 +161,7 @@ namespace RecycleFactory
                 Unlock = () =>
                 {
                     UnlockBuildings(new List<Building>() { AllBuildings.TransparencySorter, AllBuildings.PlasticRecycler });
-                    Scripts.Budget.Add(2700);
+                    Scripts.Budget.Add(1100);
                 },
                 GetDescription = () =>
                 {
@@ -196,7 +198,7 @@ namespace RecycleFactory
             };
 
             levels[0].Unlock();
-            currentLevel++;
+            levelInProgress++;
             progressBar.SetValue(0);
         }
 
@@ -231,15 +233,16 @@ namespace RecycleFactory
 
         private void Update()
         {
-            if (currentLevel == levels.Length - 1) return;
+            if (levelInProgress > levels.Length - 1) return;
 
-            progressToNext = levels[currentLevel].GetProgress();
+            progressToNext = levels[levelInProgress].GetProgress();
             progressBar.SetValue(progressToNext);
-            nextStageDescription.text = levels[currentLevel].GetDescription();
+            nextStageDescription.text = levels[levelInProgress].GetDescription();
+
             if (progressToNext >= threshold)
             {
-                levels[currentLevel].Unlock();
-                currentLevel++;
+                levels[levelInProgress].Unlock();
+                levelInProgress++;
             }
         }
     }

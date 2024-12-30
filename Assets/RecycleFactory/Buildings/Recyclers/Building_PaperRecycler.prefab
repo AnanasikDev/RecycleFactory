@@ -93,7 +93,7 @@ MonoBehaviour:
   mapPosition: {x: 0, y: 0}
   metaillicBonus: -40
   plasticBonus: -25
-  organicBonus: -9
+  organicBonus: -18
   paperBonus: 26
   batteryBonus: -100
 --- !u!1001 &7370571290019885
