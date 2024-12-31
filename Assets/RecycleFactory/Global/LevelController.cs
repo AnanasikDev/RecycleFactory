@@ -52,13 +52,11 @@ namespace RecycleFactory
                 Debug.LogError("Unavailable in edit mode.");
                 return;
             }
-            if (levelInProgress < levels.Length)
+
+            for (; levelInProgress < levels.Length; levelInProgress++)
             {
-                for (int i = levelInProgress + 1; i < levels.Length; i++)
-                {
-                    levels[i].Unlock();
-                    levelInProgress++;
-                }
+                Debug.Log(levelInProgress);
+                levels[levelInProgress].Unlock();
             }
         }
 
@@ -181,7 +179,7 @@ namespace RecycleFactory
                 },
                 Unlock = () =>
                 {
-                    UnlockBuildings(new List<Building>() { AllBuildings.TransparencySorter, AllBuildings.PlasticRecycler });
+                    UnlockBuildings(new List<Building>() { AllBuildings.ElectromagneticSorter, AllBuildings.DensitySorter, AllBuildings.BatteryRecycler });
                     UnlockItems(new List<ConveyorBelt_ItemInfo>() { AllItems.Battery, AllItems.Yoghurt });
                     Scripts.Budget.Add(1000);
                 },
