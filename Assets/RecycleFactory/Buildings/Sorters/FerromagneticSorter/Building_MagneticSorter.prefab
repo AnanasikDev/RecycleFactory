@@ -2254,7 +2254,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Magnetic sorter
   description: 
-  cost: 1800
+  cost: 2500
   isAlive: 1
   receiver: {fileID: 0}
   releaser: {fileID: 0}

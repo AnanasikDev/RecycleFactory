@@ -45,6 +45,7 @@ namespace RecycleFactory.Buildings
         [AutoSet] public static Building PlasticRecycler { get; private set; }
         [AutoSet] public static Building PaperRecycler { get; private set; }
         [AutoSet] public static Building BatteryRecycler { get; private set; }
+        [AutoSet] public static Building LightbulbRecycler { get; private set; }
     }
 
     [System.AttributeUsage(System.AttributeTargets.Property | System.AttributeTargets.Field, AllowMultiple = false)]

@@ -20,6 +20,7 @@ namespace RecycleFactory.Buildings.Logistics
         [Range(0, 1)] public float density;
 
         public bool battery;
+        public bool lightbulb;
     }
 
     public enum ItemCategories
@@ -29,6 +30,7 @@ namespace RecycleFactory.Buildings.Logistics
         Plastic,
         Metal,
         Organic,
-        Battery
+        Battery,
+        Lightbulb
     }
 }

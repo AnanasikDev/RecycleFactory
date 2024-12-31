@@ -11,6 +11,7 @@ namespace RecycleFactory.Buildings
         [Range(-100, 100)] public float organicBonus;
         [Range(-100, 100)] public float paperBonus;
         [Range(-100, 100)] public float batteryBonus;
+        [Range(-100, 100)] public float lightbulbBonus;
 
         private int inAnchorsCount;
 
@@ -37,6 +38,7 @@ namespace RecycleFactory.Buildings
                     bonus += organicBonus * item.info.organic;
                     bonus += paperBonus * item.info.paper;
                     bonus += batteryBonus * (item.info.battery ? 1 : 0);
+                    bonus += lightbulbBonus * (item.info.lightbulb ? 1 : 0);
                     Scripts.Budget.Add((int)bonus);
 
                     // if recycled properly

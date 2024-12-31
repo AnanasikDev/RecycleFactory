@@ -86,7 +86,7 @@ namespace RecycleFactory
             buildingsStates = AllBuildings.allBuildings.ToDictionary(x => x, x => false);
             itemsStates = AllItems.allItemInfos.ToDictionary(x => x, x => false);
 
-            levels = new Level[5];
+            levels = new Level[6];
 
             levels[0] = new Level()
             {
@@ -114,16 +114,16 @@ namespace RecycleFactory
                 },
                 Unlock = () =>
                 {
-                    UnlockBuildings(new List<Building>() { AllBuildings.MetalRecycler, AllBuildings.MagneticSorter });
-                    UnlockItems(new List<ConveyorBelt_ItemInfo>() { AllItems.Lock });
+                    UnlockBuildings(new List<Building>() { AllBuildings.PaperRecycler, AllBuildings.PaperSorter });
+                    UnlockItems(new List<ConveyorBelt_ItemInfo>() { AllItems.Book });
                     Scripts.Budget.Add(5400);
                 },
                 GetDescription = () =>
                 {
                     return $"Next level: 2\n" +
                            $"Items collected: {StatisticsManager.totalItemsIncinerated}/12\n" +
-                           $"Unlocks Metal\n" +
-                           $"New items: lock";
+                           $"Unlocks Paper\n" +
+                           $"New items: book";
                 },
                 id = 1
             };
@@ -132,20 +132,20 @@ namespace RecycleFactory
             {
                 GetProgress = () =>
                 {
-                    return GetItemCategoryProgress(ItemCategories.Metal, 20);
+                    return GetItemCategoryProgress(ItemCategories.Paper, 20);
                 },
                 Unlock = () =>
                 {
-                    UnlockBuildings(new List<Building>() { AllBuildings.PaperSorter, AllBuildings.PaperRecycler });
-                    UnlockItems(new List<ConveyorBelt_ItemInfo>() { AllItems.Banana, AllItems.Book });
+                    UnlockBuildings(new List<Building>() { AllBuildings.MetalRecycler, AllBuildings.MagneticSorter });
+                    UnlockItems(new List<ConveyorBelt_ItemInfo>() { AllItems.Lock });
                     Scripts.Budget.Add(3200);
                 },
                 GetDescription = () =>
                 {
                     return $"Next level: 3\n" +
-                           $"Metal recycled: {GetItemCategoryAmount(ItemCategories.Metal)}/20\n" +
-                           $"Unlocks Paper\n" +
-                           $"New items: banana, book";
+                           $"Metal recycled: {GetItemCategoryAmount(ItemCategories.Paper)}/20\n" +
+                           $"Unlocks Metal\n" +
+                           $"New items: lock";
                 },
                 id = 2
             };
@@ -154,7 +154,8 @@ namespace RecycleFactory
             {
                 GetProgress = () =>
                 {
-                    return GetItemCategoryProgress(ItemCategories.Paper, 30) * 3/7f + GetItemCategoryProgress(ItemCategories.Metal, 40) * 4/7f;
+                    return GetItemCategoryProgress(ItemCategories.Paper, 40) * 4/7f + 
+                    GetItemCategoryProgress(ItemCategories.Metal, 30) * 3/7f;
                 },
                 Unlock = () =>
                 {
@@ -164,9 +165,10 @@ namespace RecycleFactory
                 GetDescription = () =>
                 {
                     return $"Next level: 4\n" +
-                            $"Metal recycled: {GetItemCategoryAmount(ItemCategories.Metal)}/40\n" +
-                            $"Paper recycled: {GetItemCategoryAmount(ItemCategories.Paper)}/30\n" +
-                            $"Unlocks Plastic";
+                            $"Paper recycled: {GetItemCategoryAmount(ItemCategories.Paper)}/40\n" +
+                            $"Metal recycled: {GetItemCategoryAmount(ItemCategories.Metal)}/30\n" +
+                            $"Unlocks Plastic\n" +
+                            $"New items: yoghurt";
                 },
                 id = 3
             };
@@ -175,24 +177,53 @@ namespace RecycleFactory
             {
                 GetProgress = () =>
                 {
-                    return GetItemCategoryProgress(ItemCategories.Paper, 50) * 5/13f + GetItemCategoryProgress(ItemCategories.Metal, 60) * 6/13f + GetItemCategoryProgress(ItemCategories.Plastic, 20) * 2/13f;
+                    return GetItemCategoryProgress(ItemCategories.Paper, 60) * 6/13f + 
+                    GetItemCategoryProgress(ItemCategories.Metal, 50) * 5/13f + 
+                    GetItemCategoryProgress(ItemCategories.Plastic, 20) * 2/13f;
                 },
                 Unlock = () =>
                 {
                     UnlockBuildings(new List<Building>() { AllBuildings.ElectromagneticSorter, AllBuildings.DensitySorter, AllBuildings.BatteryRecycler });
-                    UnlockItems(new List<ConveyorBelt_ItemInfo>() { AllItems.Battery, AllItems.Yoghurt });
+                    UnlockItems(new List<ConveyorBelt_ItemInfo>() { AllItems.Battery, AllItems.Lightbulb });
                     Scripts.Budget.Add(1000);
                 },
                 GetDescription = () =>
                 {
                     return $"Next level: 5\n" +
-                            $"Paper recycled: {GetItemCategoryAmount(ItemCategories.Paper)}/50\n" +
-                            $"Metal recycled: {GetItemCategoryAmount(ItemCategories.Metal)}/60\n" +
+                            $"Paper recycled: {GetItemCategoryAmount(ItemCategories.Paper)}/60\n" +
+                            $"Metal recycled: {GetItemCategoryAmount(ItemCategories.Metal)}/50\n" +
                             $"Plastic recycled: {GetItemCategoryAmount(ItemCategories.Plastic)}/20\n" +
                             $"Unlocks Batteries\n" +
-                            $"New items: yoghurt, battery";
+                            $"New items: battery, lightbulb";
                 },
                 id = 4
+            };
+
+            levels[5] = new Level()
+            {
+                GetProgress = () =>
+                {
+                    return GetItemCategoryProgress(ItemCategories.Paper, 70) * 70/225f + 
+                    GetItemCategoryProgress(ItemCategories.Metal, 70) * 70/225f + 
+                    GetItemCategoryProgress(ItemCategories.Plastic, 70) * 70 / 225f +
+                    GetItemCategoryProgress(ItemCategories.Battery, 15) * 15/225f;
+                },
+                Unlock = () =>
+                {
+                    UnlockBuildings(new List<Building>() { AllBuildings.LightbulbRecycler });
+                    UnlockItems(new List<ConveyorBelt_ItemInfo>() { AllItems.Banana });
+                    Scripts.Budget.Add(2200);
+                },
+                GetDescription = () =>
+                {
+                    return $"Next level: 6\n" +
+                            $"Paper recycled: {GetItemCategoryAmount(ItemCategories.Paper)}/60\n" +
+                            $"Metal recycled: {GetItemCategoryAmount(ItemCategories.Metal)}/50\n" +
+                            $"Plastic recycled: {GetItemCategoryAmount(ItemCategories.Plastic)}/20\n" +
+                            $"Unlocks Batteries\n" +
+                            $"New items: banana";
+                },
+                id = 5
             };
 
             levels[0].Unlock();

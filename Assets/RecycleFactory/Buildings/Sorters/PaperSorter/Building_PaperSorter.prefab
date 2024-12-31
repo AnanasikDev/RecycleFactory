@@ -5980,7 +5980,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Paper sorter
   description: 
-  cost: 3000
+  cost: 1850
   isAlive: 1
   receiver: {fileID: 0}
   releaser: {fileID: 0}

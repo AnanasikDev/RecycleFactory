@@ -11,9 +11,6 @@ namespace RecycleFactory.Player
 {
     public class PlayerBuilder : MonoBehaviour
     {
-        [Header("Building Settings")]
-        [SerializeField] private Building[] buildingsPrefabs;
-
         [SerializeField] private bool showPreview = true;
         [SerializeField][ShowIf("showPreview")][ReadOnly] private BuildingPreview[] previews;
         [SerializeField][ShowIf("showPreview")] private Transform previewsHandler;
@@ -28,6 +25,8 @@ namespace RecycleFactory.Player
         [SerializeField][ReadOnly] private bool isSelectedSpotAvailable = false;
         [SerializeField][ReadOnly] private Vector2Int selectedCell;
 
+        [SerializeField] private Transform previewHandler;
+
         private Func<bool> placementTrigger = () => Input.GetMouseButtonDown(0) && !UIInputMask.isPointerOverUI;
 
         private event Action onCellSelectedEvent;
@@ -37,7 +36,7 @@ namespace RecycleFactory.Player
         public void Init()
         {
             Scripts.PlayerController.onAfterModeChangedEvent += OnAfterModeChanged;
-            selectedBuildingPrefab = buildingsPrefabs[0];
+            selectedBuildingPrefab = AllBuildings.allBuildings[0];
             InitPreview();
 
             onCellSelectedEvent += UpdatePreview;
@@ -45,7 +44,7 @@ namespace RecycleFactory.Player
 
         private void InitPreview()
         {
-            previews = new BuildingPreview[buildingsPrefabs.Length];
+            previews = new BuildingPreview[AllBuildings.allBuildings.Count];
             for (int i = 0; i < previews.Length; i++)
             {
                 BuildingPreview preview = new GameObject("Building Preview " + i).AddComponent<BuildingPreview>();
@@ -53,19 +52,20 @@ namespace RecycleFactory.Player
                 // mesh filter & renderer
                 var renderer = new GameObject("mesh");
                 renderer.transform.SetParent(preview.transform);
-                renderer.transform.localPosition = buildingsPrefabs[i].buildingRenderer.meshFilter.transform.localPosition;
-                renderer.transform.localScale = buildingsPrefabs[i].buildingRenderer.meshFilter.transform.localScale;
+                renderer.transform.localPosition = AllBuildings.allBuildings[i].buildingRenderer.meshFilter.transform.localPosition;
+                renderer.transform.localScale = AllBuildings.allBuildings[i].buildingRenderer.meshFilter.transform.localScale;
                 var meshFilter = renderer.gameObject.AddComponent<MeshFilter>();
                 var meshRenderer = renderer.gameObject.AddComponent<MeshRenderer>();
 
                 // mesh copy
-                Mesh newMesh = UnityEngine.Object.Instantiate(buildingsPrefabs[i].buildingRenderer.meshFilter.sharedMesh);
+                Mesh newMesh = UnityEngine.Object.Instantiate(AllBuildings.allBuildings[i].buildingRenderer.meshFilter.sharedMesh);
                 meshFilter.mesh = newMesh;
-                meshRenderer.materials = buildingsPrefabs[i].buildingRenderer.meshRenderer.sharedMaterials;
+                meshRenderer.materials = AllBuildings.allBuildings[i].buildingRenderer.meshRenderer.sharedMaterials;
                 preview.meshFilter = meshFilter;
                 preview.meshRenderer = meshRenderer;
 
                 preview.gameObject.SetActive(false);
+                preview.gameObject.transform.SetParent(previewHandler);
                 previews[i] = preview;
             }
         }
@@ -141,11 +141,11 @@ namespace RecycleFactory.Player
 
         private void HandleSelection()
         {
-            for (int i = 0; i < Mathf.Min(buildingsPrefabs.Length, 9); i++)
+            for (int i = 0; i < Mathf.Min(AllBuildings.allBuildings.Count, 9); i++)
             {
                 if (Input.GetKeyDown((i + 1).ToString()))
                 {
-                    if (allowChoosingUnavailableBuildings || Scripts.LevelController.IsUnlocked(buildingsPrefabs[i]))
+                    if (allowChoosingUnavailableBuildings || Scripts.LevelController.IsUnlocked(AllBuildings.allBuildings[i]))
                     {
                         selectedBuildingIndex = i;
                         SelectBuilding(i);
@@ -157,7 +157,7 @@ namespace RecycleFactory.Player
         public void ForceSelectBuilding(Building buildingPrefab)
         {
             selectedBuildingPrefab = buildingPrefab;
-            selectedBuildingIndex = buildingsPrefabs.ToList().IndexOf(buildingPrefab);
+            selectedBuildingIndex = AllBuildings.allBuildings.ToList().IndexOf(buildingPrefab);
             selectedRotation = 0;
             if (showPreview)
             {
@@ -168,12 +168,12 @@ namespace RecycleFactory.Player
 
         public void ForceSelectBuilding(int index)
         {
-            ForceSelectBuilding(buildingsPrefabs[index]);
+            ForceSelectBuilding(AllBuildings.allBuildings[index]);
         }
 
         private void SelectBuilding(int index)
         {
-            if (index >= 0 && index < buildingsPrefabs.Length)
+            if (index >= 0 && index < AllBuildings.allBuildings.Count)
             {
                 ForceSelectBuilding(index);
             }

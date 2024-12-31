@@ -46,5 +46,6 @@ namespace RecycleFactory
         [AutoSet] public static ItemInfo Lock { get; private set; }
         [AutoSet] public static ItemInfo Book { get; private set; }
         [AutoSet] public static ItemInfo Yoghurt { get; private set; }
+        [AutoSet] public static ItemInfo Lightbulb { get; private set; }
     }
 }
