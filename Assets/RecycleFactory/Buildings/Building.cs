@@ -39,6 +39,7 @@ namespace RecycleFactory.Buildings
             id = ++_id;
             gameObject.name += " " + id;
             mapPosition = mapPos;
+            transform.position = Map.map2world(mapPos);
             isAlive = true;
 
             Assert.IsTrue(buildingRenderer != null, "[ReFa]: BuildingRenderer must be not null!");
@@ -56,6 +57,14 @@ namespace RecycleFactory.Buildings
             PostInit();
 
             onAnyBuiltEvent?.Invoke();
+        }
+
+        /// <summary>
+        /// Translates the building seamlessly by changing the matrix position
+        /// </summary>
+        public virtual void Rebase(Vector2Int newMatrixPosition)
+        {
+            mapPosition = newMatrixPosition;
         }
 
         protected virtual void PostInit() { }

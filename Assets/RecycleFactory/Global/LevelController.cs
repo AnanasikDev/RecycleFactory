@@ -55,7 +55,6 @@ namespace RecycleFactory
 
             for (; levelInProgress < levels.Length; levelInProgress++)
             {
-                Debug.Log(levelInProgress);
                 levels[levelInProgress].Unlock();
             }
         }

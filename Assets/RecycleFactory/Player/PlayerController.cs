@@ -66,10 +66,10 @@ namespace RecycleFactory.Player
             return Vector3.zero;
         }
 
-        internal Vector2Int GetSelectedCell()
+        internal Vector2Int GetSelectedCellMapPos()
         {
             Vector3 position = Scripts.PlayerController.GetMouseWorldPosition();
-            Vector2Int mapPos = new Vector2(position.x, position.z).FloorToInt();
+            Vector2Int mapPos = Map.world2map(position);
             mapPos.Clamp(Vector2Int.zero, Map.mapSize - Vector2Int.one);
             return mapPos;
         }

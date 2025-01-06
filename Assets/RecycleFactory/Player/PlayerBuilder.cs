@@ -111,7 +111,8 @@ namespace RecycleFactory.Player
 
         private void HandleCellSelection()
         {
-            Vector2Int mapPos = Scripts.PlayerController.GetSelectedCell();
+            Vector2Int mapPos = Scripts.PlayerController.GetSelectedCellMapPos();
+            Debug.Log(mapPos);
 
             if (mapPos != selectedCell)
             {
@@ -241,7 +242,7 @@ namespace RecycleFactory.Player
                 {
                     previews[i].gameObject.SetActive(true);
                     previews[i].meshRenderer.materials.ToList().ForEach(mat => mat.color = isSelectedSpotAvailable ? preview_freeColor : preview_takenColor);
-                    previews[i].transform.position = selectedCell.ConvertTo2D().ProjectTo3D(Map.floorHeight);
+                    previews[i].transform.position = Map.map2world(selectedCell) + Vector3.up * Map.floorHeight;
                     previews[i].transform.eulerAngles = Vector3.up * selectedRotation * 90;
 
                     UpdateArrowPreviews(previews[i]);

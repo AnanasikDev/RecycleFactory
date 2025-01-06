@@ -6,7 +6,12 @@ namespace RecycleFactory
 {
     public class Map : MonoBehaviour
     {
-        public static readonly Vector2Int mapSize = new Vector2Int(16, 10);
+        public static Vector2Int mapSize = new Vector2Int(16, 10);
+        /// <summary>
+        /// Shift of the matrix (0,0) point relatively to the world (0,0) position. Updated on map extension
+        /// </summary>
+        public static Vector2Int mapShift = new Vector2Int(0, 0);
+
         public static readonly float floorHeight = 0f;
         public static List<Building> buildingsUnordered = new List<Building>();
         public static Building[,] buildingsAt = new Building[mapSize.y, mapSize.x];
@@ -43,9 +48,25 @@ namespace RecycleFactory
             return true;
         }
 
-        public static Vector2Int ConvertToMapPosition(Vector3 position)
+        public static Vector2Int world2map(Vector2 position)
         {
-            return new Vector2(Hexath.SnapNumberToStep(position.x, 1), Hexath.SnapNumberToStep(position.z, 1)).RoundToInt();
+            return new Vector2(
+                Hexath.SnapNumberToStep(position.x, 1), 
+                Hexath.SnapNumberToStep(position.y, 1)
+                ).RoundToInt() + mapShift;
+        }
+
+        public static Vector2Int world2map(Vector3 position)
+        {
+            return new Vector2(
+                Hexath.SnapNumberToStep(position.x, 1), 
+                Hexath.SnapNumberToStep(position.z, 1)
+                ).RoundToInt() + mapShift;
+        }
+
+        public static Vector3 map2world(Vector2Int position)
+        {
+            return (position - mapShift).ConvertTo2D().ProjectTo3D();
         }
 
         /// <summary>
@@ -89,6 +110,37 @@ namespace RecycleFactory
                     Gizmos.DrawWireCube(new Vector3(x, 1, y), Vector3.one * 0.4f);
                 }
             }
+        }
+
+        public void Extend(int xpos, int ypos, int xneg, int yneg)
+        {
+            Vector2Int prevMapSize = mapSize;
+            Vector2Int delta = new Vector2Int(xpos + xneg, ypos + yneg);
+            mapSize += delta;
+            mapShift += new Vector2Int(xneg, yneg);
+
+            Building[,] result = new Building[mapSize.y, mapSize.x];
+            for (int y = 0; y < prevMapSize.y; y++)
+            {
+                for (int x = 0; x < prevMapSize.x; x++)
+                {
+                    result[y, x] = buildingsAt[y, x];
+                }
+            }
+
+            for (int y = 0; y < mapSize.y; y++)
+            {
+                for (int x = 0; x < mapSize.x; x++)
+                {
+                    Vector2Int newMatrixPos = new Vector2Int(x + xneg, y + yneg);
+                    result[y, x]?.Rebase(newMatrixPos);
+                }
+            }
+
+            buildingsAt = result;
+
+            // rescale floor plane
+            floor.transform.localScale += delta.ConvertTo2D().ProjectTo3D() / 10f;
         }
     }
 }

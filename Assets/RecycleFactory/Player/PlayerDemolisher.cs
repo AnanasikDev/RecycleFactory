@@ -23,7 +23,7 @@ namespace RecycleFactory.Player
 
         public void _Update()
         {
-            selectedCell = Scripts.PlayerController.GetSelectedCell();
+            selectedCell = Scripts.PlayerController.GetSelectedCellMapPos();
             if (demolishTrigger())
             {
                 Building building = Map.getBuildingAt(selectedCell);
