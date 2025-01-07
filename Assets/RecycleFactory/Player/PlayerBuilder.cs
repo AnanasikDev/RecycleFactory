@@ -124,18 +124,22 @@ namespace RecycleFactory.Player
 
         private void HandleRotation()
         {
-            if (Input.GetKey(KeyCode.R))
+            bool inverse = false;
+
+            if (Input.GetKey(KeyCode.LeftShift))
+                inverse = true;
+
+            if (Input.GetKeyDown(KeyCode.R))
             {
-                int r = Hexath.Ternarsign(Input.mouseScrollDelta.y);
-                if (r != 0)
+                int delta = inverse ? -1 : 1;
+
+                selectedRotation = (int)Mathf.Repeat(selectedRotation + delta, 4);
+                if (showPreview)
                 {
-                    selectedRotation = (int)Mathf.Repeat(selectedRotation + r, 4);
-                    if (showPreview)
-                    {
-                        CheckSelectedSpot();
-                        UpdatePreview();
-                    }
+                    CheckSelectedSpot();
+                    UpdatePreview();
                 }
+                // if no preview needed, no need to check for selected spot availability before building.
             }
         }
 
