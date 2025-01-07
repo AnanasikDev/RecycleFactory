@@ -49,6 +49,9 @@ namespace RecycleFactory
         [SerializeField] private AllItems _AllItems;
         public static AllItems AllItems;
 
+        [SerializeField] private PermanentUpgradesManager _PermanentUpgradesManager;
+        public static PermanentUpgradesManager PermanentUpgradesManager;
+
         private void Start()
         {
             #if UNITY_EDITOR
@@ -75,6 +78,7 @@ namespace RecycleFactory
             LevelController = _LevelController;
             AllItems = _AllItems;
             PlayerModeSwitch = _PlayerModeSwitch;
+            PermanentUpgradesManager = _PermanentUpgradesManager;
 
             PlayerModeSwitch.Init();
             AllBuildings.Init();
@@ -85,6 +89,7 @@ namespace RecycleFactory
             UIController.Init();
             Map.Init();
             PlayerController.Init();
+            PermanentUpgradesManager.Init();
             StatisticsManager.Init();
         }
 

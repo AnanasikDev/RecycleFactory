@@ -180,7 +180,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Extend area
 
-    4+ level, $8000
+    5+ level, $5000
 
 '
   m_isRightToLeft: 0
@@ -2588,6 +2588,7 @@ MonoBehaviour:
   _AllBuildings: {fileID: 1718196797}
   _LevelController: {fileID: 1718196798}
   _AllItems: {fileID: 1718196799}
+  _PermanentUpgradesManager: {fileID: 1718196800}
 --- !u!4 &1718196792
 Transform:
   m_ObjectHideFlags: 0
@@ -2722,6 +2723,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec12f1e347d5dc24f9086f98602a67e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  button: {fileID: 2001074315}
+  title: {fileID: 13423861}
+  minLevel: 2
+  cost: 5000
 --- !u!1 &1833469542
 GameObject:
   m_ObjectHideFlags: 0
@@ -3072,11 +3077,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_NormalColor: {r: 0.5254902, g: 0.6901961, b: 0.6862745, a: 1}
+    m_HighlightedColor: {r: 0.56873864, g: 0.747, b: 0.74275565, a: 1}
+    m_PressedColor: {r: 0.30124497, g: 0.45299998, b: 0.44938678, a: 1}
+    m_SelectedColor: {r: 0.5254902, g: 0.6901961, b: 0.6862745, a: 1}
+    m_DisabledColor: {r: 0.511734, g: 0.519, b: 0.518827, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -3120,7 +3125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5243067, g: 0.69182384, b: 0.68660957, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

@@ -64,7 +64,6 @@ namespace RecycleFactory.Buildings
         /// </summary>
         public virtual void Rebase(Vector2Int newMatrixPosition)
         {
-            EasyDebug.Prompts.TextPromptManager.UpdateText(gameObject, "mrxpos", newMatrixPosition.ToString());
             mapPosition = newMatrixPosition;
         }
 

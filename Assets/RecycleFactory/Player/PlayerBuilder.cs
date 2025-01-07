@@ -112,7 +112,6 @@ namespace RecycleFactory.Player
         private void HandleCellSelection()
         {
             Vector2Int mapPos = Scripts.PlayerController.GetSelectedCellMapPos();
-            Debug.Log(mapPos);
 
             if (mapPos != selectedCell)
             {
