@@ -37,9 +37,9 @@ namespace RecycleFactory
                 Debug.LogError("Unavailable in edit mode.");
                 return;
             }
-            if (levelInProgress < levels.Length - 1)
+            if (levelInProgress <= levels.Length - 1)
             {
-                levels[levelInProgress + 1].Unlock();
+                levels[levelInProgress].Unlock();
                 levelInProgress++;
             }
         }
@@ -219,7 +219,7 @@ namespace RecycleFactory
                             $"Paper recycled: {GetItemCategoryAmount(ItemCategories.Paper)}/60\n" +
                             $"Metal recycled: {GetItemCategoryAmount(ItemCategories.Metal)}/50\n" +
                             $"Plastic recycled: {GetItemCategoryAmount(ItemCategories.Plastic)}/20\n" +
-                            $"Unlocks Batteries\n" +
+                            $"Unlocks Lightbulb processing\n" +
                             $"New items: banana";
                 },
                 id = 5

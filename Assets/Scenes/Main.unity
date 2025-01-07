@@ -172,13 +172,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: 'Extend area
+
+    4+ level, $8000
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -205,8 +209,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 20.45
+  m_fontSizeBase: 20.45
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2327,12 +2331,12 @@ MonoBehaviour:
     - building: {fileID: 6974351339611237043, guid: 529d848b271c51643ba0be5799cd2d6b,
         type: 3}
       sprite: {fileID: 21300000, guid: 52e67bf040272164297b9f58a2317e9c, type: 3}
-    - building: {fileID: 6974351339611237043, guid: 997cd3b2a0668e148a2b79de3062111a,
-        type: 3}
-      sprite: {fileID: 21300000, guid: 8018951f9e3c60d44b4afff0d8fedef1, type: 3}
     - building: {fileID: 6974351339611237043, guid: 0ded7f01e8c704f458f20d92045324b0,
         type: 3}
       sprite: {fileID: 21300000, guid: bda626272c0c46a44968ca1365f0092c, type: 3}
+    - building: {fileID: 6974351339611237043, guid: 997cd3b2a0668e148a2b79de3062111a,
+        type: 3}
+      sprite: {fileID: 21300000, guid: 8018951f9e3c60d44b4afff0d8fedef1, type: 3}
     - building: {fileID: 6974351339611237043, guid: 7efcf68ec9465ac42b4ab2581cb4cab2,
         type: 3}
       sprite: {fileID: 21300000, guid: 69a47c51d0e431745b1ba78baa5cb77e, type: 3}
@@ -2345,12 +2349,12 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 2ad4f0ebfc1fbd64da29340335a5cb71, type: 3}
   - name: Sorting machines
     options:
-    - building: {fileID: 8834315954898719290, guid: fcfa881b658949445b0cc09f60f91f04,
-        type: 3}
-      sprite: {fileID: 21300000, guid: 325242cc1024e1844af24476ca467169, type: 3}
     - building: {fileID: 4646742573862785996, guid: cbaa1ff80763bb94abb0002d54ab287a,
         type: 3}
       sprite: {fileID: 21300000, guid: 38c6f1b3f3979d94281aa829bf37d3b0, type: 3}
+    - building: {fileID: 8834315954898719290, guid: fcfa881b658949445b0cc09f60f91f04,
+        type: 3}
+      sprite: {fileID: 21300000, guid: 325242cc1024e1844af24476ca467169, type: 3}
     - building: {fileID: 7403320674907957140, guid: e9d0965c8f25d9f4d98c1ad55d8fd684,
         type: 3}
       sprite: {fileID: 21300000, guid: cec7e2dd97a06e1419be1c1f533f5735, type: 3}
@@ -3019,6 +3023,7 @@ GameObject:
   - component: {fileID: 2001074317}
   - component: {fileID: 2001074316}
   - component: {fileID: 2001074315}
+  - component: {fileID: 2001074318}
   m_Layer: 5
   m_Name: Extend floor
   m_TagString: Untagged
@@ -3044,7 +3049,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 474, y: 35}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 160, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2001074315
 MonoBehaviour:
@@ -3115,14 +3120,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7106918, g: 0.31511799, b: 0.31511799, a: 1}
+  m_Color: {r: 0.5243067, g: 0.69182384, b: 0.68660957, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3140,6 +3145,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2001074313}
   m_CullTransparentMesh: 1
+--- !u!114 &2001074318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2001074313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c491e3270c025d41b66c8e405286887, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2038839241
 GameObject:
   m_ObjectHideFlags: 0

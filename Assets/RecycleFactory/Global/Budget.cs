@@ -14,6 +14,12 @@ namespace RecycleFactory
         [SerializeField] private string textMeshProFormat = "${0}";
         [SerializeField] private TextMeshProUGUI textMeshPro;
 
+        [Button]
+        public void SetCurrentToDefault()
+        {
+            SetAmount(defaultAmount);
+        }
+
         public void Init()
         {
             SetAmount(defaultAmount);

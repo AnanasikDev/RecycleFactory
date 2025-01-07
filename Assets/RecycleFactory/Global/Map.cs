@@ -26,9 +26,19 @@ namespace RecycleFactory
 
         public static Building getBuildingAt(Vector2Int mapPos)
         {
-            if (mapPos.x >= 0 && mapPos.x < mapSize.x && mapPos.y >= 0 && mapPos.y < mapSize.y)
+            if (isMapPosValid(mapPos))
                 return buildingsAt[mapPos.y, mapPos.x];
             return null;
+        }
+
+        public static bool isMapPosValid(Vector2Int mapPos)
+        {
+            return mapPos.x >= 0 && mapPos.x < mapSize.x && mapPos.y >= 0 && mapPos.y < mapSize.y;
+        }
+
+        public static bool isMapPosValid(int x, int y)
+        {
+            return isMapPosValid(new Vector2Int(x, y));
         }
 
         public static bool isSpaceFree(Vector2Int pos, Vector2Int shift, Vector2Int size)
@@ -39,7 +49,7 @@ namespace RecycleFactory
                 {
                     int y = pos.y + _y * (int)Mathf.Sign(size.y) + shift.y;
                     int x = pos.x + _x * (int)Mathf.Sign(size.x) + shift.x;
-                    if (x < 0 || y < 0 || x > mapSize.x - 1 || y > mapSize.y - 1)
+                    if (!isMapPosValid(x, y))
                         return false;
 
                     if (buildingsAt[y, x] != null) return false;
@@ -124,7 +134,7 @@ namespace RecycleFactory
             {
                 for (int x = 0; x < prevMapSize.x; x++)
                 {
-                    result[y, x] = buildingsAt[y, x];
+                    result[y + yneg, x + xneg] = buildingsAt[y, x];
                 }
             }
 

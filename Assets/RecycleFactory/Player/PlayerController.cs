@@ -70,8 +70,11 @@ namespace RecycleFactory.Player
         {
             Vector3 position = Scripts.PlayerController.GetMouseWorldPosition();
             Vector2Int mapPos = Map.world2map(position);
-            mapPos.Clamp(Vector2Int.zero, Map.mapSize - Vector2Int.one);
-            return mapPos;
+            if (Map.isMapPosValid(mapPos))
+            {
+                return mapPos;
+            }
+            return new Vector2Int(-1, -1);
         }
 
         /// <summary>

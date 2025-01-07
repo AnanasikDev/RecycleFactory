@@ -238,7 +238,7 @@ namespace RecycleFactory.Player
             for (int i = 0; i < previews.Length; i++)
             {
                 // activate only the preview of the selected building
-                if (i == selectedBuildingIndex)
+                if (i == selectedBuildingIndex && Map.isMapPosValid(selectedCell))
                 {
                     previews[i].gameObject.SetActive(true);
                     previews[i].meshRenderer.materials.ToList().ForEach(mat => mat.color = isSelectedSpotAvailable ? preview_freeColor : preview_takenColor);

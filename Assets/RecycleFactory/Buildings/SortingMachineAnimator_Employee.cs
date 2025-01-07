@@ -37,7 +37,7 @@ namespace RecycleFactory.Buildings
         private void OnDemolish()
         {
             building.onDemolishedEvent -= OnDemolish;
-            item.DetachAndDisable();
+            item?.DetachAndDisable();
         }
 
         private void Update()
