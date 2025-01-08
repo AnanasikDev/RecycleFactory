@@ -49,7 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Trash provider
   description: Infinite source of trash
-  cost: 8000
+  cost: 6000
   isAlive: 1
   receiver: {fileID: 0}
   releaser: {fileID: 0}
@@ -57,13 +57,6 @@ MonoBehaviour:
   size: {x: 1, y: 1}
   shift: {x: 0, y: 0}
   mapPosition: {x: 0, y: 0}
-  itemInfos:
-  - {fileID: 11400000, guid: 1d3db238c5246844b90834383f68abe7, type: 2}
-  - {fileID: 11400000, guid: f690105c4f1107344b8ec6fc3e74ec2a, type: 2}
-  - {fileID: 11400000, guid: 755571096e0aaa74ca4f5936d16d4e6e, type: 2}
-  - {fileID: 11400000, guid: 38cedd981d63c2547a9d29f6bdc181ac, type: 2}
-  - {fileID: 11400000, guid: b47aab83352c0c540bf09c7d9939477e, type: 2}
-  - {fileID: 11400000, guid: 93e644c30cfb7014390da4c2b7ea119f, type: 2}
   intervalSeconds: 3.5
 --- !u!114 &4747837920409277860
 MonoBehaviour:
