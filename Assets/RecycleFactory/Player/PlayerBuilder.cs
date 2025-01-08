@@ -26,6 +26,7 @@ namespace RecycleFactory.Player
         [SerializeField][ReadOnly] private Vector2Int selectedCell;
 
         [SerializeField] private Transform previewHandler;
+        [SerializeField] private Material previewMaterial;
 
         private Func<bool> placementTrigger = () => Input.GetMouseButtonDown(0) && !UIInputMask.isPointerOverUI;
 
@@ -60,7 +61,7 @@ namespace RecycleFactory.Player
                 // mesh copy
                 Mesh newMesh = UnityEngine.Object.Instantiate(AllBuildings.allBuildings[i].buildingRenderer.meshFilter.sharedMesh);
                 meshFilter.mesh = newMesh;
-                meshRenderer.materials = AllBuildings.allBuildings[i].buildingRenderer.meshRenderer.sharedMaterials;
+                meshRenderer.materials = AllBuildings.allBuildings[i].buildingRenderer.meshRenderer.sharedMaterials.Select(m => m = previewMaterial).ToArray();
                 preview.meshFilter = meshFilter;
                 preview.meshRenderer = meshRenderer;
 

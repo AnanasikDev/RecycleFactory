@@ -455,8 +455,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   previewsHandler: {fileID: 957211823}
-  preview_freeColor: {r: 0.36244604, g: 0.61635214, b: 0.36244604, a: 0.19215687}
-  preview_takenColor: {r: 0.69803923, g: 0.2784314, b: 0, a: 0.24705882}
+  preview_freeColor: {r: 0.36244604, g: 0.61635214, b: 0.36244604, a: 0.4}
+  preview_takenColor: {r: 0.69803923, g: 0.2784314, b: 0, a: 0.4}
   allowChoosingUnavailableBuildings: 0
   selectedBuildingPrefab: {fileID: 8783704837012868790, guid: c295a43782e702c49b47570ae8898745,
     type: 3}
@@ -464,6 +464,7 @@ MonoBehaviour:
   isSelectedSpotAvailable: 0
   selectedCell: {x: 0, y: 0}
   previewHandler: {fileID: 957211823}
+  previewMaterial: {fileID: 2100000, guid: 5964b95b897396a4cb982f2d2ba3f881, type: 2}
 --- !u!114 &330585550
 MonoBehaviour:
   m_ObjectHideFlags: 0
