@@ -19,6 +19,7 @@ namespace RecycleFactory.Buildings
 
             var props = typeof(AllBuildings).GetProperties().Where(x => x.GetCustomAttributes(typeof(AutoSet), false).Any());
 
+            bool failed = false;
             foreach (var prop in props)
             {
                 string targetName = string.Format(namingFormat, prop.Name);
@@ -26,15 +27,29 @@ namespace RecycleFactory.Buildings
                 if (val == null)
                 {
                     Debug.LogError($"[ReFa]: On Buildings Init: building with name ({targetName}) to fill in property ({prop.Name}) is not found.");
-                    return;
+                    failed = true;
                 }
                 prop.SetValue(this, val);
             }
-            Debug.Log($"All {props.ToList().Count} Buildings initialized correctly");
+
+            foreach (var building in buildingPrefabs)
+            {
+                if (building.buildingRenderer.meshFilter == null || building.buildingRenderer.meshRenderer == null)
+                {
+                    Debug.LogError($"Renderer of building {building.name} ({building.gameObject.name}) is not setup properly");
+                    failed = true;
+                }
+            }
+
+            if (!failed)
+            {
+                Debug.Log($"All {props.ToList().Count} Buildings initialized correctly");
+            }
         }
 
         [AutoSet] public static Building TrashProvider { get; private set; }
-        [AutoSet] public static Building ConveyorBelt { get; private set; }
+        [AutoSet] public static Building ConveyorBelt_1x2 { get; private set; }
+        [AutoSet] public static Building ConveyorBelt_1x1 { get; private set; }
         [AutoSet] public static Building Incinerator { get; private set; }
         [AutoSet] public static Building MagneticSorter { get; private set; }
         [AutoSet] public static Building TransparencySorter { get; private set; }

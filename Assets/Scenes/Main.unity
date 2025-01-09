@@ -2320,12 +2320,15 @@ MonoBehaviour:
   Categories:
   - name: General
     options:
-    - building: {fileID: 8783704837012868790, guid: c295a43782e702c49b47570ae8898745,
-        type: 3}
-      sprite: {fileID: 21300000, guid: 70c96eb62a957304aadec10163a96dce, type: 3}
     - building: {fileID: 9152104537340627929, guid: 1638dba23b3b07b4a8a9fd280d38caa8,
         type: 3}
       sprite: {fileID: 21300000, guid: 72eee7e255b4e3d43b7b03c5a6d662b5, type: 3}
+    - building: {fileID: 8783704837012868790, guid: c295a43782e702c49b47570ae8898745,
+        type: 3}
+      sprite: {fileID: 21300000, guid: 70c96eb62a957304aadec10163a96dce, type: 3}
+    - building: {fileID: 3624058766994740670, guid: b509ace0558c8a7498d95dbdda81e1fd,
+        type: 3}
+      sprite: {fileID: 21300000, guid: eebacb7e59d070543ba17cdab1ee2ff8, type: 3}
     sprite: {fileID: 21300000, guid: d00e9a08725b4b442bf025a85294e649, type: 3}
   - name: Recyclers
     options:
@@ -2673,6 +2676,7 @@ MonoBehaviour:
   - {fileID: 6974351339611237043, guid: 53800f404a8b78248a90346bb8dfe4ef, type: 3}
   - {fileID: 7403320674907957140, guid: 98e77ca6212f7a840a313e613e1e8cac, type: 3}
   - {fileID: 6974351339611237043, guid: 170d78866f704e24b99c87ca8e4efd25, type: 3}
+  - {fileID: 3624058766994740670, guid: b509ace0558c8a7498d95dbdda81e1fd, type: 3}
 --- !u!114 &1718196798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2726,8 +2730,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   button: {fileID: 2001074315}
   title: {fileID: 13423861}
-  minLevel: 2
-  cost: 5000
+  minLevel: 5
+  cost: 6000
 --- !u!1 &1833469542
 GameObject:
   m_ObjectHideFlags: 0

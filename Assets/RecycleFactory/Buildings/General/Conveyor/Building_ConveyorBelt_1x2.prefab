@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 8783704837012868790}
   - component: {fileID: 8408169214403507598}
   m_Layer: 0
-  m_Name: Building_ConveyorBelt
+  m_Name: Building_ConveyorBelt_1x2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: Conveyor belt
-  description: 
+  description: 1x2
   cost: 700
   isAlive: 1
   receiver: {fileID: 0}

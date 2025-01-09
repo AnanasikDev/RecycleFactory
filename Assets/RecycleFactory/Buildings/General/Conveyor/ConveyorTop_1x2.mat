@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ConveyorBelt_top
+  m_Name: ConveyorTop_1x2
   m_Shader: {fileID: -6465566751694194690, guid: 64b3a25d54599974ca16e52fba3bace3,
     type: 3}
   m_Parent: {fileID: 0}
@@ -39,7 +39,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 9595d3fe6ec88184c9b7b8826daef938, type: 3}
+        m_Texture: {fileID: 2800000, guid: 0f26bf889acb19a48b7252181499443a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -136,11 +136,12 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     - _invert: 0
-    - _scale: 4
+    - _scale: 8
     m_Colors:
     - _BaseColor: {r: 0.7618046, g: 0.7618046, b: 0.7618046, a: 1}
     - _Color: {r: 0.7618046, g: 0.7618046, b: 0.7618046, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _linesColor: {r: 0.76862746, g: 0.76862746, b: 0.76862746, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

@@ -95,7 +95,7 @@ namespace RecycleFactory
                 },
                 Unlock = () =>
                 {
-                    UnlockBuildings(new List<Building>() { AllBuildings.ConveyorBelt, AllBuildings.TrashProvider, AllBuildings.Incinerator });
+                    UnlockBuildings(new List<Building>() { AllBuildings.ConveyorBelt_1x2, AllBuildings.TrashProvider, AllBuildings.Incinerator });
                     UnlockItems(new List<ConveyorBelt_ItemInfo>() { AllItems.Apple, AllItems.Bottle, AllItems.Box, AllItems.Bolt, AllItems.Handle });
                 },
                 GetDescription = () =>
@@ -115,7 +115,7 @@ namespace RecycleFactory
                 {
                     UnlockBuildings(new List<Building>() { AllBuildings.PaperRecycler, AllBuildings.PaperSorter });
                     UnlockItems(new List<ConveyorBelt_ItemInfo>() { AllItems.Book });
-                    Scripts.Budget.Add(5400);
+                    Scripts.Budget.Add(5600);
                 },
                 GetDescription = () =>
                 {
@@ -131,18 +131,18 @@ namespace RecycleFactory
             {
                 GetProgress = () =>
                 {
-                    return GetItemCategoryProgress(ItemCategories.Paper, 20);
+                    return GetItemCategoryProgress(ItemCategories.Paper, 16);
                 },
                 Unlock = () =>
                 {
                     UnlockBuildings(new List<Building>() { AllBuildings.MetalRecycler, AllBuildings.MagneticSorter });
                     UnlockItems(new List<ConveyorBelt_ItemInfo>() { AllItems.Lock });
-                    Scripts.Budget.Add(3200);
+                    Scripts.Budget.Add(3400);
                 },
                 GetDescription = () =>
                 {
                     return $"Next level: 3\n" +
-                           $"Metal recycled: {GetItemCategoryAmount(ItemCategories.Paper)}/20\n" +
+                           $"Metal recycled: {GetItemCategoryAmount(ItemCategories.Paper)}/16\n" +
                            $"Unlocks Metal\n" +
                            $"New items: lock";
                 },
@@ -158,8 +158,8 @@ namespace RecycleFactory
                 },
                 Unlock = () =>
                 {
-                    UnlockBuildings(new List<Building>() { AllBuildings.TransparencySorter, AllBuildings.PlasticRecycler });
-                    Scripts.Budget.Add(1100);
+                    UnlockBuildings(new List<Building>() { AllBuildings.TransparencySorter, AllBuildings.PlasticRecycler, AllBuildings.ConveyorBelt_1x1 });
+                    Scripts.Budget.Add(3300);
                 },
                 GetDescription = () =>
                 {
@@ -184,7 +184,7 @@ namespace RecycleFactory
                 {
                     UnlockBuildings(new List<Building>() { AllBuildings.ElectromagneticSorter, AllBuildings.DensitySorter, AllBuildings.BatteryRecycler });
                     UnlockItems(new List<ConveyorBelt_ItemInfo>() { AllItems.Battery, AllItems.Lightbulb });
-                    Scripts.Budget.Add(1000);
+                    Scripts.Budget.Add(2400);
                 },
                 GetDescription = () =>
                 {
