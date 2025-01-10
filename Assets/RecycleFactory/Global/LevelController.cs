@@ -216,9 +216,10 @@ namespace RecycleFactory
                 GetDescription = () =>
                 {
                     return $"Next level: 6\n" +
-                            $"Paper recycled: {GetItemCategoryAmount(ItemCategories.Paper)}/60\n" +
-                            $"Metal recycled: {GetItemCategoryAmount(ItemCategories.Metal)}/50\n" +
-                            $"Plastic recycled: {GetItemCategoryAmount(ItemCategories.Plastic)}/20\n" +
+                            $"Paper recycled: {GetItemCategoryAmount(ItemCategories.Paper)}/70\n" +
+                            $"Metal recycled: {GetItemCategoryAmount(ItemCategories.Metal)}/70\n" +
+                            $"Plastic recycled: {GetItemCategoryAmount(ItemCategories.Plastic)}/70\n" +
+                            $"Batteries recycled: {GetItemCategoryAmount(ItemCategories.Plastic)}/15\n" +
                             $"Unlocks Lightbulb processing\n" +
                             $"New items: banana";
                 },

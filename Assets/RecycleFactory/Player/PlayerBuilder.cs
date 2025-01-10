@@ -218,8 +218,10 @@ namespace RecycleFactory.Player
                 }
                 else
                 {
-                    Vector3 position = Scripts.PlayerController.GetMouseWorldPosition();
-                    selectedCell = new Vector2(position.x, position.z).FloorToInt();
+                    //Vector3 position = Scripts.PlayerController.GetMouseWorldPosition();
+                    //selectedCell = new Vector2(position.x, position.z).FloorToInt();
+
+                    Vector3 position = Scripts.PlayerController.GetSelectedCellMapPos().ConvertTo2D().ProjectTo3D();
 
                     if (CheckSelectedSpot())
                     {
@@ -239,6 +241,11 @@ namespace RecycleFactory.Player
 
         private void UpdatePreview()
         {
+            if (selectedCell == Map.invalidLocation)
+            {
+                Scripts.BuildingArrowPreviewController.HideAll();
+            }
+
             for (int i = 0; i < previews.Length; i++)
             {
                 // activate only the preview of the selected building

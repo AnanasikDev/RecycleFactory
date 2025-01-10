@@ -54,6 +54,7 @@ namespace RecycleFactory.Buildings.Logistics
                 item.meshFilter = item.gameObject.AddComponent<MeshFilter>();
                 item.meshRenderer.shadowCastingMode = enableShadowcasting ? UnityEngine.Rendering.ShadowCastingMode.On : UnityEngine.Rendering.ShadowCastingMode.Off;
                 item.id = ID++;
+                item.transform.rotation = Quaternion.identity;
                 itemsPool.RecordNew(item);
             }
             item.Init(info);
@@ -70,8 +71,7 @@ namespace RecycleFactory.Buildings.Logistics
         /// </summary>
         public void DetachAndDisable()
         {
-            holder.driver.RemoveItem(this);
-            gameObject.transform.SetParent(null);
+            Detach();
             gameObject.SetActive(false);
         }
 
@@ -80,7 +80,7 @@ namespace RecycleFactory.Buildings.Logistics
         /// </summary>
         public void Detach()
         {
-            holder.driver.RemoveItem(this);
+            holder?.driver?.RemoveItem(this);
             gameObject.transform.SetParent(null);
         }
 

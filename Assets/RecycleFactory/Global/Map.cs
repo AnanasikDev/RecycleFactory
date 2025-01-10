@@ -16,6 +16,8 @@ namespace RecycleFactory
         public static List<Building> buildingsUnordered = new List<Building>();
         public static Building[,] buildingsAt = new Building[mapSize.y, mapSize.x];
 
+        public static Vector2Int invalidLocation = new Vector2Int(-100, -100);
+
         public GameObject floor;
 
         public void Init()
@@ -61,16 +63,16 @@ namespace RecycleFactory
         public static Vector2Int world2map(Vector2 position)
         {
             return new Vector2(
-                Hexath.SnapNumberToStep(position.x, 1), 
-                Hexath.SnapNumberToStep(position.y, 1)
+                position.x,
+                position.y
                 ).RoundToInt() + mapShift;
         }
 
         public static Vector2Int world2map(Vector3 position)
         {
             return new Vector2(
-                Hexath.SnapNumberToStep(position.x, 1), 
-                Hexath.SnapNumberToStep(position.z, 1)
+                position.x, 
+                position.z
                 ).RoundToInt() + mapShift;
         }
 

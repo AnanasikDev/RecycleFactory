@@ -63,7 +63,7 @@ namespace RecycleFactory.Player
                 return snappedPosition;
             }
 
-            return Vector3.zero;
+            return Map.invalidLocation.ConvertTo2D().ProjectTo3D();
         }
 
         internal Vector2Int GetSelectedCellMapPos()
@@ -74,7 +74,7 @@ namespace RecycleFactory.Player
             {
                 return mapPos;
             }
-            return new Vector2Int(-1, -1);
+            return Map.invalidLocation;
         }
 
         /// <summary>
