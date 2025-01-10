@@ -2633,7 +2633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44736ef7b531a5348bd45cd041a316b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultAmount: 150000
+  defaultAmount: 15000
   textMeshProFormat: ${0}
   textMeshPro: {fileID: 882205680}
 --- !u!114 &1718196796
