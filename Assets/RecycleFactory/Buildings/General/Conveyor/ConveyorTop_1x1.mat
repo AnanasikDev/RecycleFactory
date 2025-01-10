@@ -136,12 +136,13 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     - _invert: 1
-    - _scale: 4
+    - _scale: 1
+    - _tiling: 3
     m_Colors:
     - _BaseColor: {r: 0.7618046, g: 0.7618046, b: 0.7618046, a: 1}
     - _Color: {r: 0.7618046, g: 0.7618046, b: 0.7618046, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _linesColor: {r: 0.76729554, g: 0.76729554, b: 0.76729554, a: 1}
+    - _linesColor: {r: 0.7058824, g: 0.7058824, b: 0.7058824, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
