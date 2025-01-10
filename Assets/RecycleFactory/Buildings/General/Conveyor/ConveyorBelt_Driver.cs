@@ -30,7 +30,6 @@ namespace RecycleFactory.Buildings.Logistics
             isAlive = true;
             this.conveyorBuilding = conveyorBuilding;
             direction = conveyorBuilding.moveDirectionClamped.ConvertTo2D().ProjectTo3D();
-            Debug.Log("New Driver created with direction = " + direction);
 
             // init empty lanes
             for (int laneIndex = 0; laneIndex < LANES_NUMBER; laneIndex++)

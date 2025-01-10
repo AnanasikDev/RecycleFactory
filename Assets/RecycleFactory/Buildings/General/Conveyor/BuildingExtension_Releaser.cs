@@ -65,6 +65,7 @@ namespace RecycleFactory.Buildings
             else if (!anchor.onlyDirectConnections)
             {
                 var con = ChooseLaneOrthogonal(anchorIndex);
+                EasyDebug.PipeConsole.Print(con.nextItem, con.laneIndex);
                 nextNode = con.nextItem;
                 return con.laneIndex;
             }
@@ -102,7 +103,7 @@ namespace RecycleFactory.Buildings
         private ConnectionData ChooseLaneOrthogonal(int anchorIndex)
         {
             var nextDriver = outAnchors[anchorIndex].conveyor;
-            Vector2 nextDirectionMask = outAnchors[anchorIndex].conveyor.direction.Abs();
+            Vector3 nextDirectionMask = outAnchors[anchorIndex].conveyor.direction.Abs();
             Vector3 anchorReleasePosition = (building.mapPosition + outAnchors[anchorIndex].localTilePosition).ConvertTo2D().ProjectTo3D() + outAnchors[anchorIndex].direction.ConvertTo2D().ProjectTo3D() / 2f;
 
             bool laneAvailable(int laneIndex, out Node nextNode)
@@ -112,7 +113,7 @@ namespace RecycleFactory.Buildings
                 Vector3 targetItemPos = nextDriver.GetPositionAlignedToLane(anchorReleasePosition, laneIndex);
                 for (Node node = nextDriver.lanes[laneIndex].First; node != null; node = node.Next)
                 {
-                    float dist = (node.Value.transform.position - targetItemPos).Multiply(nextDirectionMask.ProjectTo3D()).magnitude;
+                    float dist = (node.Value.transform.position - targetItemPos).Multiply(nextDirectionMask).magnitude;
 
                     // check if there is space for the new item
                     if (dist < nextDriver.minItemDistance)

@@ -10,8 +10,8 @@ namespace RecycleFactory.UI
     public class UIBuildingOption : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
         [ReadOnly] public UIBuildingOption_Info info;
-        [Required] public Image imageHolder;
-        [Required] public Image background;
+        [Required] public Image iconImage;
+        [Required] public Image backgroundImage;
 
         private UIBuildingCategory category;
 
@@ -30,23 +30,29 @@ namespace RecycleFactory.UI
             option.transform.localPosition = position;
             option.transform.localScale = Vector3.one;
             option.info = info;
-            option.imageHolder.sprite = info.sprite;
-            option.imageHolder.preserveAspect = true;
+            option.iconImage.sprite = info.sprite;
+            option.iconImage.preserveAspect = true;
             category.onClosed += option.Shrink;
+            option.Init();
 
             return option;
         }
 
+        public void Init()
+        {
+            backgroundImage.color = defaultBackgroundColor;
+        }
+
         public void Expand()
         {
-            background.color = hoverBackgroundColor;
+            backgroundImage.color = hoverBackgroundColor;
             UIController.UIBuildingMenu.buildingDescription.UpdatePosition(transform.position + new Vector3(150, 0));
             UIController.UIBuildingMenu.buildingDescription.Enable($"{info.building.name}\n{info.building.description}\nCosts ${info.building.cost}");
         }
 
         public void Shrink()
         {
-            background.color = defaultBackgroundColor;
+            backgroundImage.color = defaultBackgroundColor;
             UIController.UIBuildingMenu.buildingDescription.Disable();
         }
 
