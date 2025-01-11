@@ -10,8 +10,8 @@ namespace RecycleFactory.Buildings
         [Range(-100, 100)] public float plasticBonus;
         [Range(-100, 100)] public float organicBonus;
         [Range(-100, 100)] public float paperBonus;
-        [Range(-100, 100)] public float batteryBonus;
-        [Range(-100, 100)] public float lightbulbBonus;
+        [Range(-200, 200)] public float batteryBonus;
+        [Range(-200, 200)] public float lightbulbBonus;
 
         private int inAnchorsCount;
 

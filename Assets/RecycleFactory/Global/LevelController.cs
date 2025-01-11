@@ -142,7 +142,7 @@ namespace RecycleFactory
                 GetDescription = () =>
                 {
                     return $"Next level: 3\n" +
-                           $"Metal recycled: {GetItemCategoryAmount(ItemCategories.Paper)}/16\n" +
+                           $"Paper recycled: {GetItemCategoryAmount(ItemCategories.Paper)}/16\n" +
                            $"Unlocks Metal\n" +
                            $"New items: lock";
                 },

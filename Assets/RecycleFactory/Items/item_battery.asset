@@ -19,12 +19,12 @@ MonoBehaviour:
   - {fileID: 1886820026795636259, guid: e34f129cd1d15e541800d3d8e2a5ab07, type: 3}
   - {fileID: 3780671244086486322, guid: e34f129cd1d15e541800d3d8e2a5ab07, type: 3}
   - {fileID: 3016479151454471876, guid: e34f129cd1d15e541800d3d8e2a5ab07, type: 3}
-  metallic: 0.791
+  metallic: 0.7
   plastic: 0
   organic: 0
   paper: 0
   magnetic: 0.026
   transparency: 0
-  density: 0.581
+  density: 0.6
   battery: 1
   lightbulb: 0

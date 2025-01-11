@@ -92,9 +92,9 @@ MonoBehaviour:
   shift: {x: 0, y: 0}
   mapPosition: {x: 0, y: 0}
   metaillicBonus: -30
-  plasticBonus: -55
-  organicBonus: -65
-  paperBonus: -60
+  plasticBonus: -75
+  organicBonus: -100
+  paperBonus: -100
   batteryBonus: -100
   lightbulbBonus: 90
 --- !u!1001 &6699022197699007131

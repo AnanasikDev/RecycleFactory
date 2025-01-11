@@ -93,9 +93,10 @@ MonoBehaviour:
   mapPosition: {x: 0, y: 0}
   metaillicBonus: 30
   plasticBonus: -40
-  organicBonus: -25
-  paperBonus: -25
-  batteryBonus: -100
+  organicBonus: -45
+  paperBonus: -40
+  batteryBonus: -120
+  lightbulbBonus: -120
 --- !u!1001 &1208082124933134531
 PrefabInstance:
   m_ObjectHideFlags: 0

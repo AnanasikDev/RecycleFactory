@@ -91,11 +91,12 @@ MonoBehaviour:
   size: {x: 1, y: 1}
   shift: {x: 0, y: 0}
   mapPosition: {x: 0, y: 0}
-  metaillicBonus: -40
+  metaillicBonus: -45
   plasticBonus: -25
   organicBonus: -18
-  paperBonus: 26
-  batteryBonus: -100
+  paperBonus: 27
+  batteryBonus: -130
+  lightbulbBonus: -120
 --- !u!1001 &7370571290019885
 PrefabInstance:
   m_ObjectHideFlags: 0
