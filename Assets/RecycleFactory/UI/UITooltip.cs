@@ -37,6 +37,7 @@ public class UITooltip : MonoBehaviour
         this.text = text;
         textMeshPro.text = this.text;
         handler.gameObject.SetActive(true);
+        gameObject.transform.localScale = Vector3.one;
         onEnabled?.Invoke();
     }
 

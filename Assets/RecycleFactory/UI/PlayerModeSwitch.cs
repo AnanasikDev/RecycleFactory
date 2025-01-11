@@ -14,7 +14,12 @@ namespace RecycleFactory.UI
         [SerializeField] private Sprite icon_buildingMode;
         [SerializeField] private Sprite icon_demolishingMode;
 
+        [SerializeField] private Texture2D cursor_defaultMode;
+        [SerializeField] private Texture2D cursor_buildingMode;
+        [SerializeField] private Texture2D cursor_demolishingMode;
+
         private Dictionary<Mode, Sprite> modeToIcon;
+        private Dictionary<Mode, Texture2D> modeToCursor;
 
         private UIInputMask inputMask;
 
@@ -27,6 +32,12 @@ namespace RecycleFactory.UI
                 { Mode.Build, icon_buildingMode },
                 { Mode.Demolish, icon_demolishingMode }
             };
+            modeToCursor = new Dictionary<Mode, Texture2D>()
+            {
+                { Mode.None, cursor_defaultMode },
+                { Mode.Build, cursor_buildingMode },
+                { Mode.Demolish, cursor_demolishingMode }
+            };
             switchIconImage.sprite = modeToIcon[Mode.Build];
         }
 
@@ -36,6 +47,7 @@ namespace RecycleFactory.UI
         public void UpdateModeIcon()
         {
             switchIconImage.sprite = modeToIcon[Scripts.PlayerController.mode];
+            Cursor.SetCursor(modeToCursor[Scripts.PlayerController.mode], Vector2.one / 2f, CursorMode.Auto);
         }
     }
 }

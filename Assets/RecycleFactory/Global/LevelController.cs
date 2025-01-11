@@ -159,6 +159,7 @@ namespace RecycleFactory
                 Unlock = () =>
                 {
                     UnlockBuildings(new List<Building>() { AllBuildings.TransparencySorter, AllBuildings.PlasticRecycler, AllBuildings.ConveyorBelt_1x1 });
+                    UnlockItems(new List<ConveyorBelt_ItemInfo> { AllItems.Yoghurt });
                     Scripts.Budget.Add(3300);
                 },
                 GetDescription = () =>
@@ -220,7 +221,7 @@ namespace RecycleFactory
                             $"Metal recycled: {GetItemCategoryAmount(ItemCategories.Metal)}/70\n" +
                             $"Plastic recycled: {GetItemCategoryAmount(ItemCategories.Plastic)}/70\n" +
                             $"Batteries recycled: {GetItemCategoryAmount(ItemCategories.Plastic)}/15\n" +
-                            $"Unlocks Lightbulb processing\n" +
+                            $"Unlocks Lightbulb recycling\n" +
                             $"New items: banana";
                 },
                 id = 5

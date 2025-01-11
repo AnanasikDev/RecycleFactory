@@ -26,4 +26,5 @@ MonoBehaviour:
   magnetic: 0.026
   transparency: 0
   density: 0.581
-  battery: 0
+  battery: 1
+  lightbulb: 0
