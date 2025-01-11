@@ -7,14 +7,16 @@ namespace RecycleFactory.Player
     [RequireComponent(typeof(PlayerCamera))]
     [RequireComponent(typeof(PlayerBuilder))]
     [RequireComponent(typeof(PlayerDemolisher))]
+    [RequireComponent(typeof(PlayerEditor))]
     public sealed class PlayerController : MonoBehaviour
     {
         public PlayerCamera playerCamera { get; private set; }
         public PlayerBuilder playerBuilder { get; private set; }
         public PlayerDemolisher playerDemolisher { get; private set; }
+        public PlayerEditor playerEditor { get; private set; }
 
         [ShowNativeProperty] internal Mode mode { get; private set; }
-        internal event Action<Mode> onAfterModeChangedEvent;
+        internal event Action<Mode, Mode> onAfterModeChangedEvent;
 
         private Action updateFunction;
 
@@ -23,10 +25,12 @@ namespace RecycleFactory.Player
             playerCamera = GetComponent<PlayerCamera>();
             playerBuilder = GetComponent<PlayerBuilder>();
             playerDemolisher = GetComponent<PlayerDemolisher>();
+            playerEditor = GetComponent<PlayerEditor>();
 
             playerCamera.Init();
             playerBuilder.Init();
             playerDemolisher.Init();
+            playerEditor.Init();
 
             SetMode(Mode.Build);
         }
@@ -41,11 +45,6 @@ namespace RecycleFactory.Player
 
             updateFunction();
         }
-
-        /// <summary>
-        /// Update function for Mode.None (selection, machine adjustment etc can be performed here)
-        /// </summary>
-        private void DefaultUpdate() { }
 
         internal Vector3 GetMouseWorldPosition()
         {
@@ -89,11 +88,11 @@ namespace RecycleFactory.Player
         {
             switch (mode)
             {
-                case Mode.None:
-                    updateFunction = DefaultUpdate;
+                case Mode.Edit:
+                    updateFunction = playerEditor.UpdateEditingMode;
                     break;
                 case Mode.Build:
-                    updateFunction = playerBuilder._Update;
+                    updateFunction = playerBuilder.UpdateBuildingMode;
                     break;
                 case Mode.Demolish:
                     updateFunction = playerDemolisher._Update;
@@ -105,14 +104,14 @@ namespace RecycleFactory.Player
             if (before != mode)
             {
                 Scripts.PlayerModeSwitch.UpdateModeIcon();
-                onAfterModeChangedEvent?.Invoke(mode);
+                onAfterModeChangedEvent?.Invoke(before, mode);
             }
         }
     }
 
     public enum Mode
     {
-        None,
+        Edit,
         Build,
         Demolish
     }

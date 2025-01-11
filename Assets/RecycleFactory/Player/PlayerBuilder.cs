@@ -11,19 +11,19 @@ namespace RecycleFactory.Player
 {
     public class PlayerBuilder : MonoBehaviour
     {
-        [SerializeField] private bool showPreview = true;
+        [SerializeField] internal bool showPreview = true;
         [SerializeField][ShowIf("showPreview")][ReadOnly] private BuildingPreview[] previews;
         [SerializeField][ShowIf("showPreview")] private Transform previewsHandler;
         [SerializeField][ShowIf("showPreview")] private Color preview_freeColor;
         [SerializeField][ShowIf("showPreview")] private Color preview_takenColor;
 
         [SerializeField] private bool allowChoosingUnavailableBuildings = true;
-        [ShowNativeProperty] public int selectedRotation { get; private set; }
+        [ShowNativeProperty] public int selectedRotation { get; internal set; }
 
-        [SerializeField][ReadOnly] private Building selectedBuildingPrefab;
-        [SerializeField][ReadOnly] private int selectedBuildingIndex;
-        [SerializeField][ReadOnly] private bool isSelectedSpotAvailable = false;
-        [SerializeField][ReadOnly] private Vector2Int selectedCell;
+        [SerializeField][ReadOnly] internal Building selectedBuildingPrefab;
+        [SerializeField][ReadOnly] internal int selectedBuildingIndex;
+        [SerializeField][ReadOnly] internal bool isSelectedSpotAvailable = false;
+        [SerializeField][ReadOnly] internal Vector2Int selectedCell;
 
         [SerializeField] private Transform previewHandler;
         [SerializeField] private Material previewMaterial;
@@ -71,7 +71,7 @@ namespace RecycleFactory.Player
             }
         }
         
-        private void OnAfterModeChanged(Mode newMode)
+        private void OnAfterModeChanged(Mode prevMode, Mode newMode)
         {
             if (newMode == Mode.Build)
             {
@@ -79,14 +79,19 @@ namespace RecycleFactory.Player
             }
             else
             {
-                selectedBuildingIndex = -1;
-                selectedBuildingPrefab = null;
-                UpdatePreview();
-                Scripts.BuildingArrowPreviewController.HideAll();
+                ResetSelection();
             }
         }
 
-        internal void _Update()
+        public void ResetSelection()
+        {
+            selectedBuildingIndex = -1;
+            selectedBuildingPrefab = null;
+            UpdatePreview();
+            Scripts.BuildingArrowPreviewController.HideAll();
+        }
+
+        internal void UpdateBuildingMode()
         {
             if (showPreview)
             {
@@ -104,26 +109,26 @@ namespace RecycleFactory.Player
             }
         }
 
-        private bool CheckSelectedSpot()
+        internal bool CheckSelectedSpot()
         {
             isSelectedSpotAvailable = Map.isSpaceFree(selectedCell, Utils.RotateXY(selectedBuildingPrefab.shift, selectedRotation), Utils.RotateXY(selectedBuildingPrefab.size, selectedRotation));
             return isSelectedSpotAvailable;
         }
 
-        private void HandleCellSelection()
+        internal void HandleCellSelection()
         {
             Vector2Int mapPos = Scripts.PlayerController.GetSelectedCellMapPos();
 
             if (mapPos != selectedCell)
             {
                 selectedCell = mapPos;
-                CheckSelectedSpot();
+                if (selectedBuildingIndex != -1) CheckSelectedSpot();
 
                 onCellSelectedEvent?.Invoke();
             }
         }
 
-        private void HandleRotation()
+        internal void HandleRotation()
         {
             bool inverse = false;
 
@@ -144,7 +149,7 @@ namespace RecycleFactory.Player
             }
         }
 
-        private void HandleSelection()
+        internal void HandleSelection()
         {
             for (int i = 0; i < Mathf.Min(AllBuildings.allBuildings.Count, 9); i++)
             {
@@ -176,7 +181,7 @@ namespace RecycleFactory.Player
             ForceSelectBuilding(AllBuildings.allBuildings[index]);
         }
 
-        private void SelectBuilding(int index)
+        internal void SelectBuilding(int index)
         {
             if (index >= 0 && index < AllBuildings.allBuildings.Count)
             {
@@ -187,17 +192,17 @@ namespace RecycleFactory.Player
         /// <summary>
         /// Places building at position with rotation; Building cost is subtracted from budget. No checks on budget sufficiency or placement eligibility is done
         /// </summary>
-        private Building ForceBuild(Building selectedBuilding, Vector3 position, int selectedRotation, Vector2Int mapPos)
+        internal Building ForceBuild(Building selectedBuilding, Vector3 position, int selectedRotation, Vector2Int mapPos, bool updateBudget = true)
         {
             Building building = Instantiate(selectedBuilding, position, Quaternion.identity);
             building.Init(mapPos, selectedRotation);
-            Scripts.Budget.Add(-selectedBuilding.cost);
+            if (updateBudget) Scripts.Budget.Add(-selectedBuilding.cost);
             onBuildEvent?.Invoke(building);
             onAnyBuildEvent?.Invoke();
             return building;
         }
 
-        private bool HandlePlacement()
+        internal bool HandlePlacement()
         {
             if (placementTrigger() && selectedBuildingPrefab != null)
             {
@@ -239,7 +244,7 @@ namespace RecycleFactory.Player
             return false;
         }
 
-        private void UpdatePreview()
+        internal void UpdatePreview()
         {
             if (selectedCell == Map.invalidLocation)
             {
@@ -265,13 +270,13 @@ namespace RecycleFactory.Player
             }
         }
 
-        private void UpdateArrowPreviews(BuildingPreview preview)
+        internal void UpdateArrowPreviews(BuildingPreview preview)
         {
             Scripts.BuildingArrowPreviewController.Display(preview.transform, selectedBuildingPrefab, selectedRotation);
         }
 
 
-        private IEnumerator AnimateAndBuild(Building selectedBuilding, Vector3 position, int selectedRotation, Vector2Int mapPos)
+        internal IEnumerator AnimateAndBuild(Building selectedBuilding, Vector3 position, int selectedRotation, Vector2Int mapPos)
         {
             Building building = ForceBuild(selectedBuilding, position, selectedRotation, mapPos);
 

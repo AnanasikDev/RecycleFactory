@@ -12,6 +12,8 @@ namespace RecycleFactory.Buildings
 
         public static List<Building> allBuildings;
 
+        public static Dictionary<string, Building> name2prefab;
+
         [Button("Check (does not set any values)")]
         public void Init()
         {
@@ -44,6 +46,12 @@ namespace RecycleFactory.Buildings
             if (!failed)
             {
                 Debug.Log($"All {props.ToList().Count} Buildings initialized correctly");
+            }
+
+            name2prefab = new Dictionary<string, Building>();
+            foreach (var building in buildingPrefabs)
+            {
+                name2prefab[building.name] = building;
             }
         }
 

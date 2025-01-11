@@ -101,12 +101,12 @@ namespace RecycleFactory
         /// </summary>
         public static void RemoveBuilding(Building building)
         {
-            for (int _x = 0; _x < building.size.x; _x++)
+            var pos = building.mapPosition + building.shift;
+            for (int _x = 0; _x < Mathf.Abs(building.size.x); _x++)
             {
-                for (int _y = 0; _y < building.size.y; _y++)
+                for (int _y = 0; _y < Mathf.Abs(building.size.y); _y++)
                 {
-                    Vector2Int pos = Utils.RotateXY(new Vector2Int(_x, _y), building.rotation);
-                    buildingsAt[building.mapPosition.y + pos.y, building.mapPosition.x + pos.x] = null;
+                    buildingsAt[pos.y + _y * (int)Mathf.Sign(building.size.y), pos.x + _x * (int)Mathf.Sign(building.size.x)] = null;
                 }
             }
         }

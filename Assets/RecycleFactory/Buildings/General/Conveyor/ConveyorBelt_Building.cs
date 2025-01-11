@@ -23,6 +23,7 @@ namespace RecycleFactory.Buildings
 
             driver = new ConveyorBelt_Driver(this);
             Building.onAnyBuiltEvent += driver.TryFindNext;
+            Building.onAnyDemolishedEvent += driver.TryFindNext;
         }
 
         protected override void OnDemolish()
@@ -30,6 +31,7 @@ namespace RecycleFactory.Buildings
             if (driver != null)
             {
                 Building.onAnyBuiltEvent -= driver.TryFindNext;
+                Building.onAnyDemolishedEvent -= driver.TryFindNext;
                 driver.Destroy();
             }
             driver = null;

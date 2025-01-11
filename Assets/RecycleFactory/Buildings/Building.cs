@@ -7,7 +7,7 @@ namespace RecycleFactory.Buildings
     [RequireComponent(typeof(BuildingRenderer))]
     public abstract class Building : MonoBehaviour
     {
-        private static int _id = -1;
+        private static int GUID = -1;
         protected int id;
 
         public new string name;
@@ -36,7 +36,7 @@ namespace RecycleFactory.Buildings
         {
             // rotation has been done beforehand in PlayerBuilder
 
-            id = ++_id;
+            id = ++GUID;
             gameObject.name += " " + id;
             Rebase(mapPos);
             transform.position = Map.map2world(mapPos);

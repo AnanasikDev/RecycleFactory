@@ -28,13 +28,13 @@ namespace RecycleFactory.UI
             inputMask = GetComponent<UIInputMask>();
             modeToIcon = new Dictionary<Mode, Sprite>()
             {
-                { Mode.None, icon_defaultMode },
+                { Mode.Edit, icon_defaultMode },
                 { Mode.Build, icon_buildingMode },
                 { Mode.Demolish, icon_demolishingMode }
             };
             modeToCursor = new Dictionary<Mode, Texture2D>()
             {
-                { Mode.None, cursor_defaultMode },
+                { Mode.Edit, cursor_defaultMode },
                 { Mode.Build, cursor_buildingMode },
                 { Mode.Demolish, cursor_demolishingMode }
             };
