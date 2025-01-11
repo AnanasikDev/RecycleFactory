@@ -23,6 +23,18 @@ namespace RecycleFactory.UI
             masks.Add(this);
         }
 
+        void OnDisable()
+        {
+            isPointerInside = false;
+            onPointerExitEvent?.Invoke();
+        }
+
+        void OnDestroy()
+        {
+            isPointerInside = false;
+            onPointerExitEvent?.Invoke();
+        }
+
         void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
         {
             isPointerInside = true;

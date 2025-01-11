@@ -119,7 +119,7 @@ namespace RecycleFactory
                 {
                     var building = getBuildingAt(new Vector2Int(x, y));
                     Gizmos.color = building == null ? Color.black : Color.white;
-                    Gizmos.DrawWireCube(new Vector3(x, 1, y), Vector3.one * 0.4f);
+                    Gizmos.DrawWireCube(new Vector3(x, 1, y) - mapShift.ConvertTo2D().ProjectTo3D(), Vector3.one * 0.4f);
                 }
             }
         }

@@ -113,8 +113,8 @@ MonoBehaviour:
   receiver: {fileID: 0}
   releaser: {fileID: 0}
   buildingRenderer: {fileID: 3742826179334961117}
-  size: {x: 3, y: 3}
-  shift: {x: -1, y: -1}
+  size: {x: 3, y: 2}
+  shift: {x: -1, y: 0}
   mapPosition: {x: 0, y: 0}
   sortingDefinitions:
   - range_magnetic: {x: 0, y: 1}

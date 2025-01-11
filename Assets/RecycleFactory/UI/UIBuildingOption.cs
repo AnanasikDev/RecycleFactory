@@ -60,6 +60,7 @@ namespace RecycleFactory.UI
         {
             Scripts.PlayerController.SetMode(Mode.Build);
             Scripts.PlayerBuilder.ForceSelectBuilding(info.building);
+            category.Shrink();
         }
 
         void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) => Expand();
