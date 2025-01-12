@@ -131,23 +131,37 @@ namespace RecycleFactory
             mapSize += delta;
             mapShift += new Vector2Int(xneg, yneg);
 
+            // prevents multi-tile buildings from being rebased multiple times
+            List<int> rebasedBuildings = new List<int>();
+
             Building[,] result = new Building[mapSize.y, mapSize.x];
             for (int y = 0; y < prevMapSize.y; y++)
             {
                 for (int x = 0; x < prevMapSize.x; x++)
                 {
-                    result[y + yneg, x + xneg] = buildingsAt[y, x];
+                    Building building = buildingsAt[y, x];
+                    result[y + yneg, x + xneg] = building;
+                    if (!building) continue;
+
+                    // if already has been rebased, skip
+                    if (rebasedBuildings.Contains(building.id)) continue;
+
+                    building.Rebase(new Vector2Int(x + xneg, y + yneg));
+                    rebasedBuildings.Add(building.id);
                 }
             }
 
-            for (int y = 0; y < mapSize.y; y++)
+/*            for (int y = 0; y < mapSize.y; y++)
             {
                 for (int x = 0; x < mapSize.x; x++)
                 {
-                    Vector2Int newMatrixPos = new Vector2Int(x + xneg, y + yneg);
-                    result[y, x]?.Rebase(newMatrixPos);
+                    Vector2Int newMatrixPos = new Vector2Int(x, y);
+                    if (result[y, x])
+                    {
+                        result[y, x].Rebase(newMatrixPos);
+                    }
                 }
-            }
+            }*/
 
             buildingsAt = result;
 

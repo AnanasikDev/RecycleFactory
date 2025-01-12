@@ -37,7 +37,7 @@ namespace RecycleFactory.Buildings
         {
             return outAnchors[anchorIndex].conveyor.GetPositionAlignedToLane
                 (
-                (building.mapPosition.ConvertTo2D() + outAnchors[anchorIndex].localTilePosition.ConvertTo2D() + outAnchors[anchorIndex].direction.ConvertTo2D() / 2f).ProjectTo3D().WithY(outAnchors[anchorIndex].height), 
+                (building.worldPosition2DInt + outAnchors[anchorIndex].localTilePosition.ConvertTo2D() + outAnchors[anchorIndex].direction.ConvertTo2D() / 2f).ProjectTo3D().WithY(outAnchors[anchorIndex].height), 
                 laneIndex
                 );
         }
@@ -90,6 +90,7 @@ namespace RecycleFactory.Buildings
             {
                 if (nextDriver.lanes[l].First == null || nextDriver.GetSignedDistanceFromStart(nextDriver.lanes[l].First.Value) > nextDriver.minItemDistance)
                 {
+                    Debug.Log(l);
                     return new ConnectionData(l, nextDriver.lanes[l].First);
                 }
             }
@@ -104,7 +105,7 @@ namespace RecycleFactory.Buildings
         {
             var nextDriver = outAnchors[anchorIndex].conveyor;
             Vector3 nextDirectionMask = outAnchors[anchorIndex].conveyor.direction.Abs();
-            Vector3 anchorReleasePosition = (building.mapPosition + outAnchors[anchorIndex].localTilePosition).ConvertTo2D().ProjectTo3D() + outAnchors[anchorIndex].direction.ConvertTo2D().ProjectTo3D() / 2f;
+            Vector3 anchorReleasePosition = (building.worldPosition2DInt + outAnchors[anchorIndex].localTilePosition).ConvertTo2D().ProjectTo3D() + outAnchors[anchorIndex].direction.ConvertTo2D().ProjectTo3D() / 2f;
 
             bool laneAvailable(int laneIndex, out Node nextNode)
             {
@@ -175,7 +176,7 @@ namespace RecycleFactory.Buildings
             {
                 for (int i = 0; i < outAnchors.Count; i++)
                 {
-                    DrawArrow.ForGizmo((building.mapPosition + outAnchors[i].localTilePosition).ConvertTo2D().ProjectTo3D(), outAnchors[i].direction.ConvertTo2D().ProjectTo3D());
+                    DrawArrow.ForGizmo((building.worldPosition2DInt + outAnchors[i].localTilePosition).ConvertTo2D().ProjectTo3D(), outAnchors[i].direction.ConvertTo2D().ProjectTo3D());
                 }
             }
             else

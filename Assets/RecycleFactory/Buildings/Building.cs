@@ -8,7 +8,7 @@ namespace RecycleFactory.Buildings
     public abstract class Building : MonoBehaviour
     {
         private static int GUID = -1;
-        protected int id;
+        [ShowNativeProperty] public int id { get; protected set; }
 
         public new string name;
         public string description;
@@ -25,7 +25,12 @@ namespace RecycleFactory.Buildings
 
         [ShowNativeProperty] public int rotation { get; private set; }
 
+        /// <summary>
+        /// Position of the building on the map (grid), always from (0,0) to (mapSize.x - 1, mapSize.y - 1)
+        /// </summary>
         public Vector2Int mapPosition;
+
+        public Vector2Int worldPosition2DInt { get { return Map.map2world(mapPosition).ProjectTo2D().FloorToInt() ; } }
 
         public static event System.Action onAnyBuiltEvent;
         public static event System.Action onAnyDemolishedEvent;
@@ -95,18 +100,22 @@ namespace RecycleFactory.Buildings
         {
             if (Application.isPlaying == false) return;
 
-            var pos = mapPosition + shift;
             for (int _x = 0; _x < Mathf.Abs(size.x); _x++)
             {
                 for (int _y = 0; _y < Mathf.Abs(size.y); _y++)
                 {
-                    int ypos = pos.y + _y * (int)Mathf.Sign(size.y);
-                    int xpos = pos.x + _x * (int)Mathf.Sign(size.x);
+                    int ypos = mapPosition.y + _y * (int)Mathf.Sign(size.y);
+                    int xpos = mapPosition.x + _x * (int)Mathf.Sign(size.x);
 
-                    bool isFree = Map.buildingsAt[pos.y + _y * (int)Mathf.Sign(size.y), pos.x + _x * (int)Mathf.Sign(size.x)] == null;
+                    bool isFree = Map.buildingsAt
+                        [
+                            mapPosition.y + _y * (int)Mathf.Sign(size.y), 
+                            mapPosition.x + _x * (int)Mathf.Sign(size.x)
+                        ] == null;
+
                     Gizmos.color = isFree ? Color.white : Color.black;
 
-                    Gizmos.DrawCube(new Vector3(xpos, 0, ypos), Vector3.one / 2f);
+                    Gizmos.DrawCube(Map.map2world(new Vector2Int(xpos, ypos)), Vector3.one / 2f);
                 }
             }
         }

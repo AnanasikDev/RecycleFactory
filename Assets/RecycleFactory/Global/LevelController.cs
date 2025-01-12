@@ -220,7 +220,7 @@ namespace RecycleFactory
                             $"Paper recycled: {GetItemCategoryAmount(ItemCategories.Paper)}/70\n" +
                             $"Metal recycled: {GetItemCategoryAmount(ItemCategories.Metal)}/70\n" +
                             $"Plastic recycled: {GetItemCategoryAmount(ItemCategories.Plastic)}/70\n" +
-                            $"Batteries recycled: {GetItemCategoryAmount(ItemCategories.Plastic)}/15\n" +
+                            $"Batteries recycled: {GetItemCategoryAmount(ItemCategories.Battery)}/15\n" +
                             $"Unlocks Lightbulb recycling\n" +
                             $"New items: banana";
                 },

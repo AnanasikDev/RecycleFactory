@@ -139,7 +139,7 @@ namespace RecycleFactory.Buildings
             {
                 for (int i = 0; i < inAnchors.Count; i++)
                 {
-                    DrawArrow.ForGizmo((building.mapPosition + inAnchors[i].localTilePosition).ConvertTo2D().ProjectTo3D(), inAnchors[i].direction.ConvertTo2D().ProjectTo3D());
+                    DrawArrow.ForGizmo((building.worldPosition2DInt + inAnchors[i].localTilePosition).ConvertTo2D().ProjectTo3D(), inAnchors[i].direction.ConvertTo2D().ProjectTo3D());
                 }
             }
             else
