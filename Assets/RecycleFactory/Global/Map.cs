@@ -43,14 +43,14 @@ namespace RecycleFactory
             return isMapPosValid(new Vector2Int(x, y));
         }
 
-        public static bool isSpaceFree(Vector2Int pos, Vector2Int shift, Vector2Int size)
+        public static bool isSpaceFree(Vector2Int pos, Vector2Int buildingCenterShift, Vector2Int size)
         {
             for (int _x = 0; _x < Mathf.Abs(size.x); _x++)
             {
                 for (int _y = 0; _y < Mathf.Abs(size.y); _y++)
                 {
-                    int y = pos.y + _y * (int)Mathf.Sign(size.y) + shift.y;
-                    int x = pos.x + _x * (int)Mathf.Sign(size.x) + shift.x;
+                    int y = pos.y + _y * (int)Mathf.Sign(size.y) + buildingCenterShift.y;
+                    int x = pos.x + _x * (int)Mathf.Sign(size.x) + buildingCenterShift.x;
                     if (!isMapPosValid(x, y))
                         return false;
 
@@ -106,7 +106,11 @@ namespace RecycleFactory
             {
                 for (int _y = 0; _y < Mathf.Abs(building.size.y); _y++)
                 {
-                    buildingsAt[pos.y + _y * (int)Mathf.Sign(building.size.y), pos.x + _x * (int)Mathf.Sign(building.size.x)] = null;
+                    buildingsAt
+                        [
+                            pos.y + _y * (int)Mathf.Sign(building.size.y), 
+                            pos.x + _x * (int)Mathf.Sign(building.size.x)
+                        ] = null;
                 }
             }
         }
@@ -127,8 +131,9 @@ namespace RecycleFactory
         public void Extend(int xpos, int ypos, int xneg, int yneg)
         {
             Vector2Int prevMapSize = mapSize;
-            Vector2Int delta = new Vector2Int(xpos + xneg, ypos + yneg);
-            mapSize += delta;
+            Vector2Int deltaSize = new Vector2Int(xpos + xneg, ypos + yneg);
+            Vector2Int deltaPos = new Vector2Int(xneg, yneg);
+            mapSize += deltaSize;
             mapShift += new Vector2Int(xneg, yneg);
 
             // prevents multi-tile buildings from being rebased multiple times
@@ -141,32 +146,19 @@ namespace RecycleFactory
                 {
                     Building building = buildingsAt[y, x];
                     result[y + yneg, x + xneg] = building;
+
                     if (!building) continue;
 
                     // if already has been rebased, skip
                     if (rebasedBuildings.Contains(building.id)) continue;
-
-                    building.Rebase(new Vector2Int(x + xneg, y + yneg));
+                    building.Rebase(building.mapPosition + deltaPos);
                     rebasedBuildings.Add(building.id);
                 }
             }
-
-/*            for (int y = 0; y < mapSize.y; y++)
-            {
-                for (int x = 0; x < mapSize.x; x++)
-                {
-                    Vector2Int newMatrixPos = new Vector2Int(x, y);
-                    if (result[y, x])
-                    {
-                        result[y, x].Rebase(newMatrixPos);
-                    }
-                }
-            }*/
-
             buildingsAt = result;
 
             // rescale floor plane
-            floor.transform.localScale += delta.ConvertTo2D().ProjectTo3D() / 10f;
+            floor.transform.localScale += deltaSize.ConvertTo2D().ProjectTo3D() / 10f;
         }
     }
 }

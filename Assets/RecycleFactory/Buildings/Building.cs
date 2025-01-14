@@ -37,10 +37,13 @@ namespace RecycleFactory.Buildings
 
         public event System.Action onDemolishedEvent;
 
+        public static void SimulateOnAnyDemolishedEvent()
+        {
+            onAnyDemolishedEvent?.Invoke();
+        }
+
         public void Init(Vector2Int mapPos, int selectedRotation)
         {
-            // rotation has been done beforehand in PlayerBuilder
-
             id = ++GUID;
             gameObject.name += " " + id;
             Rebase(mapPos);
@@ -100,17 +103,18 @@ namespace RecycleFactory.Buildings
         {
             if (Application.isPlaying == false) return;
 
+            Vector2Int pos = mapPosition + shift;
             for (int _x = 0; _x < Mathf.Abs(size.x); _x++)
             {
                 for (int _y = 0; _y < Mathf.Abs(size.y); _y++)
                 {
-                    int ypos = mapPosition.y + _y * (int)Mathf.Sign(size.y);
-                    int xpos = mapPosition.x + _x * (int)Mathf.Sign(size.x);
+                    int ypos = pos.y + _y * (int)Mathf.Sign(size.y);
+                    int xpos = pos.x + _x * (int)Mathf.Sign(size.x);
 
                     bool isFree = Map.buildingsAt
                         [
-                            mapPosition.y + _y * (int)Mathf.Sign(size.y), 
-                            mapPosition.x + _x * (int)Mathf.Sign(size.x)
+                            ypos,
+                            xpos
                         ] == null;
 
                     Gizmos.color = isFree ? Color.white : Color.black;

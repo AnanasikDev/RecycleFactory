@@ -37,7 +37,7 @@ namespace RecycleFactory.Buildings
         {
             return outAnchors[anchorIndex].conveyor.GetPositionAlignedToLane
                 (
-                (building.worldPosition2DInt + outAnchors[anchorIndex].localTilePosition.ConvertTo2D() + outAnchors[anchorIndex].direction.ConvertTo2D() / 2f).ProjectTo3D().WithY(outAnchors[anchorIndex].height), 
+                ((building.worldPosition2DInt + outAnchors[anchorIndex].localTilePosition).ConvertTo2D() + outAnchors[anchorIndex].direction.ConvertTo2D() / 2f).ProjectTo3D().WithY(outAnchors[anchorIndex].height), 
                 laneIndex
                 );
         }

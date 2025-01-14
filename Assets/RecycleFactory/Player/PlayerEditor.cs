@@ -53,8 +53,10 @@ namespace RecycleFactory.Player
                 activeBuilding.isAlive = false;
                 activeBuilding.gameObject.SetActive(false);
                 Map.RemoveBuilding(activeBuilding);
+                Building.SimulateOnAnyDemolishedEvent();
                 Scripts.PlayerBuilder.ForceSelectBuilding(AllBuildings.name2prefab[activeBuilding.name]);
                 Scripts.PlayerBuilder.selectedRotation = activeBuilding.rotation;
+                Scripts.PlayerBuilder.CheckSelectedSpot();
                 Scripts.PlayerBuilder.UpdatePreview();
 
                 isEditing = true;
