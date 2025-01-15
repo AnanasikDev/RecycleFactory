@@ -18,6 +18,10 @@ namespace RecycleFactory.UI
         [SerializeField] private Texture2D cursor_buildingMode;
         [SerializeField] private Texture2D cursor_demolishingMode;
 
+        private Vector2 centerHotspot;
+        private Vector2 cornerHotspot;
+        private Vector2 cursorSize;
+
         private Dictionary<Mode, Sprite> modeToIcon;
         private Dictionary<Mode, Texture2D> modeToCursor;
 
@@ -25,6 +29,15 @@ namespace RecycleFactory.UI
 
         public void Init()
         {
+#if PLATFORM_WEBGL
+            cursorSize = new Vector2(32, 32);
+#else
+            cursorSize = new Vector2(128, 128);
+#endif
+
+            cornerHotspot = Vector2.zero;
+            centerHotspot = cursorSize / 2f;
+
             inputMask = GetComponent<UIInputMask>();
             modeToIcon = new Dictionary<Mode, Sprite>()
             {
@@ -47,9 +60,9 @@ namespace RecycleFactory.UI
         public void UpdateModeIcon()
         {
             switchIconImage.sprite = modeToIcon[Scripts.PlayerController.mode];
-            Vector2 hotspot = new Vector2(64, 64);
+            Vector2 hotspot = centerHotspot;
             if (Scripts.PlayerController.mode == Mode.Edit)
-                hotspot = Vector2.zero;
+                hotspot = cornerHotspot;
             Cursor.SetCursor(modeToCursor[Scripts.PlayerController.mode], hotspot, CursorMode.Auto);
         }
     }
