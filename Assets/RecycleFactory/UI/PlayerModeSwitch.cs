@@ -47,7 +47,10 @@ namespace RecycleFactory.UI
         public void UpdateModeIcon()
         {
             switchIconImage.sprite = modeToIcon[Scripts.PlayerController.mode];
-            Cursor.SetCursor(modeToCursor[Scripts.PlayerController.mode], Vector2.one * 256, CursorMode.Auto);
+            Vector2 hotspot = new Vector2(64, 64);
+            if (Scripts.PlayerController.mode == Mode.Edit)
+                hotspot = Vector2.zero;
+            Cursor.SetCursor(modeToCursor[Scripts.PlayerController.mode], hotspot, CursorMode.Auto);
         }
     }
 }
