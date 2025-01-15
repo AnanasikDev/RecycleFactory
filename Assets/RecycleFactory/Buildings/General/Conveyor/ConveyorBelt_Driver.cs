@@ -263,7 +263,13 @@ namespace RecycleFactory.Buildings.Logistics
         public void TryFindNext()
         {
             Building otherBuilding = Map.getBuildingAt(conveyorBuilding.mapPosition + conveyorBuilding.moveDirectionClamped * conveyorBuilding.lengthTiles);
-            if (otherBuilding == null || otherBuilding == conveyorBuilding) return;
+
+            if (otherBuilding == null || otherBuilding == conveyorBuilding)
+            {
+                nextDriver = null;
+                return;
+            }
+
             if (otherBuilding.TryGetComponent(out ConveyorBelt_Building otherConveyor) && 
                 otherConveyor.driver != null &&
                 otherConveyor.driver.direction != -direction) // check if next conveyor is not pointing in the opposite direction

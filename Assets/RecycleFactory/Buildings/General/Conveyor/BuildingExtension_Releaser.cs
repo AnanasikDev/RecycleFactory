@@ -65,7 +65,6 @@ namespace RecycleFactory.Buildings
             else if (!anchor.onlyDirectConnections)
             {
                 var con = ChooseLaneOrthogonal(anchorIndex);
-                EasyDebug.PipeConsole.Print(con.nextItem, con.laneIndex);
                 nextNode = con.nextItem;
                 return con.laneIndex;
             }
@@ -90,7 +89,6 @@ namespace RecycleFactory.Buildings
             {
                 if (nextDriver.lanes[l].First == null || nextDriver.GetSignedDistanceFromStart(nextDriver.lanes[l].First.Value) > nextDriver.minItemDistance)
                 {
-                    Debug.Log(l);
                     return new ConnectionData(l, nextDriver.lanes[l].First);
                 }
             }

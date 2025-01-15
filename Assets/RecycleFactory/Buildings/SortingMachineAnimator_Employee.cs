@@ -86,9 +86,6 @@ namespace RecycleFactory.Buildings
 
         public override void Receive2ReleaseAnimEnded()
         {
-            Debug.Log("Receive2Release anim ended");
-            //onReadyToReleaseEvent?.Invoke(item, anchorIndex);
-
             isAnimating = false;
             IEnumerator tryUntil()
             {
@@ -105,7 +102,6 @@ namespace RecycleFactory.Buildings
         public override void Release2ReceiveAnimEnded()
         {
             isAnimating = false;
-            Debug.Log("Release2Receive anim ended");
             isReadyToReceive = true;
         }
     }

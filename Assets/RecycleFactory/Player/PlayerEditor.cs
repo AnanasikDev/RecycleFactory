@@ -1,6 +1,5 @@
 ﻿using RecycleFactory.Buildings;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace RecycleFactory.Player
@@ -29,7 +28,7 @@ namespace RecycleFactory.Player
             }
             else if (previousMode == Mode.Edit)
             {
-                
+                Cancel();
             }
         }
 
@@ -49,7 +48,6 @@ namespace RecycleFactory.Player
             activeBuilding = Map.getBuildingAt(Scripts.PlayerBuilder.selectedCell);
             if (activeBuilding != null)
             {
-                Debug.Log(activeBuilding);
                 activeBuilding.isAlive = false;
                 activeBuilding.gameObject.SetActive(false);
                 Map.RemoveBuilding(activeBuilding);
@@ -67,6 +65,12 @@ namespace RecycleFactory.Player
 
         internal void Cancel()
         {
+            if (activeBuilding == null)
+            {
+                isEditing = false;
+                return;
+            }
+
             isEditing = false;
             activeBuilding.isAlive = true;
             activeBuilding.gameObject.SetActive(true);
