@@ -2461,6 +2461,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1718196792}
+  - component: {fileID: 1718196801}
   - component: {fileID: 1718196791}
   - component: {fileID: 1718196793}
   - component: {fileID: 1718196795}
@@ -2501,6 +2502,7 @@ MonoBehaviour:
   _LevelController: {fileID: 1718196798}
   _AllItems: {fileID: 1718196799}
   _PermanentUpgradesManager: {fileID: 1718196800}
+  _Settings: {fileID: 1718196801}
 --- !u!4 &1718196792
 Transform:
   m_ObjectHideFlags: 0
@@ -2640,6 +2642,19 @@ MonoBehaviour:
   title: {fileID: 13423861}
   minLevel: 5
   cost: 6000
+--- !u!114 &1718196801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718196790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8701dff40548c7b4480e9d9baa966a73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  developmentBuild: 1
 --- !u!1 &1833469542
 GameObject:
   m_ObjectHideFlags: 0

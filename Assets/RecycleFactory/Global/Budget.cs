@@ -22,6 +22,11 @@ namespace RecycleFactory
 
         public void Init()
         {
+            if (Scripts.Settings.developmentBuild)
+            {
+                defaultAmount = 200000;
+            }
+
             SetAmount(defaultAmount);
         }
 

@@ -52,6 +52,9 @@ namespace RecycleFactory
         [SerializeField] private PermanentUpgradesManager _PermanentUpgradesManager;
         public static PermanentUpgradesManager PermanentUpgradesManager;
 
+        [SerializeField] private Settings _Settings;
+        public static Settings Settings;
+
         private void Start()
         {
             #if UNITY_EDITOR
@@ -79,6 +82,7 @@ namespace RecycleFactory
             AllItems = _AllItems;
             PlayerModeSwitch = _PlayerModeSwitch;
             PermanentUpgradesManager = _PermanentUpgradesManager;
+            Settings = _Settings;
 
             PlayerModeSwitch.Init();
             AllBuildings.Init();

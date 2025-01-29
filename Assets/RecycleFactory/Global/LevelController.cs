@@ -230,6 +230,11 @@ namespace RecycleFactory
             levels[0].Unlock();
             levelInProgress++;
             progressBar.SetValue(0);
+
+            if (Scripts.Settings.developmentBuild)
+            {
+                cmd_UnlockAllLevels();
+            }
         }
 
         private void UnlockBuildings(List<Building> buildings)
